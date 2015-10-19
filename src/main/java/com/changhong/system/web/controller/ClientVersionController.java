@@ -56,7 +56,7 @@ public class ClientVersionController extends AbstractController {
             int version = ServletRequestUtils.getIntParameter(request, "clientVersion", 1);
 
             systemService.saveClientVersion(version, clientApkUploadFile);
-            return new ModelAndView(new RedirectView("clientversionshow.html?method=loado"));
+            return new ModelAndView(new RedirectView("clientversionshow.html?method=load"));
         }
     }
 
