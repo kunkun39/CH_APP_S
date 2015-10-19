@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Movie">
+
+    <!-- Select with no parameters using the result map for Account class. -->
+    <insert id="insertMovieType" parameterClass="java.util.HashMap">
+        INSERT INTO movie_type (
+        type_id ,
+        type_name ,
+        type_sequence ,
+        drama_type_id
+        )
+        VALUES (#typeId:VARCHAR#, #typeName:VARCHAR#, #typeSequence:VARCHAR#, #dramaTypeId:VARCHAR#)
+    </insert>
+    <select id="selectAllMovieTypes"  resultClass="java.util.HashMap">
+        select * from movie_type
+    </select>
+
+    <select id="selectAllColumns"  resultClass="java.util.HashMap">
+        select * from movie_column
+    </select>
+
+</sqlMap>

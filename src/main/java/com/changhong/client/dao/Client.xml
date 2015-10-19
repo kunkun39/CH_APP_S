@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Client">
+
+    <select id="selectClientVersion"  resultClass="java.util.HashMap">
+       select client_version from client_version
+   </select>
+
+   <select id="selectAllAppCategory"  resultClass="java.util.HashMap">
+       select a.id as category_id,a.category_name,a.parent_id,c.actual_filename from app_category a left join category_icon c on a.category_icon_id = c.id
+   </select>
+
+   <select id="selectAllBoxIndexPage"  resultClass="java.util.HashMap">
+       select page_number,recommend_position,recommend_app_id from box_page_recommend
+   </select>
+
+    <select id="selectNewestApps"  resultClass="java.util.HashMap">
+       select id from market_app where app_status = 'PASSED' order by timestamp desc limit 10
+   </select>
+
+    <select id="selectHotestApps"  resultClass="java.util.HashMap">
+       select id from market_app where app_status = 'PASSED' order by download_times desc limit 10
+   </select>
+
+    <select id="selectFastestApps"  resultClass="java.util.HashMap">
+       select count(app_id) as amount, app_id from app_download_history group by app_id order by amount desc limit 10
+   </select>
+
+    <update id="updateAppDownloadTimes"  parameterClass="java.util.HashMap">
+       update market_app set download_times = download_times + 1 where id = #appId#
+    </update>
+
+    <insert id="insertAppDownloadHistory" parameterClass="java.util.HashMap">
+		insert into app_download_history (
+              sta_year,
+              sta_month,
+              sta_day,
+              sta_hour,
+              box_mac,
+              app_id,
+              app_father_category_id,
+              app_category_id
+        )
+		VALUES (#staYear:INT#,  #staMonth:INT#, #staDay:INT#, #staHour:INT#,
+        #boxMac:VARCHAR#, #appId:INT#, #farCategoryId:INT#, #categoryId:INT#)
+	</insert>
+
+    <select id="selectHotestAppsByCategory"  resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+       select id from market_app where app_status = 'PASSED' and app_category_id = #categoryId# order by download_times desc limit 9
+   </select>
+
+</sqlMap>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+    <class name="com.changhong.system.domain.Client" table="system_client">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="macFrom" column="mac_from" insert="true" update="true" type="java.lang.String"/>
+        <property name="macTo" column="mac_to" insert="true" update="true" type="java.lang.String"/>
+        <property name="note" column="client_note" insert="true" update="true" type="java.lang.String"/>
+    </class>
+
+    <class name="com.changhong.system.domain.LuncherRecommend" table="luncher_recommend">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="position" column="position" insert="true" update="true" type="java.lang.Integer"/>
+        <many-to-one name="marketApp" column="app_id" class="com.changhong.system.domain.MarketApp" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+    <class name="com.changhong.system.domain.AppMust" table="app_must">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+        <property name="install" column="install" insert="true" update="true" type="java.lang.Boolean"/>
+        <many-to-one name="marketApp" column="app_id" class="com.changhong.system.domain.MarketApp" lazy="proxy" cascade="none" insert="true" update="true"/>
+    </class>
+
+</hibernate-mapping>

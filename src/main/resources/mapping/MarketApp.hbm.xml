@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+
+    <class name="com.changhong.system.domain.CategoryIcon" table="category_icon">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="uploadFileName" column="upload_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFileName" column="actual_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFilePath" column="actual_filepath" insert="true" update="true" type="java.lang.String"/>
+        <property name="uploadTime" column="upload_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+    </class>
+
+    <class name="com.changhong.system.domain.AppCategory" table="app_category">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+        <property name="categoryName" column="category_name" insert="true" update="true" type="java.lang.String"/>
+
+        <many-to-one name="parent" column="parent_id" class="com.changhong.system.domain.AppCategory" lazy="proxy" cascade="none" insert="true" update="true"/>
+
+        <bag name="children" table="app_category" cascade="none" lazy="true" order-by="id asc">
+            <key column="parent_id"/>
+            <one-to-many class="com.changhong.system.domain.AppCategory"/>
+        </bag>
+
+        <many-to-one name="categoryIcon" column="category_icon_id" class="com.changhong.system.domain.CategoryIcon" lazy="proxy" cascade="delete-orphan" insert="true" update="true"/>
+    </class>
+
+    <class name="com.changhong.system.domain.AppIcon" table="app_icon">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="uploadFileName" column="upload_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFileName" column="actual_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFilePath" column="actual_filepath" insert="true" update="true" type="java.lang.String"/>
+        <property name="uploadTime" column="upload_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+    </class>
+
+    <class name="com.changhong.system.domain.AppFile" table="app_file">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="uploadFileName" column="upload_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFileName" column="actual_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFilePath" column="actual_filepath" insert="true" update="true" type="java.lang.String"/>
+        <property name="uploadTime" column="upload_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+    </class>
+
+    <class name="com.changhong.system.domain.AppPoster" table="app_poster">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="uploadFileName" column="upload_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFileName" column="actual_filename" insert="true" update="true" type="java.lang.String"/>
+        <property name="actualFilePath" column="actual_filepath" insert="true" update="true" type="java.lang.String"/>
+        <property name="uploadTime" column="upload_time" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+    </class>
+
+    <class name="com.changhong.system.domain.MarketApp" table="market_app">
+        <cache usage="read-write"/>
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+        <property name="createTime" column="createtime" insert="true" update="true" type="org.joda.time.contrib.hibernate.PersistentDateTime"/>
+
+        <many-to-one name="appIcon" column="app_icon_id" class="com.changhong.system.domain.AppIcon" lazy="proxy" cascade="all" insert="true" update="true"/>
+        <many-to-one name="appFile" column="app_file_id" class="com.changhong.system.domain.AppFile" lazy="proxy" cascade="all" insert="true" update="true"/>
+        <many-to-one name="appPoster" column="app_poster_id" class="com.changhong.system.domain.AppPoster" lazy="proxy" cascade="all" insert="true" update="true"/>
+        <many-to-one name="appCategory" column="app_category_id" class="com.changhong.system.domain.AppCategory" lazy="proxy" cascade="none" insert="true" update="true"/>
+
+        <property name="appKey" column="app_key" insert="true" update="true" type="java.lang.String"/>
+        <property name="appName" column="app_name" insert="true" update="true" type="java.lang.String"/>
+        <property name="appDescription" column="app_description" insert="true" update="true" type="java.lang.String"/>
+        <property name="appNote" column="app_note" insert="true" update="true" type="java.lang.String"/>
+        <property name="appVersionInt" column="app_version_int" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="appVersion" column="app_version" insert="true" update="true" type="java.lang.String"/>
+        <property name="appPackage" column="app_package" insert="true" update="true" type="java.lang.String"/>
+        <property name="appScores" column="app_scores" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="downloadTimes" column="download_times" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="appSize" column="app_size" insert="true" update="true" type="java.lang.String"/>
+        <property name="pinYingShort" column="app_pinying_short" insert="true" update="true" type="java.lang.String"/>
+        <property name="pinYingFull" column="app_pinying_full" insert="true" update="true" type="java.lang.String"/>
+        <property name="recommend" column="app_recommend" insert="true" update="true" type="java.lang.Boolean"/>
+
+        <property name="appStatus" column="app_status">
+            <type name="com.changhong.common.domain.EnumConverter">
+                <param name="enumClassName">com.changhong.system.domain.AppStatus</param>
+            </type>
+        </property>
+    </class>
+
+    <class name="com.changhong.system.domain.AppDownloadHistory" table="app_download_history">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="boxMac" column="box_mac" insert="true" update="true" type="java.lang.String"/>
+        <property name="appId" column="app_id" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="appfatherCategoryId" column="app_father_category_id" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="appCategoryId" column="app_category_id" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="year" column="sta_year" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="month" column="sta_month" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="day" column="sta_day" insert="true" update="true" type="java.lang.Integer"/>
+        <property name="hour" column="sta_hour" insert="true" update="true" type="java.lang.Integer"/>
+    </class>
+
+
+    <class name="com.changhong.system.domain.AppChangeHistory" table="app_change_history">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <many-to-one name="app" column="app_id" class="com.changhong.system.domain.MarketApp" lazy="proxy" cascade="none" insert="true" update="true"/>
+        <many-to-one name="user" column="user_id" class="com.changhong.system.domain.User" lazy="proxy" cascade="none" insert="true" update="true"/>
+
+        <bag name="fieldDetails" table="app_change_details" cascade="all" lazy="true" order-by="id asc">
+            <key column="history_id"/>
+            <one-to-many class="com.changhong.system.domain.AppChangeDetails"/>
+        </bag>
+    </class>
+
+    <class name="com.changhong.system.domain.AppChangeDetails" table="app_change_details">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="field" column="change_field" insert="true" update="true" type="java.lang.String"/>
+        <property name="description" column="change_details" insert="true" update="true" type="java.lang.String"/>
+    </class>
+
+</hibernate-mapping>

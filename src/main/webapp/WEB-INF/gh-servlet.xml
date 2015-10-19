@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<import resource="architecture/core.xml"/>-->
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:database.properties</value>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="en"/>
+    </bean>
+
+    <bean id="multipartResolver" class="com.changhong.system.web.resolver.ApplicationMultipartResolver">
+        <property name="maxUploadSize" value="1024000000"/>
+    </bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    </bean>
+
+    <bean class="com.changhong.common.web.handler.ApplicationExceptionHandler"/>
+
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="0"/>
+        <property name="mappings">
+            <props>
+                <prop key="/error.html">errorHandleController</prop>
+                <prop key="/backend/error.html">errorHandleController</prop>
+                <prop key="/backend/index.html">backendLoginController</prop>
+                <prop key="/backend/dashboard.html">dashboardController</prop>
+
+                <!--用户管理-->
+                <prop key="/backend/useroverview.html">userManagementController</prop>
+                <prop key="/backend/userform.html">userFormController</prop>
+                <prop key="/backend/userchangeenable.html">userChangeEnableController</prop>
+                <prop key="/backend/userchangepassword.html">userChangePasswordController</prop>
+                <prop key="/backend/clientoverview.html">clientManagementController</prop>
+                <prop key="/backend/clientform.html">clientFormController</prop>
+                <prop key="/backend/clientversionshow.html">clientVersionController</prop>
+
+                <!--应用管理-->
+                <prop key="/backend/appcategoryform.html">appCategoryFormController</prop>
+                <prop key="/backend/appcategoryoverview.html">appCategoryManagementController</prop>
+                <prop key="/backend/categorydelete.html">appCategoryDeleteController</prop>
+                <prop key="/backend/marketappoverview.html">marketAppManagementController</prop>
+                <prop key="/backend/marketappform.html">marketAppFormController</prop>
+                <prop key="/backend/marketappstatus.html">marketAppStatusController</prop>
+                <prop key="/backend/marketappranklist.html">marketAppRankListController</prop>
+                <prop key="/backend/appstatistic.html">marketAppStatisticController</prop>
+                <prop key="/backend/apphistory.html">appHistoryManagementController</prop>
+                <prop key="/backend/updateboxrecommend.html">boxRecommendUpdateController</prop>
+                <prop key="/backend/cancelboxrecommend.html">boxRecommendCancelController</prop>
+                <prop key="/backend/luncherrecommend.html">luncherRecommendManagementController</prop>
+                <prop key="/backend/appmust.html">appMustManagementController</prop>
+
+                <!--前台客户端接口-->
+                <prop key="/client/appcategories.html">clientAppCategoryController</prop>
+                <prop key="/client/boxpages.html">clientBoxIndexPageController</prop>
+                <prop key="/client/appdetails.html">clientAppDetailsController</prop>
+                <prop key="/client/categoryapps.html">clientAppColumnController</prop>
+                <prop key="/client/appsearch.html">clientSearchAppController</prop>
+                <prop key="/client/appranklist.html">clientRankListController</prop>
+                <prop key="/client/appversions.html">clientAppVersionController</prop>
+                <prop key="/client/appdownload.html">clientAppDownloadController</prop>
+                <prop key="/client/appdetailsrecommend.html">clientAppDetailsRecommendController</prop>
+                <prop key="/client/luncherapprecommend.html">clientLuncherAppRecommendController</prop>
+                <prop key="/client/appmust.html">clientAppMustController</prop>
+            </props>
+
+        </property>
+    </bean>
+
+    <bean id="errorHandleController" class="com.changhong.common.web.contorller.ApplicationExceptionController"/>
+
+    <bean id="backendLoginController" class="com.changhong.system.web.controller.BackendLoginController">
+        <property name="projectVersion" value="${application.version}"/>
+    </bean>
+
+    <bean id="dashboardController" class="com.changhong.system.web.controller.DashboardController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <!--用户管理-->
+    <bean id="userManagementController" class="com.changhong.system.web.controller.UserManagementController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userFormController" class="com.changhong.system.web.controller.UserFormController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userChangeEnableController" class="com.changhong.system.web.controller.UserChangeEnableController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userChangePasswordController" class="com.changhong.system.web.controller.UserChangePasswordController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="clientManagementController" class="com.changhong.system.web.controller.ClientManagementController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="clientFormController" class="com.changhong.system.web.controller.ClientFormController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="clientVersionController" class="com.changhong.system.web.controller.ClientVersionController">
+        <property name="systemService" ref="systemService"/>
+        <property name="clintApkRequestHost" value="${application.appmarket.update.path}"/>
+        <property name="baseStorePath" value="${application.upload.file.path}"/>
+    </bean>
+
+    <!--应用管理-->
+    <bean id="appCategoryFormController" class="com.changhong.system.web.controller.AppCategoryFormController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="appCategoryManagementController" class="com.changhong.system.web.controller.AppCategoryManagementController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="appCategoryDeleteController" class="com.changhong.system.web.controller.AppCategoryDeleteController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="marketAppManagementController" class="com.changhong.system.web.controller.MarketAppManagementController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="marketAppFormController" class="com.changhong.system.web.controller.MarketAppFormController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="marketAppStatusController" class="com.changhong.system.web.controller.MarketAppStatusController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="marketAppRankListController" class="com.changhong.system.web.controller.MarketAppRankListController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="marketAppStatisticController" class="com.changhong.system.web.controller.MarketAppStatisticController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="appHistoryManagementController" class="com.changhong.system.web.controller.AppHistoryManagementController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="boxRecommendUpdateController" class="com.changhong.system.web.controller.BoxRecommendUpdateController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="boxRecommendCancelController" class="com.changhong.system.web.controller.BoxRecommendCancelController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="luncherRecommendManagementController" class="com.changhong.system.web.controller.LuncherRecommendManagementController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="appMustManagementController" class="com.changhong.system.web.controller.AppMustManagementController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <!--客户端接口-->
+
+    <bean id="clientAppCategoryController" class="com.changhong.client.web.controller.ClientAppCategoryController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientBoxIndexPageController" class="com.changhong.client.web.controller.ClientBoxIndexPageController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppColumnController" class="com.changhong.client.web.controller.ClientAppColumnController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppDetailsController" class="com.changhong.client.web.controller.ClientAppDetailsController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientSearchAppController" class="com.changhong.client.web.controller.ClientSearchAppController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientRankListController" class="com.changhong.client.web.controller.ClientRankListController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppVersionController" class="com.changhong.client.web.controller.ClientAppVersionController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppDownloadController" class="com.changhong.client.web.controller.ClientAppDownloadController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppDetailsRecommendController" class="com.changhong.client.web.controller.ClientAppDetailsRecommendController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientLuncherAppRecommendController" class="com.changhong.client.web.controller.ClientLuncherAppRecommendController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppMustController" class="com.changhong.client.web.controller.ClientAppMustController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+</beans>

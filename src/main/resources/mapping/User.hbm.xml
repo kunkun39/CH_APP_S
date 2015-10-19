@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+    <class name="com.changhong.system.domain.User" table="system_user">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="name" column="name" insert="true" update="true" type="java.lang.String"/>
+        <property name="contactWay" column="contactway" insert="true" update="true" type="java.lang.String"/>
+        <property name="username" column="username" insert="true" update="true" type="java.lang.String"/>
+        <property name="password" column="password" insert="true" update="true" type="java.lang.String"/>
+        <property name="enabled" column="enabled" insert="true" update="true" type="java.lang.Boolean"/>
+
+        <bag name="roles" table="system_role" cascade="all-delete-orphan" lazy="false" order-by="id asc">
+            <key column="user_id"/>
+            <one-to-many class="com.changhong.system.domain.Role"/>
+        </bag>
+    </class>
+
+    <class name="com.changhong.system.domain.Role" table="system_role">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        <property name="timestamp" column="timestamp" type="java.util.Date"/>
+
+        <property name="roleType" column="role_type">
+            <type name="com.changhong.common.domain.EnumConverter">
+                <param name="enumClassName">com.changhong.system.domain.RoleType</param>
+            </type>
+        </property>
+    </class>
+</hibernate-mapping>
