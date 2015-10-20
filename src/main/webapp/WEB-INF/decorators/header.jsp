@@ -54,11 +54,12 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN">
-    <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>系统设置</span> <span class="label">3</span></a>
+    <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>系统设置</span> <span class="label">4</span></a>
       <ul>
         <li><a href="${pageContext.request.contextPath}/backend/useroverview.html">系统用户管理</a></li>
         <li><a href="${pageContext.request.contextPath}/backend/clientoverview.html">客户端用户管理</a></li>
         <li><a href="${pageContext.request.contextPath}/backend/clientversionshow.html?method=load">客户端版本管理</a></li>
+         <li><a href="${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load">开机广告管理</a></li>
       </ul>
     </li>
     </security:authorize>

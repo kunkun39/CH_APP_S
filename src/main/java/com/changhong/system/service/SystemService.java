@@ -1,5 +1,6 @@
 package com.changhong.system.service;
 
+import com.changhong.system.domain.ClientBootImage;
 import com.changhong.system.domain.ClientVersion;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,4 +14,8 @@ public interface SystemService {
     ClientVersion obtainClientVersion();
 
     void saveClientVersion(int clientVersion, MultipartFile clientApkUploadFile);
+
+    ClientBootImage obtainClientBootImage();
+
+    void saveClientBootImage(String uploadFileName,MultipartFile clientImageUploadFile);
 }

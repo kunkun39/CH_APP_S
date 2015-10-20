@@ -51,6 +51,7 @@
                 <prop key="/backend/clientoverview.html">clientManagementController</prop>
                 <prop key="/backend/clientform.html">clientFormController</prop>
                 <prop key="/backend/clientversionshow.html">clientVersionController</prop>
+                <prop key="/backend/clientbootimageshow.html">clientBootImageController</prop>
 
                 <!--应用管理-->
                 <prop key="/backend/appcategoryform.html">appCategoryFormController</prop>
@@ -124,6 +125,11 @@
         <property name="systemService" ref="systemService"/>
         <property name="clintApkRequestHost" value="${application.appmarket.update.path}"/>
         <property name="baseStorePath" value="${application.upload.file.path}"/>
+    </bean>
+
+    <bean id="clientBootImageController" class="com.changhong.system.web.controller.ClientBootImageController">
+        <property name="systemService" ref="systemService"/>
+        <property name="clientImageRequestHost" value="${application.file.request.path}"/>
     </bean>
 
     <!--应用管理-->
