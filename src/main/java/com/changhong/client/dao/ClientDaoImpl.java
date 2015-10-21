@@ -24,6 +24,14 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         return (Integer)versions.get(0).get("client_version");
     }
 
+    public String loadClientBootImage() {
+        List<HashMap> bootImage = getSqlMapClientTemplate().queryForList("Client.selectClientBootImage");
+//        if (bootImage == null || bootImage.isEmpty()) {
+//            return 1;
+//        }
+        return (String)bootImage.get(0).get("actual_filename");
+    }
+
     public List<HashMap> loadAllAppCategoryInfo() {
         List<HashMap> categoryies = getSqlMapClientTemplate().queryForList("Client.selectAllAppCategory");
         return categoryies;

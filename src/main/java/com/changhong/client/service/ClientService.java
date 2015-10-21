@@ -15,6 +15,11 @@ public interface ClientService {
     String obtainAllAppCategoryInfo();
 
     /**
+     * 客户端开机图片加载
+     */
+    String obtainBootImage();
+
+    /**
      * 客户端获得所有页面的展示效果
      */
     String obtainBoxIndexPageInfo();

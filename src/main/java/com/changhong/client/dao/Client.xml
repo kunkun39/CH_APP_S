@@ -10,6 +10,10 @@
        select client_version from client_version
    </select>
 
+     <select id="selectClientBootImage"  resultClass="java.util.HashMap">
+       select actual_filename from boot_image
+   </select>
+
    <select id="selectAllAppCategory"  resultClass="java.util.HashMap">
        select a.id as category_id,a.category_name,a.parent_id,c.actual_filename from app_category a left join category_icon c on a.category_icon_id = c.id
    </select>
@@ -52,5 +56,7 @@
     <select id="selectHotestAppsByCategory"  resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
        select id from market_app where app_status = 'PASSED' and app_category_id = #categoryId# order by download_times desc limit 9
    </select>
+
+
 
 </sqlMap>

@@ -14,6 +14,8 @@ public interface ClientDao {
 
     int loadClientVersion();
 
+    String loadClientBootImage();
+
     List<HashMap> loadAllAppCategoryInfo();
 
     List<HashMap> loadAllBoxPages();

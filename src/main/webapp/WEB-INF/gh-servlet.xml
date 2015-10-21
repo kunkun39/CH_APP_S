@@ -80,6 +80,8 @@
                 <prop key="/client/appdetailsrecommend.html">clientAppDetailsRecommendController</prop>
                 <prop key="/client/luncherapprecommend.html">clientLuncherAppRecommendController</prop>
                 <prop key="/client/appmust.html">clientAppMustController</prop>
+                <prop key="/client/bootadvertise.html">ClientBootAdvertiseController</prop>
+
             </props>
 
         </property>
@@ -235,6 +237,9 @@
     </bean>
 
     <bean id="clientAppMustController" class="com.changhong.client.web.controller.ClientAppMustController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+    <bean id="ClientBootAdvertiseController" class="com.changhong.client.web.controller.ClientBootAdvertiseController">
         <property name="clientService" ref="clientService"/>
     </bean>
 </beans>

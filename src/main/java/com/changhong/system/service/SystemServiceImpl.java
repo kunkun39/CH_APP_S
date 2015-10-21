@@ -88,15 +88,15 @@ public class SystemServiceImpl implements SystemService {
             /*把文件copy到文件系统*/
           //  File direction = new File(baseStorePath, bootImage.getActualFileName());
             File direction = new File(baseStorePath,actualFileName);
-//            if (direction.exists()) {
-//                direction.delete();
-//
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            if (direction.exists()) {
+                direction.delete();
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             try {
                 OutputStream dataOut = new FileOutputStream(direction.getAbsolutePath());

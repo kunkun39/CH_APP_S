@@ -8,6 +8,7 @@ import com.changhong.system.domain.AppDownloadHistory;
 import com.changhong.system.web.facade.dto.AppMustDTO;
 import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
+import com.sun.security.ntlm.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class ClientServiceImpl implements ClientService {
 
     private int clientVersion = 1;
 
+  //  private String bootImage = "";
+
     private long lastRequestClientVersionTime = 0L;
 
     private final static int versionCheckDuring = 1000 * 60 * 10;
@@ -45,8 +48,11 @@ public class ClientServiceImpl implements ClientService {
     private String appMarketApkUpdateURL = "";
 
     public String obtainAllAppCategoryInfo() {
+
+        //获得所有的应用总类信息，使用到了泛型
         List<HashMap> values =  clientDao.loadAllAppCategoryInfo();
 
+        //声明一个JSON对象，向JSON数据流中添加数据
         JSONObject all = new JSONObject();
         all.put("host", fileRequestHost);
 
@@ -61,6 +67,7 @@ public class ClientServiceImpl implements ClientService {
 
         JSONArray array = new JSONArray();
         if (values != null) {
+            //foreach循环访问集合里的元素
             for (HashMap value : values) {
                 JSONObject single = new JSONObject();
                 single.put(ClientInfoProperties.CATEGORY_ID, (Integer) value.get("category_id") + "");
@@ -68,11 +75,23 @@ public class ClientServiceImpl implements ClientService {
                 single.put(ClientInfoProperties.CATEGORY_PARENTID, value.get("parent_id") == null ? "-1" : (Integer) value.get("parent_id") + "");
                 single.put(ClientInfoProperties.CATEGORY_FILENAME, value.get("actual_filename") == null ? "" : (String) value.get("actual_filename"));
 
+                //向array集合里添加一个元素
                 array.add(single);
             }
         }
         all.put("values", array);
 
+        return all.toJSONString();
+    }
+
+    public String obtainBootImage(){
+        //获得开机图片
+       String bootImage = clientDao.loadClientBootImage();
+
+        //把开机图片组合成JSON数据流
+        JSONObject all = new JSONObject();
+        all.put("host", fileRequestHost);
+        all.put("bootImage", bootImage);
         return all.toJSONString();
     }
 
