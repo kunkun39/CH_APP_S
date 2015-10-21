@@ -6,12 +6,12 @@
 
 <sqlMap namespace="Client">
 
-    <select id="selectClientVersion"  resultClass="java.util.HashMap">
-       select client_version from client_version
+   <select id="selectClientBootImage"  resultClass="java.util.HashMap">
+       select actual_filename from boot_image where id = 1;
    </select>
 
-     <select id="selectClientBootImage"  resultClass="java.util.HashMap">
-       select actual_filename from boot_image
+    <select id="selectClientVersion"  resultClass="java.util.HashMap">
+       select client_version from client_version
    </select>
 
    <select id="selectAllAppCategory"  resultClass="java.util.HashMap">

@@ -3,12 +3,10 @@ package com.changhong.client.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.changhong.client.dao.ClientDao;
-import com.changhong.common.utils.CHDateUtils;
 import com.changhong.system.domain.AppDownloadHistory;
 import com.changhong.system.web.facade.dto.AppMustDTO;
 import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
-import com.sun.security.ntlm.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,14 +36,20 @@ public class ClientServiceImpl implements ClientService {
 
     private int clientVersion = 1;
 
-  //  private String bootImage = "";
-
     private long lastRequestClientVersionTime = 0L;
 
     private final static int versionCheckDuring = 1000 * 60 * 10;
 
     @Value("${application.appmarket.update.path}")
     private String appMarketApkUpdateURL = "";
+
+    public String obtainBootImage(){
+        //把开机图片组合成JSON数据流
+        JSONObject all = new JSONObject();
+        all.put("host", fileRequestHost);
+        all.put("boot_img", cacheService.getBootImageFileName());
+        return all.toJSONString();
+    }
 
     public String obtainAllAppCategoryInfo() {
 
@@ -84,16 +88,7 @@ public class ClientServiceImpl implements ClientService {
         return all.toJSONString();
     }
 
-    public String obtainBootImage(){
-        //获得开机图片
-       String bootImage = clientDao.loadClientBootImage();
 
-        //把开机图片组合成JSON数据流
-        JSONObject all = new JSONObject();
-        all.put("host", fileRequestHost);
-        all.put("bootImage", bootImage);
-        return all.toJSONString();
-    }
 
     public String obtainBoxIndexPageInfo() {
         List<HashMap> values =  clientDao.loadAllBoxPages();

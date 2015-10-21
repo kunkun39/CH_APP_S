@@ -1,5 +1,6 @@
 package com.changhong.system.service;
 
+import com.changhong.client.service.CacheService;
 import com.changhong.common.exception.CHDocumentOperationException;
 import com.changhong.common.utils.CHStringUtils;
 import com.changhong.system.domain.ClientBootImage;
@@ -27,6 +28,9 @@ import java.io.OutputStream;
 public class SystemServiceImpl implements SystemService {
 
     private static final Log logger = LogFactory.getLog(SystemServiceImpl.class);
+
+    @Autowired
+    private CacheService cacheService;
 
     @Autowired
     private SystemDao systemDao;
@@ -86,10 +90,9 @@ public class SystemServiceImpl implements SystemService {
             String actualFileName = CHStringUtils.getRandomString(10) + "." + suffix;
 
             /*把文件copy到文件系统*/
-          //  File direction = new File(baseStorePath, bootImage.getActualFileName());
-            File direction = new File(baseStorePath,actualFileName);
-            if (direction.exists()) {
-                direction.delete();
+            File oldFile = new File(baseStorePath, bootImage.getActualFileName());
+            if (oldFile.exists()) {
+                oldFile.delete();
 
                 try {
                     Thread.sleep(1000);
@@ -98,8 +101,9 @@ public class SystemServiceImpl implements SystemService {
                 }
             }
 
+            File newFile = new File(baseStorePath, actualFileName);
             try {
-                OutputStream dataOut = new FileOutputStream(direction.getAbsolutePath());
+                OutputStream dataOut = new FileOutputStream(newFile.getAbsolutePath());
                 FileCopyUtils.copy(clientImageUploadFile.getInputStream(), dataOut);
 
                 logger.info("finish upload client boot image file");
@@ -112,6 +116,9 @@ public class SystemServiceImpl implements SystemService {
             bootImage.setId(1);
             bootImage.setActualFileName(actualFileName);
             systemDao.saveOrUpdate(bootImage);
+
+            //reset che cache
+            cacheService.setBootImageFileName(actualFileName);
         }
     }
 }

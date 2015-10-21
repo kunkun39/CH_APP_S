@@ -12,9 +12,9 @@ import java.util.List;
  */
 public interface ClientDao {
 
-    int loadClientVersion();
-
     String loadClientBootImage();
+
+    int loadClientVersion();
 
     List<HashMap> loadAllAppCategoryInfo();
 

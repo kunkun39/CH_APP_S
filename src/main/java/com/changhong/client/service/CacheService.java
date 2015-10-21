@@ -61,4 +61,10 @@ public interface CacheService {
     void resetAppMustInCache(AppMustDTO dto, boolean remove);
 
     List<AppMustDTO> obtainAppMust();
+
+    /************************************开机图片************************************/
+
+    String getBootImageFileName();
+
+    void setBootImageFileName(String bootImageFileName);
 }

@@ -1,10 +1,7 @@
 package com.changhong.client.service;
 
 import com.changhong.common.utils.CHPagingUtils;
-import com.changhong.system.domain.AppCategory;
-import com.changhong.system.domain.AppMust;
-import com.changhong.system.domain.LuncherRecommend;
-import com.changhong.system.domain.MarketApp;
+import com.changhong.system.domain.*;
 import com.changhong.system.repository.AppDao;
 import com.changhong.system.web.facade.assember.AppCategoryWebAssember;
 import com.changhong.system.web.facade.assember.AppMustWebAssember;
@@ -46,6 +43,8 @@ public class CacheServiceImpl implements CacheService {
     private ConcurrentLinkedHashMap<String, LuncherRecommendDTO> luncherCache = new ConcurrentLinkedHashMap<String, LuncherRecommendDTO>(20);
 
     private ConcurrentLinkedHashMap<String, AppMustDTO> mustAppCache = new ConcurrentLinkedHashMap<String, AppMustDTO>(20);
+
+    private String bootImageFileName = "initial.png";
 
     public void obtainInitCachedObjects() {
         long begin = System.currentTimeMillis();
@@ -97,6 +96,13 @@ public class CacheServiceImpl implements CacheService {
             mustAppCache.put("MUST_" + dto.getId(), dto);
         }
         log.info("finish init must app with objects count " + mustAppCache.size());
+
+        /**
+         * 强制应用
+         */
+        ClientBootImage bootImage = (ClientBootImage) appDao.findById(1, ClientBootImage.class);
+        bootImageFileName = bootImage.getActualFileName();
+        log.info("finish init boot image");
 
         long end = System.currentTimeMillis();
         long during = end - begin;
@@ -252,5 +258,15 @@ public class CacheServiceImpl implements CacheService {
 
     public List<AppMustDTO> obtainAppMust() {
         return new ArrayList<AppMustDTO>(mustAppCache.values());
+    }
+
+    /************************************开机图片************************************/
+
+    public String getBootImageFileName() {
+        return bootImageFileName;
+    }
+
+    public void setBootImageFileName(String bootImageFileName) {
+        this.bootImageFileName = bootImageFileName;
     }
 }

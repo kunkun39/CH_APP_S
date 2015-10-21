@@ -10,14 +10,14 @@ import java.util.List;
 public interface ClientService {
 
     /**
-     * 客户端获得分类信息
-     */
-    String obtainAllAppCategoryInfo();
-
-    /**
      * 客户端开机图片加载
      */
     String obtainBootImage();
+
+    /**
+     * 客户端获得分类信息
+     */
+    String obtainAllAppCategoryInfo();
 
     /**
      * 客户端获得所有页面的展示效果
