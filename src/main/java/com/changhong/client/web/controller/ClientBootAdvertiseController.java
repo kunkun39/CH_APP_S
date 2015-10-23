@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Administrator
+ * User: dangwei pan
  * Date: 15-10-21
  * Time: 上午9:58
  * To change this template use File | Settings | File Templates.
