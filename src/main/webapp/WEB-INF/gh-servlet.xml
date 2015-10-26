@@ -81,6 +81,10 @@
                 <prop key="/client/luncherapprecommend.html">clientLuncherAppRecommendController</prop>
                 <prop key="/client/appmust.html">clientAppMustController</prop>
                 <prop key="/client/bootadvertise.html">clientBootAdvertiseController</prop>
+                <prop key="/client/checkbackupapp.html">clientCheckBackupAppController</prop>
+                <prop key="/client/deleteBackupApp.html">clientDeleteBackupAppController</prop>
+                <prop key="/client/getBackupApp.html">clientGetBackupAppController</prop>
+                <prop key="/client/requestBackupApp.html">clientRequestBackupAppController</prop>
 
             </props>
 
@@ -241,6 +245,22 @@
     </bean>
 
     <bean id="clientBootAdvertiseController" class="com.changhong.client.web.controller.ClientBootAdvertiseController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientCheckBackupAppController" class="com.changhong.client.web.controller.ClientCheckBackupAppController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientDeleteBackupAppController" class="com.changhong.client.web.controller.ClientDeleteBackupAppController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientGetBackupAppController" class="com.changhong.client.web.controller.ClientGetBackupAppController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientRequestBackupAppController" class="com.changhong.client.web.controller.ClientRequestBackupAppController">
         <property name="clientService" ref="clientService"/>
     </bean>
 </beans>

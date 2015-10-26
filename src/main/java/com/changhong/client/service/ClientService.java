@@ -68,4 +68,24 @@ public interface ClientService {
      * 强制
      */
     String obtainAppMusts();
+
+    /**
+     * 检测应用市场应用
+     */
+    String checkBackupApp(String[] appPackages, String boxMac);
+
+    /**
+     * 删除云备份
+     */
+    String deleteBackupApps(int[] appIds, String boxMac);
+
+    /**
+     * 获得云备份信息
+     */
+    String obtainBackupApps(String boxMac);
+
+    /**
+     * 云备份
+     */
+    String requestBackupApps(int[] appIds, String boxMac);
 }

@@ -25,4 +25,18 @@ public interface ClientDao {
     void updateAppDownloadTime(AppDownloadHistory history);
 
     List<HashMap> loadAppDetailsRecommend(int categoryId);
+
+    int insertBoxMacInfo(String boxMac);
+
+    int loadMacIdByBoxMac(String boxMac);
+
+    boolean insertBackupAppInfo(int macId,int appID);
+
+    List<Integer> loadAppIdByMacId(int macId);
+
+    List<Integer> loadAppIdByBoxMac(String boxMac);
+
+    int isBackupApp(int macId,int appID);
+
+    boolean deleteBackupApp(int macId,int appID);
 }

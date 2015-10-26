@@ -53,4 +53,6 @@ public class ClientInfoProperties {
     public final static String APP_APK_FILEPATH = "apk_fp";
 
     public final static String APP_CATEGORY_ID = "cate_id";
+
+    public final static String APP_IS_BACKUP = "is_backup";
 }

@@ -3,6 +3,7 @@ package com.changhong.client.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.changhong.client.dao.ClientDao;
+import com.changhong.common.utils.CHListUtils;
 import com.changhong.system.domain.AppDownloadHistory;
 import com.changhong.system.web.facade.dto.AppMustDTO;
 import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
@@ -365,6 +366,152 @@ public class ClientServiceImpl implements ClientService {
         }
 
         values.put("values", all);
+        return values.toJSONString();
+    }
+
+    public String checkBackupApp(String[] appPackages, String boxMac) {
+        List<MarketAppDTO> apps = new ArrayList<MarketAppDTO>();
+        apps.addAll(cacheService.obtainMarketAppInCache(appPackages));
+
+        JSONObject values = new JSONObject();
+        JSONArray all = new JSONArray();
+        int macId = clientDao.loadMacIdByBoxMac(boxMac);
+        if(macId != -1) {
+            if (apps != null) {
+                for (MarketAppDTO dto : apps) {
+                    JSONObject single = new JSONObject();
+                    single.put(ClientInfoProperties.APP_ID, dto.getId());
+                    single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
+                    single.put(ClientInfoProperties.APP_IS_BACKUP, clientDao.isBackupApp(macId,dto.getId()));
+                    all.add(single);
+                }
+            }
+            values.put("checkbackupapps", all);
+        }
+        else {
+            values.put("checkbackupapps", "no values");
+        }
+        return values.toJSONString();
+    }
+
+    public String deleteBackupApps(int[] appIds, String boxMac) {
+        JSONObject values = new JSONObject();
+        List<Integer> backupAppIds = null;
+        List<Integer> deleteAppIds = null;
+
+        List<Integer> requestAppIds = new ArrayList<Integer>();
+        for(int appId : appIds) {
+            requestAppIds.add(new Integer(appId));
+        }
+
+        JSONArray all = new JSONArray();
+
+        int macId = clientDao.loadMacIdByBoxMac(boxMac);
+        if(macId != -1) {
+            backupAppIds = clientDao.loadAppIdByMacId(macId);
+
+            if(CHListUtils.hasElement(backupAppIds)) {
+                deleteAppIds = CHListUtils.getSameElement(backupAppIds, requestAppIds);
+
+                if(CHListUtils.hasElement(deleteAppIds)) {
+                    if(all != null) {
+                        for(Integer appId : deleteAppIds) {
+                            if(clientDao.deleteBackupApp(macId, appId.intValue())) {
+                                JSONObject single = new JSONObject();
+                                single.put(ClientInfoProperties.APP_ID, appId.intValue());
+                                all.add(single);
+                            }
+                        }
+                    }
+                }
+            }
+            values.put("deletebackupapps", all);
+        }
+        else {
+            values.put("deletebackupapps", "no values");
+        }
+        return values.toJSONString();
+    }
+
+    public String obtainBackupApps(String boxMac) {
+        JSONObject values = new JSONObject();
+        values.put("host", fileRequestHost);
+
+        List<Integer> backupAppIds = null;
+
+        JSONArray all = new JSONArray();
+
+        int macId = clientDao.loadMacIdByBoxMac(boxMac);
+        if(macId != -1) {
+            backupAppIds = clientDao.loadAppIdByMacId(macId);
+
+            if(CHListUtils.hasElement(backupAppIds)) {
+                for(Integer appId : backupAppIds) {
+                    MarketAppDTO dto = cacheService.obtainMarketAppInCache(appId);
+                    if(dto != null) {
+                        if(all != null) {
+                            JSONObject single = new JSONObject();
+                            single.put(ClientInfoProperties.APP_ID, dto.getId());
+                            single.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
+                            single.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
+                            single.put(ClientInfoProperties.APP_VERSION_INT, dto.getAppVersionInt());
+                            single.put(ClientInfoProperties.APP_VERSION, dto.getAppVersion());
+                            single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
+                            single.put(ClientInfoProperties.APP_ICON_FILEPATH, dto.getIconActualFileName());
+                            single.put(ClientInfoProperties.APP_APK_FILEPATH, dto.getApkActualFileName());
+                            all.add(single);
+                        }
+                    }
+                }
+            }
+            values.put("getbackupapps", all);
+        }
+        else {
+            values.put("getbackupapps", "no values");
+        }
+
+        return values.toJSONString();
+    }
+
+    public String requestBackupApps(int[] appIds, String boxMac) {
+        JSONObject values = new JSONObject();
+        List<Integer> backupAppIds = null;
+        JSONArray all = new JSONArray();
+
+        int macId = clientDao.loadMacIdByBoxMac(boxMac);
+        if(-1 == macId ) {
+            macId = clientDao.insertBoxMacInfo(boxMac);
+        }
+        else {
+            backupAppIds = clientDao.loadAppIdByMacId(macId);
+        }
+
+        if(macId != -1) {
+            if(all != null) {
+                List<Integer> requestAppIds = new ArrayList<Integer>();
+                for(int appId : appIds) {
+                    requestAppIds.add(new Integer(appId));
+                }
+                if(CHListUtils.hasElement(backupAppIds)) {
+                    requestAppIds = CHListUtils.removeSameElement(requestAppIds, backupAppIds);
+                }
+
+                for(Integer appId : requestAppIds) {
+                    MarketAppDTO dto = cacheService.obtainMarketAppInCache(appId);
+
+                    if(dto != null && clientDao.insertBackupAppInfo(macId, appId)) {
+                        JSONObject single = new JSONObject();
+                        single.put(ClientInfoProperties.APP_ID, appId.intValue());
+                        all.add(single);
+                    }
+                }
+            }
+            values.put("requestbackupapps", all);
+        }
+        else {
+            values.put("requestbackupapps", "error");
+        }
+
         return values.toJSONString();
     }
 }
