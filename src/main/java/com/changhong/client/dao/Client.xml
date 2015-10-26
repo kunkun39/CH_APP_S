@@ -57,44 +57,22 @@
        select id from market_app where app_status = 'PASSED' and app_category_id = #categoryId# order by download_times desc limit 9
    </select>
 
-    <insert id="insertBoxMac" parameterClass="java.util.HashMap">
-        insert into mac_info (
-            box_mac
-        )
-        values (#box_mac#)
-        <selectKey resultClass="int" keyProperty="id">
-			select LAST_INSERT_ID() as id
-		</selectKey>
-    </insert>
-
-    <select id="selectMacIdByBoxMac" resultClass="Integer"  parameterClass="String">
-        select id from mac_info where box_mac=#box_mac#
+    <select id="selectAppIdByBoxMac" resultClass="String" parameterClass="String">
+        select app_ids from app_backup where box_mac=#box_mac#
     </select>
 
-    <insert id="insertBackupInfo" parameterClass="java.util.HashMap">
+    <insert id="insertAppBackupInfo" parameterClass="java.util.HashMap">
         insert into app_backup (
-            mac_id,
-            app_id
+            box_mac,
+            app_ids
         )
-        values (#mac_id:INT#,#app_id:INT#)
+        values (#box_mac:String#,#app_ids:String#)
         <selectKey resultClass="int" keyProperty="id">
 			select LAST_INSERT_ID() as id
 		</selectKey>
     </insert>
 
-    <select id="selectAppIdByMacId" resultClass="Integer" parameterClass="Integer">
-        select app_id from app_backup where mac_id=#mac_id#
-    </select>
-
-    <select id="selectAppIdByBoxMac" resultClass="Integer" parameterClass="String">
-        select app_id from app_backup where mac_id in(select id from mac_info where box_mac=$box_mac$)
-    </select>
-
-    <select id="selectBackupInfo" resultClass="Integer" parameterClass="java.util.HashMap" >
-        select id from app_backup where mac_id=#mac_id# and app_id=#app_id#
-    </select>
-
-    <delete id="deleteBackupApp" parameterClass="java.util.HashMap">
-        delete from app_backup where mac_id=#mac_id# and app_id=#app_id#
-    </delete>
+    <update id="updateAppBackupInfo" parameterClass="java.util.HashMap">
+        update app_backup set app_ids=#app_ids# where box_mac=#box_mac#
+    </update>
 </sqlMap>

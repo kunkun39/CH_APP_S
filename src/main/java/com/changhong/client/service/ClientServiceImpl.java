@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -375,29 +377,35 @@ public class ClientServiceImpl implements ClientService {
 
         JSONObject values = new JSONObject();
         JSONArray all = new JSONArray();
-        int macId = clientDao.loadMacIdByBoxMac(boxMac);
-        if(macId != -1) {
-            if (apps != null) {
-                for (MarketAppDTO dto : apps) {
-                    JSONObject single = new JSONObject();
-                    single.put(ClientInfoProperties.APP_ID, dto.getId());
-                    single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
-                    single.put(ClientInfoProperties.APP_IS_BACKUP, clientDao.isBackupApp(macId,dto.getId()));
-                    all.add(single);
-                }
+
+        String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
+        HashSet<String> hashSet = new HashSet<String>();
+        if(appIdInfo != null) {
+            String[] backupAppIds = appIdInfo.split(",");
+            for(String backupAppId : backupAppIds) {
+                hashSet.add(backupAppId);
+            }
+        }
+
+        if (apps != null) {
+            for (MarketAppDTO dto : apps) {
+                JSONObject single = new JSONObject();
+                single.put(ClientInfoProperties.APP_ID, dto.getId());
+                single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
+                single.put(ClientInfoProperties.APP_IS_BACKUP, hashSet.contains(String.valueOf(dto.getId())) ? 1 : 0);
+                all.add(single);
             }
             values.put("checkbackupapps", all);
         }
         else {
-            values.put("checkbackupapps", "no values");
+            values.put("checkbackupapps", "package error");
         }
         return values.toJSONString();
     }
 
     public String deleteBackupApps(int[] appIds, String boxMac) {
         JSONObject values = new JSONObject();
-        List<Integer> backupAppIds = null;
-        List<Integer> deleteAppIds = null;
+        StringBuilder builder = new StringBuilder();
 
         List<Integer> requestAppIds = new ArrayList<Integer>();
         for(int appId : appIds) {
@@ -406,26 +414,30 @@ public class ClientServiceImpl implements ClientService {
 
         JSONArray all = new JSONArray();
 
-        int macId = clientDao.loadMacIdByBoxMac(boxMac);
-        if(macId != -1) {
-            backupAppIds = clientDao.loadAppIdByMacId(macId);
+        String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
+        if(appIdInfo != null) {
+            HashSet<String> hashSet = new HashSet<String>();
 
-            if(CHListUtils.hasElement(backupAppIds)) {
-                deleteAppIds = CHListUtils.getSameElement(backupAppIds, requestAppIds);
+            String[] backupAppIds = appIdInfo.split(",");
+            for(String backupAppId : backupAppIds) {
+                hashSet.add(backupAppId);
+            }
 
-                if(CHListUtils.hasElement(deleteAppIds)) {
-                    if(all != null) {
-                        for(Integer appId : deleteAppIds) {
-                            if(clientDao.deleteBackupApp(macId, appId.intValue())) {
-                                JSONObject single = new JSONObject();
-                                single.put(ClientInfoProperties.APP_ID, appId.intValue());
-                                all.add(single);
-                            }
-                        }
-                    }
+            for(int appId : appIds) {
+                if(hashSet.remove(String.valueOf(appId))) {
+                    JSONObject single = new JSONObject();
+                    single.put(ClientInfoProperties.APP_ID, appId);
+                    all.add(single);
                 }
             }
-            values.put("deletebackupapps", all);
+            Iterator i = hashSet.iterator();
+            while(i.hasNext()) {
+                builder.append(i.next() + ",");
+            }
+            builder.deleteCharAt(builder.length()-1);
+            if(clientDao.updateBackupAppInfo(boxMac, builder.toString()) >  0) {
+                values.put("deletebackupapps", all);
+            }
         }
         else {
             values.put("deletebackupapps", "no values");
@@ -437,32 +449,26 @@ public class ClientServiceImpl implements ClientService {
         JSONObject values = new JSONObject();
         values.put("host", fileRequestHost);
 
-        List<Integer> backupAppIds = null;
-
         JSONArray all = new JSONArray();
 
-        int macId = clientDao.loadMacIdByBoxMac(boxMac);
-        if(macId != -1) {
-            backupAppIds = clientDao.loadAppIdByMacId(macId);
+        String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
 
-            if(CHListUtils.hasElement(backupAppIds)) {
-                for(Integer appId : backupAppIds) {
-                    MarketAppDTO dto = cacheService.obtainMarketAppInCache(appId);
+        if(appIdInfo != null) {
+            String[] appIds = appIdInfo.split(",");
+            for(String appId : appIds) {
+                MarketAppDTO dto = cacheService.obtainMarketAppInCache(Integer.parseInt(appId));
                     if(dto != null) {
-                        if(all != null) {
-                            JSONObject single = new JSONObject();
-                            single.put(ClientInfoProperties.APP_ID, dto.getId());
-                            single.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
-                            single.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
-                            single.put(ClientInfoProperties.APP_VERSION_INT, dto.getAppVersionInt());
-                            single.put(ClientInfoProperties.APP_VERSION, dto.getAppVersion());
-                            single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
-                            single.put(ClientInfoProperties.APP_ICON_FILEPATH, dto.getIconActualFileName());
-                            single.put(ClientInfoProperties.APP_APK_FILEPATH, dto.getApkActualFileName());
-                            all.add(single);
-                        }
+                        JSONObject single = new JSONObject();
+                        single.put(ClientInfoProperties.APP_ID, dto.getId());
+                        single.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
+                        single.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
+                        single.put(ClientInfoProperties.APP_VERSION_INT, dto.getAppVersionInt());
+                        single.put(ClientInfoProperties.APP_VERSION, dto.getAppVersion());
+                        single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
+                        single.put(ClientInfoProperties.APP_ICON_FILEPATH, dto.getIconActualFileName());
+                        single.put(ClientInfoProperties.APP_APK_FILEPATH, dto.getApkActualFileName());
+                        all.add(single);
                     }
-                }
             }
             values.put("getbackupapps", all);
         }
@@ -475,41 +481,53 @@ public class ClientServiceImpl implements ClientService {
 
     public String requestBackupApps(int[] appIds, String boxMac) {
         JSONObject values = new JSONObject();
-        List<Integer> backupAppIds = null;
+
+        StringBuilder builder = new StringBuilder();
+
         JSONArray all = new JSONArray();
+        String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
+        if(appIdInfo != null) {
+            HashSet<String> hashSet = new HashSet<String>();
 
-        int macId = clientDao.loadMacIdByBoxMac(boxMac);
-        if(-1 == macId ) {
-            macId = clientDao.insertBoxMacInfo(boxMac);
-        }
-        else {
-            backupAppIds = clientDao.loadAppIdByMacId(macId);
-        }
+            String[] backupAppIds = appIdInfo.split(",");
+            for(String backupAppId : backupAppIds) {
+                hashSet.add(backupAppId);
+            }
 
-        if(macId != -1) {
-            if(all != null) {
-                List<Integer> requestAppIds = new ArrayList<Integer>();
-                for(int appId : appIds) {
-                    requestAppIds.add(new Integer(appId));
-                }
-                if(CHListUtils.hasElement(backupAppIds)) {
-                    requestAppIds = CHListUtils.removeSameElement(requestAppIds, backupAppIds);
-                }
-
-                for(Integer appId : requestAppIds) {
-                    MarketAppDTO dto = cacheService.obtainMarketAppInCache(appId);
-
-                    if(dto != null && clientDao.insertBackupAppInfo(macId, appId)) {
-                        JSONObject single = new JSONObject();
-                        single.put(ClientInfoProperties.APP_ID, appId.intValue());
-                        all.add(single);
-                    }
+            for(int appId : appIds) {
+                if(hashSet.add(String.valueOf(appId))) {
+                    JSONObject single = new JSONObject();
+                    single.put(ClientInfoProperties.APP_ID, appId);
+                    all.add(single);
                 }
             }
-            values.put("requestbackupapps", all);
+
+            Iterator i = hashSet.iterator();
+            while(i.hasNext()) {
+                builder.append(i.next() + ",");
+            }
         }
         else {
-            values.put("requestbackupapps", "error");
+            for(int appId : appIds) {
+               JSONObject single = new JSONObject();
+               single.put(ClientInfoProperties.APP_ID, appId);
+               all.add(single);
+
+               builder.append(appId + ",");
+            }
+        }
+        builder.deleteCharAt(builder.length()-1);
+
+        if(0 == clientDao.updateBackupAppInfo(boxMac, builder.toString())) {
+            if(clientDao.insertBackupAppInfo(boxMac, builder.toString())) {
+                values.put("requestbackupapps", all);
+            }
+            else {
+                values.put("requestbackupapps", "insert error");
+            }
+        }
+        else {
+            values.put("requestbackupapps", all);
         }
 
         return values.toJSONString();

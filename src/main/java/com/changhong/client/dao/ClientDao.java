@@ -26,17 +26,9 @@ public interface ClientDao {
 
     List<HashMap> loadAppDetailsRecommend(int categoryId);
 
-    int insertBoxMacInfo(String boxMac);
+    boolean insertBackupAppInfo(String boxMac, String appIDs);
 
-    int loadMacIdByBoxMac(String boxMac);
+    int updateBackupAppInfo(String boxMac, String appIDs);
 
-    boolean insertBackupAppInfo(int macId,int appID);
-
-    List<Integer> loadAppIdByMacId(int macId);
-
-    List<Integer> loadAppIdByBoxMac(String boxMac);
-
-    int isBackupApp(int macId,int appID);
-
-    boolean deleteBackupApp(int macId,int appID);
+    String loadBackupAppInfo(String boxMac);
 }

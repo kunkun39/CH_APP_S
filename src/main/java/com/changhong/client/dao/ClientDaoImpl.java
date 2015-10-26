@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 /**
  * User: Jack Wang
  * Date: 15-8-10
@@ -72,87 +75,34 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         return getSqlMapClientTemplate().queryForList("Client.selectHotestAppsByCategory", parameters);
     }
 
-    public int insertBoxMacInfo(String boxMac) {
+    public boolean insertBackupAppInfo(String boxMac, String appIDs) {
         Integer id = null;
-        Object object = null;
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        Logger log = LogManager.getLogger(ClientDaoImpl.class);
 
+        parameters.put("box_mac",boxMac);
+        parameters.put("app_ids",appIDs);
+
+        id = (Integer)getSqlMapClientTemplate().insert("Client.insertAppBackupInfo",parameters);
+        if(id != null) {
+            log.info("insertBackupAppInfo    " + id.intValue());
+            return true;
+        }
+        log.info("insertBackupAppInfo    false");
+
+        return false;
+    }
+
+    public int updateBackupAppInfo(String boxMac, String appIDs) {
         Map<String, Object> parameters = new HashMap<String, Object>();
 
         parameters.put("box_mac",boxMac);
+        parameters.put("app_ids",appIDs);
 
-        id = (Integer)getSqlMapClientTemplate().insert("Client.insertBoxMac",parameters);
-
-        if(id != null) {
-            return id.intValue();
-        }
-        return -1;
+        return getSqlMapClientTemplate().update("Client.updateAppBackupInfo",parameters);
     }
 
-    public int loadMacIdByBoxMac(String boxMac) {
-        Integer macId = null;
-
-        macId =  (Integer)getSqlMapClientTemplate().queryForObject("Client.selectMacIdByBoxMac",boxMac);
-        if(macId != null) {
-            return ((Integer)macId).intValue();
-        }
-        return -1;
-    }
-
-    public boolean insertBackupAppInfo(int macId,int appID) {
-        Object object = null;
-        Map<String, Object> parameters = new HashMap<String, Object>();
-
-        parameters.put("mac_id",macId);
-        parameters.put("app_id",appID);
-
-        object = getSqlMapClientTemplate().insert("Client.insertBackupInfo",parameters);
-        if(object != null) {
-            return true;
-        }
-        return false;
-    }
-
-    public List<Integer> loadAppIdByMacId(int macId) {
-        List<Integer> appId = null;
-
-        appId = getSqlMapClientTemplate().queryForList("Client.selectAppIdByMacId",macId);
-
-        return appId;
-    }
-
-    public List<Integer> loadAppIdByBoxMac(String boxMac) {
-        List<Integer> appId = null;
-
-        appId = getSqlMapClientTemplate().queryForList("Client.selectAppIdByBoxMac",boxMac);
-
-        return appId;
-    }
-
-    public int isBackupApp(int macId,int appID) {
-        Integer isBackup = null;
-        Map<String, Object> parameters = new HashMap<String, Object>();
-
-        parameters.put("mac_id",macId);
-        parameters.put("app_id",appID);
-
-        isBackup =  (Integer)getSqlMapClientTemplate().queryForObject("Client.selectBackupInfo",parameters);
-        if(isBackup != null) {
-            return 1;
-        }
-        return 0;
-    }
-
-    public boolean deleteBackupApp(int macId,int appID) {
-        int rowNum = 0;
-        Map<String, Object> parameters = new HashMap<String, Object>();
-
-        parameters.put("mac_id",macId);
-        parameters.put("app_id",appID);
-
-        rowNum = getSqlMapClientTemplate().delete("Client.deleteBackupApp",parameters);
-        if(rowNum > 0) {
-            return true;
-        }
-        return false;
+    public String loadBackupAppInfo(String boxMac) {
+        return (String)getSqlMapClientTemplate().queryForObject("Client.selectAppIdByBoxMac", boxMac);
     }
 }
