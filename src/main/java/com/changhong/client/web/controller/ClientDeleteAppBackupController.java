@@ -24,10 +24,10 @@ public class ClientDeleteAppBackupController extends AbstractController {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String boxMac = ServletRequestUtils.getStringParameter(request, "boxMac");
-        int[] appIds = ServletRequestUtils.getIntParameters(request,"appIds");
+        String appIds = ServletRequestUtils.getStringParameter(request,"appIds");
 
         String responseJSON = "";
-        if(StringUtils.hasText(boxMac) && (appIds != null && appIds.length > 0)) {
+        if(StringUtils.hasText(boxMac) && StringUtils.hasText(appIds)) {
             responseJSON = clientService.deleteBackupApps(appIds, boxMac);
         }
 

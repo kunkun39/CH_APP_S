@@ -405,14 +405,10 @@ public class ClientServiceImpl implements ClientService {
         return values.toJSONString();
     }
 
-    public String deleteBackupApps(int[] appIds, String boxMac) {
+    public String deleteBackupApps(String appIds, String boxMac) {
         JSONObject values = new JSONObject();
         StringBuilder builder = new StringBuilder();
-
-        List<Integer> requestAppIds = new ArrayList<Integer>();
-        for(int appId : appIds) {
-            requestAppIds.add(new Integer(appId));
-        }
+        String[] requestAppIds = appIds.split(",");
 
         JSONArray all = new JSONArray();
 
@@ -425,8 +421,8 @@ public class ClientServiceImpl implements ClientService {
                 hashSet.add(backupAppId);
             }
 
-            for(int appId : appIds) {
-                if(hashSet.remove(String.valueOf(appId))) {
+            for(String appId : requestAppIds) {
+                if(hashSet.remove(appId)) {
                     JSONObject single = new JSONObject();
                     single.put(ClientInfoProperties.APP_ID, appId);
                     all.add(single);
@@ -481,10 +477,11 @@ public class ClientServiceImpl implements ClientService {
         return values.toJSONString();
     }
 
-    public String requestBackupApps(int[] appIds, String boxMac) {
+    public String requestBackupApps(String appIds, String boxMac) {
         JSONObject values = new JSONObject();
 
         StringBuilder builder = new StringBuilder();
+        String[] requestAppIds = appIds.split(",");
 
         JSONArray all = new JSONArray();
         String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
@@ -496,8 +493,8 @@ public class ClientServiceImpl implements ClientService {
                 hashSet.add(backupAppId);
             }
 
-            for(int appId : appIds) {
-                if(hashSet.add(String.valueOf(appId))) {
+            for(String appId : requestAppIds) {
+                if(hashSet.add(appId)) {
                     JSONObject single = new JSONObject();
                     single.put(ClientInfoProperties.APP_ID, appId);
                     all.add(single);
@@ -510,7 +507,7 @@ public class ClientServiceImpl implements ClientService {
             }
         }
         else {
-            for(int appId : appIds) {
+            for(String appId : requestAppIds) {
                JSONObject single = new JSONObject();
                single.put(ClientInfoProperties.APP_ID, appId);
                all.add(single);

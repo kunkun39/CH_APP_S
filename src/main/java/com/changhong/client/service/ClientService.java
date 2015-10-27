@@ -77,7 +77,7 @@ public interface ClientService {
     /**
      * 删除云备份
      */
-    String deleteBackupApps(int[] appIds, String boxMac);
+    String deleteBackupApps(String appIds, String boxMac);
 
     /**
      * 获得云备份信息
@@ -87,5 +87,5 @@ public interface ClientService {
     /**
      * 云备份
      */
-    String requestBackupApps(int[] appIds, String boxMac);
+    String requestBackupApps(String appIds, String boxMac);
 }
