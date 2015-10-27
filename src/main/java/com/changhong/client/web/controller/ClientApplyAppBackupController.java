@@ -1,6 +1,7 @@
 package com.changhong.client.web.controller;
 
 import com.changhong.client.service.ClientService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -16,7 +17,7 @@ import java.io.PrintWriter;
  * Time: 下午8:10
  * To change this template use File | Settings | File Templates.
  */
-public class ClientRequestBackupAppController extends AbstractController {
+public class ClientApplyAppBackupController extends AbstractController {
 
     private ClientService clientService;
 
@@ -26,7 +27,7 @@ public class ClientRequestBackupAppController extends AbstractController {
         int[] appIds = ServletRequestUtils.getIntParameters(request,"appIds");
 
         String responseJSON = "";
-        if(boxMac != null && (appIds != null && appIds.length > 0)) {
+        if(StringUtils.hasText(boxMac) && (appIds != null && appIds.length > 0)) {
             responseJSON = clientService.requestBackupApps(appIds, boxMac);
         }
 

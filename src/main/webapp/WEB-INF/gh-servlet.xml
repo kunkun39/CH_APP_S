@@ -81,10 +81,10 @@
                 <prop key="/client/luncherapprecommend.html">clientLuncherAppRecommendController</prop>
                 <prop key="/client/appmust.html">clientAppMustController</prop>
                 <prop key="/client/bootadvertise.html">clientBootAdvertiseController</prop>
-                <prop key="/client/checkbackupapp.html">clientCheckBackupAppController</prop>
-                <prop key="/client/deleteBackupApp.html">clientDeleteBackupAppController</prop>
-                <prop key="/client/getBackupApp.html">clientGetBackupAppController</prop>
-                <prop key="/client/requestBackupApp.html">clientRequestBackupAppController</prop>
+                <prop key="/client/checkbackupapp.html">clientCheckAppIsBackupController</prop>
+                <prop key="/client/deleteBackupApp.html">clientDeleteAppBackupController</prop>
+                <prop key="/client/getBackupApp.html">clientGetAllAppBackupController</prop>
+                <prop key="/client/requestBackupApp.html">clientApplyAppBackupController</prop>
 
             </props>
 
@@ -248,19 +248,19 @@
         <property name="clientService" ref="clientService"/>
     </bean>
 
-    <bean id="clientCheckBackupAppController" class="com.changhong.client.web.controller.ClientCheckBackupAppController">
+    <bean id="clientCheckAppIsBackupController" class="com.changhong.client.web.controller.ClientCheckAppIsBackupController">
         <property name="clientService" ref="clientService"/>
     </bean>
 
-    <bean id="clientDeleteBackupAppController" class="com.changhong.client.web.controller.ClientDeleteBackupAppController">
+    <bean id="clientDeleteAppBackupController" class="com.changhong.client.web.controller.ClientDeleteAppBackupController">
         <property name="clientService" ref="clientService"/>
     </bean>
 
-    <bean id="clientGetBackupAppController" class="com.changhong.client.web.controller.ClientGetBackupAppController">
+    <bean id="clientGetAllAppBackupController" class="com.changhong.client.web.controller.ClientGetAllAppBackupController">
         <property name="clientService" ref="clientService"/>
     </bean>
 
-    <bean id="clientRequestBackupAppController" class="com.changhong.client.web.controller.ClientRequestBackupAppController">
+    <bean id="clientApplyAppBackupController" class="com.changhong.client.web.controller.ClientApplyAppBackupController">
         <property name="clientService" ref="clientService"/>
     </bean>
 </beans>

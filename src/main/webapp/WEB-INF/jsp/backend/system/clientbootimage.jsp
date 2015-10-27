@@ -56,7 +56,7 @@
                                     <span id="clientImg_format_help" class="help-block" style="display: none;">选择文件不是图片格式</span>
                                     <br/>
                                     <br/>
-                                    <div float:left;class="controls" >
+                                    <div class="controls" >
                                         <img width="450px" height="650px" alt=""  src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>
                                     </div>
                                     <div class="form-actions">
