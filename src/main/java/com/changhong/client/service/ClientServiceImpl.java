@@ -392,6 +392,8 @@ public class ClientServiceImpl implements ClientService {
                 JSONObject single = new JSONObject();
                 single.put(ClientInfoProperties.APP_ID, dto.getId());
                 single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
+                single.put(ClientInfoProperties.APP_SCORES, dto.getAppScores());
+                single.put(ClientInfoProperties.APP_SIZE, dto.getAppSize());
                 single.put(ClientInfoProperties.APP_IS_BACKUP, hashSet.contains(String.valueOf(dto.getId())) ? 1 : 0);
                 all.add(single);
             }
@@ -462,8 +464,8 @@ public class ClientServiceImpl implements ClientService {
                         single.put(ClientInfoProperties.APP_ID, dto.getId());
                         single.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
                         single.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
-                        single.put(ClientInfoProperties.APP_VERSION_INT, dto.getAppVersionInt());
-                        single.put(ClientInfoProperties.APP_VERSION, dto.getAppVersion());
+                        single.put(ClientInfoProperties.APP_SCORES, dto.getAppScores());
+                        single.put(ClientInfoProperties.APP_SIZE, dto.getAppSize());
                         single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
                         single.put(ClientInfoProperties.APP_ICON_FILEPATH, dto.getIconActualFileName());
                         single.put(ClientInfoProperties.APP_APK_FILEPATH, dto.getApkActualFileName());
