@@ -432,7 +432,9 @@ public class ClientServiceImpl implements ClientService {
             while(i.hasNext()) {
                 builder.append(i.next() + ",");
             }
-            builder.deleteCharAt(builder.length()-1);
+            if(builder.length() > 1) {
+                builder.deleteCharAt(builder.length()-1);
+            }
             if(clientDao.updateBackupAppInfo(boxMac, builder.toString()) >  0) {
                 values.put("deletebackupapps", all);
             }
@@ -515,7 +517,9 @@ public class ClientServiceImpl implements ClientService {
                builder.append(appId + ",");
             }
         }
-        builder.deleteCharAt(builder.length()-1);
+        if(builder.length() > 1) {
+            builder.deleteCharAt(builder.length()-1);
+        }
 
         if(0 == clientDao.updateBackupAppInfo(boxMac, builder.toString())) {
             if(clientDao.insertBackupAppInfo(boxMac, builder.toString())) {
