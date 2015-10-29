@@ -371,6 +371,8 @@ public class ClientServiceImpl implements ClientService {
         return values.toJSONString();
     }
 
+    /*************************************************云备份相关********************************************************/
+
     public String checkBackupApp(String[] appPackages, String boxMac) {
         List<MarketAppDTO> apps = new ArrayList<MarketAppDTO>();
         apps.addAll(cacheService.obtainMarketAppInCache(appPackages));
