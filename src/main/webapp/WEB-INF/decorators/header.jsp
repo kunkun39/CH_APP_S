@@ -5,7 +5,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="javascript:void(0);">广电应用市场后台管理系统</a></h1>
+  <h1><a href="javascript:void(0);">应用市场后台管理系统</a></h1>
 </div>
 <!--close-Header-part-->
 

@@ -6,7 +6,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
-    <title>广电应用市场后台管理系统</title><meta charset="UTF-8" />
+    <title>应用市场后台管理系统</title><meta charset="UTF-8" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-responsive.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/uniform.css" />

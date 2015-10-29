@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>广电应用市场后台管理系统</title><meta charset="UTF-8" />
+    <title>应用市场后台管理系统</title><meta charset="UTF-8" />
     <!-- HTTP 1.1 -->
     <meta http-equiv="pragma" content="no-cache">
     <!-- HTTP 1.0 -->
     <meta http-equiv="cache-control" content="no-cache">
-    <title><decorator:title default="广电应用市场后台管理系统"/></title>
+    <title><decorator:title default="应用市场后台管理系统"/></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <decorator:head/>
 </head>
