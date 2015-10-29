@@ -12,10 +12,6 @@ import java.util.List;
  */
 public interface ClientDao {
 
-    String loadClientBootImage();
-
-    int loadClientVersion();
-
     List<HashMap> loadAllAppCategoryInfo();
 
     List<HashMap> loadAllBoxPages();

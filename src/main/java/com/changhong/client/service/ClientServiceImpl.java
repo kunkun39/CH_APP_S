@@ -39,8 +39,6 @@ public class ClientServiceImpl implements ClientService {
 
     private int clientVersion = 1;
 
-    private long lastRequestClientVersionTime = 0L;
-
     private final static int versionCheckDuring = 1000 * 60 * 10;
 
     @Value("${application.appmarket.update.path}")
@@ -64,12 +62,7 @@ public class ClientServiceImpl implements ClientService {
         all.put("host", fileRequestHost);
 
         //一个小时访问一次
-        long currentRequestClientVersionTime = System.currentTimeMillis();
-        if ((currentRequestClientVersionTime - lastRequestClientVersionTime) > versionCheckDuring) {
-            lastRequestClientVersionTime = currentRequestClientVersionTime;
-            clientVersion = clientDao.loadClientVersion();
-        }
-        all.put("client_v", clientVersion);
+        all.put("client_v", cacheService.getCurrentClientVersion());
         all.put("client_url", appMarketApkUpdateURL);
 
         JSONArray array = new JSONArray();

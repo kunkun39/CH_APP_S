@@ -71,6 +71,9 @@ public class SystemServiceImpl implements SystemService {
             version.setId(1);
             version.setClientVersion(clientVersion);
             systemDao.saveClientVersion(version);
+
+            //update cache
+            cacheService.setCurrentClientVersion(clientVersion);
         }
 
     }

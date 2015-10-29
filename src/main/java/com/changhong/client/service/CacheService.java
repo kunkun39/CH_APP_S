@@ -67,4 +67,10 @@ public interface CacheService {
     String getBootImageFileName();
 
     void setBootImageFileName(String bootImageFileName);
+
+    /************************************系统版本************************************/
+
+    int getCurrentClientVersion();
+
+    void setCurrentClientVersion(int clientVersion);
 }

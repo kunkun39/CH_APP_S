@@ -19,19 +19,6 @@ import org.apache.log4j.Logger;
 @Repository("clientDao")
 public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
 
-    public String loadClientBootImage() {
-        List<HashMap> bootImage = getSqlMapClientTemplate().queryForList("Client.selectClientBootImage");
-        return (String)bootImage.get(0).get("actual_filename");
-    }
-
-    public int loadClientVersion() {
-        List<HashMap> versions = getSqlMapClientTemplate().queryForList("Client.selectClientVersion");
-        if (versions == null || versions.isEmpty()) {
-            return 1;
-        }
-        return (Integer)versions.get(0).get("client_version");
-    }
-
     public List<HashMap> loadAllAppCategoryInfo() {
         List<HashMap> categoryies = getSqlMapClientTemplate().queryForList("Client.selectAllAppCategory");
         return categoryies;

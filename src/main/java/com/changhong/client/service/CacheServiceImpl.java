@@ -1,8 +1,10 @@
 package com.changhong.client.service;
 
+import com.changhong.common.domain.EntityBase;
 import com.changhong.common.utils.CHPagingUtils;
 import com.changhong.system.domain.*;
 import com.changhong.system.repository.AppDao;
+import com.changhong.system.repository.SystemDao;
 import com.changhong.system.web.facade.assember.AppCategoryWebAssember;
 import com.changhong.system.web.facade.assember.AppMustWebAssember;
 import com.changhong.system.web.facade.assember.LuncherRecommendWebAssember;
@@ -36,6 +38,9 @@ public class CacheServiceImpl implements CacheService {
     @Autowired
     private AppDao appDao;
 
+    @Autowired
+    private SystemDao systemDao;
+
     private ConcurrentLinkedHashMap<String, AppCategoryDTO> categoryCache = new ConcurrentLinkedHashMap<String, AppCategoryDTO>(200);
 
     private ConcurrentLinkedHashMap<String, MarketAppDTO> appCache = new ConcurrentLinkedHashMap<String, MarketAppDTO>(MAX_CACHE_SIZE);
@@ -45,6 +50,8 @@ public class CacheServiceImpl implements CacheService {
     private ConcurrentLinkedHashMap<String, AppMustDTO> mustAppCache = new ConcurrentLinkedHashMap<String, AppMustDTO>(20);
 
     private String bootImageFileName = "initial.png";
+
+    private int currentApkVersion = 1;
 
     public void obtainInitCachedObjects() {
         long begin = System.currentTimeMillis();
@@ -103,6 +110,14 @@ public class CacheServiceImpl implements CacheService {
         ClientBootImage bootImage = (ClientBootImage) appDao.findById(1, ClientBootImage.class);
         bootImageFileName = bootImage.getActualFileName();
         log.info("finish init boot image");
+
+        /**
+         * 系统当前版本
+         */
+        ClientVersion clientVersion = systemDao.findClientVersion();
+        currentApkVersion = clientVersion.getClientVersion();
+        log.info("finish init client version");
+
 
         long end = System.currentTimeMillis();
         long during = end - begin;
@@ -268,5 +283,15 @@ public class CacheServiceImpl implements CacheService {
 
     public void setBootImageFileName(String bootImageFileName) {
         this.bootImageFileName = bootImageFileName;
+    }
+
+    /************************************系统版本************************************/
+
+    public int getCurrentClientVersion() {
+        return currentApkVersion;
+    }
+
+    public void setCurrentClientVersion(int clientVersion) {
+        this.currentApkVersion = clientVersion;
     }
 }
