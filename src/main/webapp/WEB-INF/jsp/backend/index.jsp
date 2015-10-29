@@ -20,7 +20,7 @@
         <form id="loginform" class="form-vertical" action="${pageContext.request.contextPath}/j_spring_security_check" method="post">
              <div class="control-group normal_text">
                  <h3>应用商店后台管理系统 V${projectVersion}</h3>
-                 <h6>提示：建议使用FireFox或Chrome浏览器</h6>
+                 <h6>提示：建议使用IE、FireFox或Chrome浏览器</h6>
              </div>
             <div class="control-group">
                 <div class="controls">

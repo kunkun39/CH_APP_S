@@ -33,8 +33,6 @@
     <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">应用类别管理</a> </div>
   </div>
 
-
-
   <div class="container-fluid">
     <h4></h4>
     <div class="alert alert-info alert-block">

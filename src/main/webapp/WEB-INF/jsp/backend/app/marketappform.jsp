@@ -186,7 +186,7 @@
                                     <c:if test="${app.appIconId > 0}">
                                         <br/>
                                         <br/>
-                                        <img width="40" height="40" alt="" src="${fileRequestHost}${app.appKey}/${app.iconActualFileName}"/>
+                                        <img width="50" height="50" alt="" src="${fileRequestHost}${app.appKey}/${app.iconActualFileName}"/>
                                     </c:if>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@
                                         <li class="span3">
                                             <a class="thumbnail lightbox_trigger" href="${fileRequestHost}${app.appKey}/${app.posterActualFileName}">
                                                 <%--<img src="images/gallery/imgbox3.jpg" alt="" >--%>
-                                                <img width="200" height="300" alt="" src="${fileRequestHost}${app.appKey}/${app.posterActualFileName}"/>
+                                                <img width="400" height="200" alt="" src="${fileRequestHost}${app.appKey}/${app.posterActualFileName}"/>
                                             </a>
                                         </li>
                                         </ul>

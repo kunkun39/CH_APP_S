@@ -48,7 +48,7 @@
                                 <img src="${fileRequestHost}/category/${child.categoryIconName}" alt="">
                             </p>
                             <br/>
-                            <a class="${lineflag}">&nbsp;${child.categoryName} ${counter.count}</a>
+                            <a class="${lineflag}">&nbsp;${child.categoryName}</a>
                         </li>
                     </c:if>
                 </c:forEach>

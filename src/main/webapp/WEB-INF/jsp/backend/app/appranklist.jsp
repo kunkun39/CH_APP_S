@@ -125,8 +125,8 @@
                 <strong>提示信息!</strong> 没有更多的数据了
            </div>
 
-            <div id="add_more_button" class="widget-title center">
-                <span  onclick="addRankListContent()"><h5 style="color:green;">更多排名信息请点击...</h5></span>
+            <div id="add_more_button" class="widget-title">
+                <span onclick="addRankListContent()"><h5 style="color:green;">查看更多排名...</h5></span>
             </div>
           </div>
 
