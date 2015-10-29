@@ -27,7 +27,7 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a style="font-size:13px" href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="#" class="current">应用信息管理</a> </div>
+    <div id="breadcrumb"> <a style="font-size:13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="javascript:void(0);" class="current">应用信息管理</a> </div>
   </div>
 
   <%--<div  class="quick-actions_homepage">--%>
@@ -108,17 +108,17 @@
                                     <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_STATUS">
                                     <c:choose>
                                         <c:when test="${app.status == 'CREAETED'}">
-                                            <a href="#" onclick="appStatusChangeConfirm('${app.id}', 'PASSED')" class="btn btn-success btn-mini">通过审核</a>
-                                            <a href="#" onclick="appStatusChangeConfirm('${app.id}', 'REJECTED')" class="btn btn-info btn-mini">拒绝通过</a>
+                                            <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'PASSED')" class="btn btn-success btn-mini">通过审核</a>
+                                            <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'REJECTED')" class="btn btn-info btn-mini">拒绝通过</a>
                                         </c:when>
                                         <c:when test="${app.status == 'PASSED'}">
-                                            <a href="#" onclick="appStatusChangeConfirm('${app.id}', 'OFFSHELVES')" class="btn btn-danger btn-mini">下架应用</a>
+                                            <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'OFFSHELVES')" class="btn btn-danger btn-mini">下架应用</a>
                                         </c:when>
                                         <c:when test="${app.status == 'OFFSHELVES'}">
-                                            <a href="#" onclick="appStatusChangeConfirm('${app.id}', 'PASSED')" class="btn btn-inverse btn-mini">重新上架</a>
+                                            <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'PASSED')" class="btn btn-inverse btn-mini">重新上架</a>
                                         </c:when>
                                         <c:when test="${app.status == 'REJECTED'}">
-                                            <a href="#" onclick="appStatusChangeConfirm('${app.id}', 'CREAETED')" class="btn btn-inverse btn-mini">重新审核</a>
+                                            <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'CREAETED')" class="btn btn-inverse btn-mini">重新审核</a>
                                         </c:when>
                                     </c:choose>
                                     </security:authorize>

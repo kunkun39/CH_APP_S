@@ -26,8 +26,8 @@
 <div id="content">
     <div id="content-header">
         <div id="breadcrumb">
-        <a style="font-size: 13px" href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
-        <a style="font-size: 13px" href="#" class="current">客户端版本管理</a>
+        <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
+        <a style="font-size: 13px" href="javascript:void(0);" class="current">客户端版本管理</a>
         </div>
     </div>
 

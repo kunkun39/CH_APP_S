@@ -35,7 +35,7 @@
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a style="font-size:13px" href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="#" class="current">Luncher应用推荐管理</a> </div>
+        <div id="breadcrumb"> <a style="font-size:13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="javascript:void(0);" class="current">Luncher应用推荐管理</a> </div>
     </div>
 
     <div class="container-fluid">
@@ -57,11 +57,11 @@
                             <c:forEach items="${recommends}" var="child">
                                 <li class="span2">
                                     <h3 align="center">位置${child.position}</h3>
-                                    <a class="thumbnail lightbox_trigger" href="#">
+                                    <a class="thumbnail lightbox_trigger" href="javascript:void(0);">
                                         <img style="width: 80px; height: 80px;" src="${fileRequestHost}${child.appKey}/${child.iconActualFileName}" alt="" >
                                     </a>
                                     <div class="actions">
-                                        <a title="" href="#" onclick="recommendDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
+                                        <a title="" href="javascript:void(0);" onclick="recommendDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
                                     </div>
                                     <div style="text-align: center;">
                                         ${child.appName}  <br/>${child.appVersion}

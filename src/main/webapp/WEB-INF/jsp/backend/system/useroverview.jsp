@@ -68,7 +68,7 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a style="font-size: 13px" href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size: 13px" href="#" class="current">系统用户管理</a> </div>
+    <div id="breadcrumb"> <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size: 13px" href="javascript:void(0);" class="current">系统用户管理</a> </div>
   </div>
 
   <%--<div  class="quick-actions_homepage">--%>
@@ -124,10 +124,10 @@
 
                         <c:if test="${user.username != 'chappadmin'}">
                             <c:if test="${user.enabled}">
-                                <a href="#" onclick="return userDeleteConfirm('${user.id}', '${filername}', '${current}');" class="btn btn-danger btn-mini">停用用户</a>
+                                <a href="javascript:void(0);" onclick="return userDeleteConfirm('${user.id}', '${filername}', '${current}');" class="btn btn-danger btn-mini">停用用户</a>
                             </c:if>
                             <c:if test="${!user.enabled}">
-                                <a href="#" onclick="return userEnableConfirm('${user.id}', '${filername}', '${current}');" class="btn btn-danger btn-mini">激活用户</a>
+                                <a href="javascript:void(0);" onclick="return userEnableConfirm('${user.id}', '${filername}', '${current}');" class="btn btn-danger btn-mini">激活用户</a>
                             </c:if>
                         </c:if>
                       </td>

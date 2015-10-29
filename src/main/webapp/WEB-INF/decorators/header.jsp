@@ -5,7 +5,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="#">广电应用市场后台管理系统</a></h1>
+  <h1><a href="javascript:void(0);">广电应用市场后台管理系统</a></h1>
 </div>
 <!--close-Header-part-->
 
@@ -21,19 +21,19 @@
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
-    <li class="" ><a title="" href="#"><i class="icon icon-user"></i> <span class="text"><ch:user/></span></a></li>
+    <li class="" ><a title="" href="javascript:void(0);"><i class="icon icon-user"></i> <span class="text"><ch:user/></span></a></li>
     <li class=""><a title="" href="${pageContext.request.contextPath}/backend/userchangepassword.html"><i class="icon icon-cog"></i> <span class="text">修改密码</span></a></li>
     <li class=""><a title="" href="${pageContext.request.contextPath}/j_spring_security_logout"><i class="icon icon-share-alt"></i> <span class="text">退出</span></a></li>
   </ul>
 </div>
 <!--close-top-Header-menu-->
 
-<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
+<div id="sidebar"><a href="javascript:void(0);" class="visible-phone"><i class="icon icon-home"></i> 首页</a>
   <ul>
     <li class="active"><a href="${pageContext.request.contextPath}/backend/dashboard.html"><i class="icon icon-home"></i> <span>首页</span></a></li>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_INFO,ROLE_APP_STATUS">
-        <li class="submenu"> <a href="#"><i class="icon icon-th"></i> <span>应用管理</span> <span class="label">5</span></a>
+        <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-th"></i> <span>应用管理</span> <span class="label">5</span></a>
           <ul>
             <li><a href="${pageContext.request.contextPath}/backend/appcategoryoverview.html">应用类别管理</a></li>
             <li><a href="${pageContext.request.contextPath}/backend/marketappoverview.html">应用信息管理</a></li>
@@ -45,7 +45,7 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_STATISTIC">
-    <li class="submenu"> <a href="#"><i class="icon icon-shopping-cart"></i> <span>统计管理</span> <span class="label">2</span></a>
+    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-shopping-cart"></i> <span>统计管理</span> <span class="label">2</span></a>
       <ul>
         <li><a href="${pageContext.request.contextPath}/backend/marketappranklist.html">应用下载排行榜</a></li>
         <li><a href="${pageContext.request.contextPath}/backend/appstatistic.html">应用下载统计</a></li>
@@ -54,7 +54,7 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN">
-    <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>系统设置</span> <span class="label">4</span></a>
+    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-user"></i> <span>系统设置</span> <span class="label">4</span></a>
       <ul>
         <li><a href="${pageContext.request.contextPath}/backend/useroverview.html">系统用户管理</a></li>
         <li><a href="${pageContext.request.contextPath}/backend/clientoverview.html">客户端用户管理</a></li>

@@ -35,7 +35,7 @@
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a style="font-size:13px" href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="#" class="current">${pageName}应用管理</a> </div>
+        <div id="breadcrumb"> <a style="font-size:13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="javascript:void(0);" class="current">${pageName}应用管理</a> </div>
     </div>
 
     <div class="container-fluid">
@@ -57,11 +57,11 @@
                             <c:forEach items="${appMusts}" var="child" varStatus="counter">
                                 <li class="span2">
                                     <h5 align="center">${child.appName}  ${child.appVersion}</h5>
-                                    <a class="thumbnail lightbox_trigger" href="#">
+                                    <a class="thumbnail lightbox_trigger" href="javascript:void(0);">
                                         <img style="width: 80px; height: 80px;" src="${fileRequestHost}${child.appKey}/${child.iconActualFileName}" alt="" >
                                     </a>
                                     <div class="actions">
-                                        <a title="" href="#" onclick="appMustDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
+                                        <a title="" href="javascript:void(0);" onclick="appMustDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
                                     </div>
                                 </li>
                             </c:forEach>

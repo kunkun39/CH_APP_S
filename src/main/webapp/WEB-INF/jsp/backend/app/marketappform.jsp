@@ -18,6 +18,8 @@
     <script type='text/javascript' src='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.min.js'></script>
     <link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.css'/>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-raty/jquery.raty.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/jquery-ui/jquery-ui-1.8.22.custom.css" type="text/css"/>
 
     <script type="text/javascript">
         jQuery(function() {
@@ -88,8 +90,8 @@
 <div id="content">
     <div id="content-header">
         <div id="breadcrumb">
-        <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
-        <a href="#" class="current">添加/编辑应用信息</a>
+        <a href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
+        <a href="javascript:void(0);" class="current">添加/编辑应用信息</a>
         </div>
     </div>
 
@@ -112,14 +114,14 @@
 
                             <c:if test="${alertInfoShow}">
                                 <div class="alert alert-success alert-block">
-                                    <a class="close" data-dismiss="alert" href="#">×</a>
+                                    <a class="close" data-dismiss="alert" href="javascript:void(0);">×</a>
                                     <h4 class="alert-heading">提示信息</h4>
                                     已经成功保存该应用信息!
                                 </div>
                             </c:if>
 
                             <div id="app_error_information" class="alert alert-success alert-block" style="display: none;">
-                                <a class="close" data-dismiss="alert" href="#">×</a>
+                                <a class="close" data-dismiss="alert" href="javascript:void(0);">×</a>
                                 <h4 class="alert-heading">提示信息</h4>
                             </div>
 
@@ -167,14 +169,24 @@
                             </div>
                             <div class="control-group">
                                 <label class="control-label">应用类别 [必填]</label>
+                                <input type="hidden" id="add_categoies" name="addCategoies" value=""/>
+                                <input type="hidden" id="delete_categoies" name="deleteCategoies" value=""/>
                                 <div class="controls">
-                                    <select name="selectCategoryId" style="height: 30px;">
-                                      <c:forEach items="${categories}" var="category">
-                                        <c:forEach items="${category.children}" var="child">
-                                            <option value="${child.id}" <c:if test="${child.id==app.categoryId}">selected="true"</c:if>>${category.categoryName} -> ${child.categoryName}</option>
+                                    <select id="selectCategoryId" name="selectCategoryId" style="height: 30px;">
+                                        <c:forEach items="${categories}" var="category">
+                                            <c:forEach items="${category.children}" var="child">
+                                                <option value="${child.id}"
+                                                        <c:if test="${child.id==app.categoryId}">selected="true"</c:if>>${category.categoryName}
+                                                    -> ${child.categoryName}</option>
+                                            </c:forEach>
                                         </c:forEach>
-                                      </c:forEach>
-                                  </select>
+                                    </select>
+                                    <%--<a href="javascript:void(0);" onclick="appendAppCategory()" class="btn btn-warning btn-mini">添加类别</a>--%>
+                                    <%--<br/>--%>
+                                    <%--<br/>--%>
+                                    <%--<div id="exist_category">--%>
+                                        <%--<a href="#" onclick="deleteAppCategory()" class="btn btn-danger btn-mini">删除类别</a> 生活 -> 将抗<br/>--%>
+                                    <%--</div>--%>
                                 </div>
                             </div>
 
@@ -192,7 +204,7 @@
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label">应用海报(200x300) [必填]</label>
+                                <label class="control-label">应用海报(16:9) [必填]</label>
                                 <div class="controls">
                                     <input type="file" id="appPosterUploadFile" name="appPosterUploadFile"/>&nbsp;
                                     <spring-form:errors path="appPosterId" cssClass="help-inline"/>
@@ -269,7 +281,56 @@
     </div>
 </div>
 
+<div id="marketapp-dialog-confirm" title="信息提示?" style="visibility: hidden;">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+        该类别已经存在于在应用下？
+    </p>
+</div>
+
 <script type="text/javascript">
+
+    function appendAppCategory() {
+        var categoryId = jQuery("#selectCategoryId").val();
+        var categoryLable = jQuery("#selectCategoryId").find("option:selected").text();
+        var alreadyAdd = jQuery("#add_categoies").val();
+
+        if(alreadyAdd.indexOf(categoryId + ",") >= 0) {
+            jQuery("#marketapp-dialog-confirm").css("visibility", "visible");
+            jQuery("#marketapp-dialog-confirm").dialog({
+                resizable: false,
+                height:160,
+                width:300,
+                modal: true,
+                buttons: {
+                    "确  认": function() {
+                        jQuery("#marketapp-dialog-confirm").css("visibility", "hidden");
+                        jQuery(this).dialog("close");
+                    }
+                }
+            });
+
+        } else {
+            jQuery("#add_categoies").val(alreadyAdd + categoryId + ",");
+
+            var newHtml = "<div id=\"category_exist_" + categoryId + "\">" + categoryLable + " <a href=\"javascript:void(0);\" onclick=\"deleteAppCategory('" + categoryId + "')\" class=\"btn btn-danger btn-mini\">删除类别</a><br/><div>";
+            var oldHtml = jQuery("#exist_category").html();
+            jQuery("#exist_category").html(oldHtml + newHtml);
+        }
+    }
+
+    function deleteAppCategory(categoryId) {
+        var alreadyAdd = jQuery("#add_categoies").val();
+        var alreadyDelete = jQuery("#delete_categoies").val();
+
+        if(alreadyAdd.indexOf(categoryId + ",") >= 0) {
+            jQuery("#add_categoies").val(alreadyAdd.replace(categoryId + ",", ""))
+        } else {
+            jQuery("#delete_categoies").val(alreadyDelete + categoryId + ",");
+        }
+
+        jQuery("#category_exist_" + categoryId).remove();
+    }
 
     function saveMarketApp(form) {
         jQuery('#content').mask("正在上传数据文件，请耐心等待!");

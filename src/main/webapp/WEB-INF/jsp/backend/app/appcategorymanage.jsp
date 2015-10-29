@@ -30,7 +30,7 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="#" class="current">应用类别管理</a> </div>
+    <div id="breadcrumb"> <a href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a href="javascript:void(0);" class="current">应用类别管理</a> </div>
   </div>
 
   <div class="container-fluid">
@@ -51,7 +51,7 @@
 
       <div class="widget-box">
         <div class="widget-title">
-            <a href="#" onclick="openCategoryDialog('-1', 'add');">
+            <a href="javascript:void(0);" onclick="openCategoryDialog('-1', 'add');">
             <span class="icon">
                 <i class="icon-plus"></i>
             </span>
@@ -69,9 +69,9 @@
                         <img style="width: 60px; height: 60px;" src="${pageContext.request.contextPath}/images/backgrounds/category2.jpg" alt="" >
                     </a>
                     <div class="actions">
-                        <a title="" href="#" onclick="openCategoryDialog('${category.id}', 'edit');"><i class="icon-pencil icon-white"></i></a>
+                        <a title="" href="javascript:void(0);" onclick="openCategoryDialog('${category.id}', 'edit');"><i class="icon-pencil icon-white"></i></a>
                         <c:if test="${category.children == null || empty category.children}">
-                            <a title="" href="#" onclick="categoryDeleteConfirm('${category.id}');"><i class="icon-remove icon-white"></i></a>
+                            <a title="" href="javascript:void(0);" onclick="categoryDeleteConfirm('${category.id}');"><i class="icon-remove icon-white"></i></a>
                         </c:if>
                     </div>
                     <div style="text-align: center;">
@@ -85,8 +85,8 @@
                             <img style="width: 60px; height: 60px;" src="${fileRequestHost}category/${child.categoryIconName}" alt="" >
                         </a>
                         <div class="actions">
-                            <a title="" href="#" onclick="openCategoryDialog('${child.id}', 'edit');"><i class="icon-pencil icon-white"></i></a>
-                            <a title="" href="#" onclick="categoryDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
+                            <a title="" href="javascript:void(0);" onclick="openCategoryDialog('${child.id}', 'edit');"><i class="icon-pencil icon-white"></i></a>
+                            <a title="" href="javascript:void(0);" onclick="categoryDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
                         </div>
                         <div style="text-align: center;">
                             ${child.categoryName}

@@ -31,7 +31,7 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a style="font-size: 13px" href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size: 13px" href="#" class="current">应用下载统计</a> </div>
+    <div id="breadcrumb"> <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size: 13px" href="javascript:void(0);" class="current">应用下载统计</a> </div>
   </div>
 
 <div class="container-fluid">
@@ -39,7 +39,7 @@
     <div class="span12">
 
       <div class="widget-box">
-          <div class="widget-title"><a href="#"><span class="icon"> <i class="icon-signal"></i> </span></a>
+          <div class="widget-title"><a href="javascript:void(0);"><span class="icon"> <i class="icon-signal"></i> </span></a>
             <h5>应用统计查询</h5>
           </div>
 
