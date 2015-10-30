@@ -22,25 +22,25 @@
                  <h3>应用商店后台管理系统 V${projectVersion}</h3>
                  <h6>提示：建议使用IE、FireFox或Chrome浏览器</h6>
              </div>
-            <div class="control-group">
+             <div class="control-group">
                 <div class="controls">
                     <div class="main_input_box">
-                        <span class="add-on"><i class="icon-user"></i></span><input name="j_username" type="text" placeholder="用户名" />
+                        <span class="add-on"><i class="icon-user"></i></span><input name="j_username" type="text" placeholder="用户名"/>
                     </div>
                 </div>
-            </div>
-            <div class="control-group">
+             </div>
+             <div class="control-group">
                 <div class="controls">
                     <div class="main_input_box">
                         <span class="add-on"><i class="icon-lock"></i></span><input name="j_password" type="password" placeholder="密  码" />
                     </div>
                 </div>
-            </div>
+             </div>
             <div class="form-actions">
                 <span class="pull-right"><input type="submit" class="btn btn-success" value="登 陆" /></span>
             </div>
             <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}">
-                <label style="color: red; padding-left: 100px;" >    对不起, 用户名或者密码不正确!</label>
+                <label style="color: red; padding-left: 100px;">    对不起, 用户名或者密码不正确!</label>
             </c:if>
         </form>
     </div>
