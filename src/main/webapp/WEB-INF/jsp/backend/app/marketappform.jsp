@@ -191,7 +191,7 @@
                             </div>
 
                             <div class="control-group">
-                                <label class="control-label">应用图标(96x96) [必填]</label>
+                                <label class="control-label">应用图标(1:1) [必填]</label>
                                 <div class="controls">
                                     <input type="file" id="appIconUploadFile" name="appIconUploadFile"/>&nbsp;
                                     <spring-form:errors path="appIconId" cssClass="help-inline"/>

@@ -25,6 +25,9 @@ import java.util.List;
  */
 public class MarketAppFormController extends SimpleFormController {
 
+    private final static int MAX_ICON_IMAGE_SIZE = 1024 * 50;
+    private final static int MAX_POSTER_IMAGE_SIZE = 1024 * 512;
+
     private AppService appService;
 
     private String fileRequestHost;
@@ -141,6 +144,10 @@ public class MarketAppFormController extends SimpleFormController {
         if (appIconUploadFile != null && appIconUploadFile.getSize() > 0) {
             if (!CHFileUtils.isImageFile(appIconUploadFile.getOriginalFilename()) && !errors.hasFieldErrors("appIconId")) {
                 errors.rejectValue("appIconId", "app.not.image");
+            } else {
+                if (appIconUploadFile.getSize() > MAX_ICON_IMAGE_SIZE) {
+                    errors.rejectValue("appIconId", "app.image.bigger");
+                }
             }
         }
 
@@ -153,6 +160,10 @@ public class MarketAppFormController extends SimpleFormController {
         if (appPosterUploadFile != null && appPosterUploadFile.getSize() > 0) {
             if (!CHFileUtils.isImageFile(appPosterUploadFile.getOriginalFilename()) && !errors.hasFieldErrors("appPosterId")) {
                 errors.rejectValue("appPosterId", "app.not.image");
+            } else {
+                if (appIconUploadFile.getSize() > MAX_POSTER_IMAGE_SIZE) {
+                    errors.rejectValue("appPosterId", "app.image.bigger");
+                }
             }
         }
     }

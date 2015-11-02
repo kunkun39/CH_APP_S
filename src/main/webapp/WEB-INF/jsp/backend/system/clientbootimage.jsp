@@ -42,6 +42,7 @@
                         </span>
                         <h5>开机广告管理</h5>
                     </div>
+
                     <div class="widget-content nopadding">
                         <form action="${pageContext.request.contextPath}/backend/clientbootimageshow.html"
                               class="form-horizontal" method="post" name="basic_validate" id="basic_validate"
@@ -49,25 +50,37 @@
                             <%--转换到后台method模式--%>
                             <input type="hidden" name="method" value="save"/>
                             <div class="control-group">
-                                <label class="control-label">更换开机广告 16:9[必添]</label>
+                                <label class="control-label">开机广告 [必添]<br/> 比例(16:9)、大小(<512K)</label>
                                 <div class="controls">
+                                    <%--<input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;--%>
+                                    <%--<c:if test="${error}">--%>
+                                        <%--<span id="clientImg_bigger" class="help-block" for="required" style="display:block;">选择的图片大小超过限制</span>--%>
+                                    <%--</c:if>--%>
+                                    <%--<span id="clientImg_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>--%>
+                                    <%--<span id="clientImg_format_help" class="help-block" style="display: none;">选择文件不是图片格式</span>--%>
+
+                                    <%--&nbsp;--%>
+                                    <%--<img width="540px" height="360px" alt="" src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>--%>
+
                                     <input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;
+                                    <c:if test="${error}">
+                                        <span id="clientImg_bigger" class="help-block" for="required" style="display:block;">选择的图片大小超过限制</span>
+                                    </c:if>
                                     <span id="clientImg_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>
                                     <span id="clientImg_format_help" class="help-block" style="display: none;">选择文件不是图片格式</span>
-                                </div>
-                                <div style="float:left" class="controls">
-                                    &nbsp;
+
+                                    <br/>
+                                    <br/>
                                     <img width="540px" height="360px" alt="" src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>
-                                    <div class="form-actions">
-                                        &nbsp;
-                                        <input type="button" value="返 回" class="btn btn-success"
-                                               onclick="window.location.href='${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load'">
-                                        &nbsp;
-                                        &nbsp;
-                                        <input type="button" value="保 存" class="btn btn-success"
-                                               onclick="saveBootImage(this.form);">
-                                    </div>
                                 </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <input type="button" value="返 回" class="btn btn-success"
+                                       onclick="window.location.href='${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load'">
+                                &nbsp;
+                                <input type="button" value="保 存" class="btn btn-success"
+                                       onclick="saveBootImage(this.form);">
                             </div>
                         </form>
                     </div>
@@ -80,6 +93,7 @@
 <script type="text/javascript">
 
     function saveBootImage(form) {
+        jQuery("#clientImg_bigger").css("display", "block");
         var canSubmit = true;
         //文件是否为空的检查
         var clientImageUploadFile = jQuery("#clientImageUploadFile").val();

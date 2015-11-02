@@ -25,10 +25,9 @@ import java.util.Map;
  */
 public class ClientBootImageController extends AbstractController {
 
-    private SystemService systemService;
+    private final static int MAX_BOOT_IMAGE_SIZE = 1024 * 512;
 
-    //待上传文件文件名
-    private String uploadFileName;
+    private SystemService systemService;
 
     private String clientImageRequestHost;
 
@@ -38,9 +37,11 @@ public class ClientBootImageController extends AbstractController {
 
         /*把在页面上要显示的数据集合到model中*/
         if ("load".equals(method)) {
-            //外部访问路径
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("clientImageRequestHost", clientImageRequestHost);
+
+            boolean error = ServletRequestUtils.getBooleanParameter(request, "error", false);
+            model.put("error", error);
 
             //从数据库中获取图片
             ClientBootImage clientbootimage = systemService.obtainClientBootImage();
@@ -53,8 +54,13 @@ public class ClientBootImageController extends AbstractController {
             DefaultMultipartHttpServletRequest multipartRequest = (DefaultMultipartHttpServletRequest) request;
             MultipartFile clientImageUploadFile = multipartRequest.getFile("clientImageUploadFile");
 
+            //check the file size
+            if (clientImageUploadFile.getSize() > MAX_BOOT_IMAGE_SIZE) {
+                return new ModelAndView(new RedirectView("clientbootimageshow.html?method=load&error=true"));
+            }
+
             //获得图片原文件名
-            uploadFileName = clientImageUploadFile != null ? clientImageUploadFile.getOriginalFilename() : "";
+            String uploadFileName = clientImageUploadFile != null ? clientImageUploadFile.getOriginalFilename() : "";
 
             /*保存:文件名保存到数据库中，文件保存到文件系统中*/
             systemService.saveClientBootImage(uploadFileName, clientImageUploadFile);
