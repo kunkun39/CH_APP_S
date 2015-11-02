@@ -1,6 +1,7 @@
 package com.changhong.system.web.controller;
 
 import com.changhong.system.service.AppService;
+import com.changhong.system.web.facade.dto.AppCategoryDTO;
 import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -25,6 +26,8 @@ public class LuncherRecommendManagementController extends AbstractController {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
+        List<AppCategoryDTO> categories = appService.obtainAllFirstLevelCategory(true);
+        model.put("categories", categories);
 
         List<LuncherRecommendDTO> recommends = appService.obtainAllLuncherRecommend();
         model.put("recommends", recommends);
