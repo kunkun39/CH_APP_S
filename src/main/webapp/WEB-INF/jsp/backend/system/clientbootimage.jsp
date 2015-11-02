@@ -54,17 +54,19 @@
                                     <input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;
                                     <span id="clientImg_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>
                                     <span id="clientImg_format_help" class="help-block" style="display: none;">选择文件不是图片格式</span>
-                                    <br/>
-                                    <br/>
-                                    <div class="controls" >
-                                        <img width="450px" height="650px" alt=""  src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>
-                                    </div>
+                                </div>
+                                <div style="float:left";class="controls">
+                                    &nbsp;
+                                    <img width="450px" height="550px" alt=""
+                                         src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>
                                     <div class="form-actions">
                                         &nbsp;
-                                        <input type="button" value="返 回" class="btn btn-success" onclick="window.location.href='${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load'">
+                                        <input type="button" value="返 回" class="btn btn-success"
+                                               onclick="window.location.href='${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load'">
                                         &nbsp;
                                         &nbsp;
-                                        <input type="button" value="保 存" class="btn btn-success" onclick="saveBootImage(this.form);">
+                                        <input type="button" value="保 存" class="btn btn-success"
+                                               onclick="saveBootImage(this.form);">
                                     </div>
                                 </div>
                             </div>
