@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.changhong.client.dao.ClientDao;
 import com.changhong.common.utils.CHListUtils;
+import com.changhong.common.utils.DesUtils;
 import com.changhong.system.domain.AppDownloadHistory;
 import com.changhong.system.web.facade.dto.AppMustDTO;
 import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,7 @@ import java.util.List;
  * Time: 上午10:15
  */
 @Service("clientService")
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl implements ClientService, InitializingBean {
 
     public final static int CLIENT_POST_SIZE = 6;
 
@@ -37,12 +39,13 @@ public class ClientServiceImpl implements ClientService {
     @Value("${application.file.request.path}")
     private String fileRequestHost;
 
-    private int clientVersion = 1;
-
-    private final static int versionCheckDuring = 1000 * 60 * 10;
-
     @Value("${application.appmarket.update.path}")
     private String appMarketApkUpdateURL = "";
+
+    public void afterPropertiesSet() throws Exception {
+        fileRequestHost = DesUtils.getEncString(fileRequestHost);
+        appMarketApkUpdateURL = DesUtils.getEncString(appMarketApkUpdateURL);
+    }
 
     public String obtainBootImage(){
         //把开机图片组合成JSON数据流
