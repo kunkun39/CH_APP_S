@@ -13,6 +13,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -378,7 +379,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
         String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
         HashSet<String> hashSet = new HashSet<String>();
-        if(appIdInfo != null) {
+        if(StringUtils.hasText(appIdInfo)) {
             String[] backupAppIds = appIdInfo.split(",");
             for(String backupAppId : backupAppIds) {
                 hashSet.add(backupAppId);
@@ -411,7 +412,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         JSONArray all = new JSONArray();
 
         String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
-        if(appIdInfo != null) {
+        if(StringUtils.hasText(appIdInfo)) {
             HashSet<String> hashSet = new HashSet<String>();
 
             String[] backupAppIds = appIdInfo.split(",");
@@ -451,7 +452,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
         String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
 
-        if(appIdInfo != null) {
+        if(StringUtils.hasText(appIdInfo)) {
             String[] appIds = appIdInfo.split(",");
             for(String appId : appIds) {
                 MarketAppDTO dto = cacheService.obtainMarketAppInCache(Integer.parseInt(appId));
@@ -485,7 +486,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
         JSONArray all = new JSONArray();
         String appIdInfo = clientDao.loadBackupAppInfo(boxMac);
-        if(appIdInfo != null) {
+        if(StringUtils.hasText(appIdInfo)) {
             HashSet<String> hashSet = new HashSet<String>();
 
             String[] backupAppIds = appIdInfo.split(",");
