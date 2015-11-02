@@ -82,9 +82,9 @@
                 <prop key="/client/appmust.html">clientAppMustController</prop>
                 <prop key="/client/bootadvertise.html">clientBootAdvertiseController</prop>
                 <prop key="/client/checkbackupapp.html">clientCheckAppIsBackupController</prop>
-                <prop key="/client/deleteBackupApp.html">clientDeleteAppBackupController</prop>
-                <prop key="/client/getBackupApp.html">clientGetAllAppBackupController</prop>
-                <prop key="/client/requestBackupApp.html">clientApplyAppBackupController</prop>
+                <prop key="/client/deletebackupapp.html">clientDeleteAppBackupController</prop>
+                <prop key="/client/getbackupapp.html">clientGetAllAppBackupController</prop>
+                <prop key="/client/requestbackupapp.html">clientApplyAppBackupController</prop>
 
             </props>
 

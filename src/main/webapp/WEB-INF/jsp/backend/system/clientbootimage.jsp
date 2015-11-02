@@ -49,16 +49,15 @@
                             <%--转换到后台method模式--%>
                             <input type="hidden" name="method" value="save"/>
                             <div class="control-group">
-                                <label class="control-label">更换开机广告[必选]</label>
+                                <label class="control-label">更换开机广告 16:9[必添]</label>
                                 <div class="controls">
                                     <input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;
                                     <span id="clientImg_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>
                                     <span id="clientImg_format_help" class="help-block" style="display: none;">选择文件不是图片格式</span>
                                 </div>
-                                <div style="float:left";class="controls">
+                                <div style="float:left" class="controls">
                                     &nbsp;
-                                    <img width="450px" height="550px" alt=""
-                                         src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>
+                                    <img width="540px" height="360px" alt="" src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>
                                     <div class="form-actions">
                                         &nbsp;
                                         <input type="button" value="返 回" class="btn btn-success"
