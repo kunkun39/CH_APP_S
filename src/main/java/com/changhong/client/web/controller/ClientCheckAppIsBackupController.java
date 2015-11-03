@@ -1,6 +1,7 @@
 package com.changhong.client.web.controller;
 
 import com.changhong.client.service.ClientService;
+import com.changhong.common.utils.DesUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,7 @@ public class ClientCheckAppIsBackupController extends AbstractController {
 
         String responseJSON = "";
         if(StringUtils.hasText(boxMac) && (appPackages != null && appPackages.length > 0)) {
+            boxMac = DesUtils.getDesString(boxMac);
             responseJSON = clientService.checkBackupApp(appPackages, boxMac);
         }
 
