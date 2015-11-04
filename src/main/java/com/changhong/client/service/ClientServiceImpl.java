@@ -398,11 +398,8 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
                 single.put(ClientInfoProperties.APP_IS_BACKUP, hashSet.contains(String.valueOf(dto.getId())) ? 1 : 0);
                 all.add(single);
             }
-            values.put("checkbackupapps", all);
         }
-        else {
-            values.put("checkbackupapps", "package error");
-        }
+        values.put("checkbackupapps", all);
         return values.toJSONString();
     }
 
@@ -436,13 +433,9 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
             if(builder.length() > 1) {
                 builder.deleteCharAt(builder.length()-1);
             }
-            if(clientDao.updateBackupAppInfo(boxMac, builder.toString()) >  0) {
-                values.put("deletebackupapps", all);
-            }
+            clientDao.updateBackupAppInfo(boxMac, builder.toString());
         }
-        else {
-            values.put("deletebackupapps", "no values");
-        }
+        values.put("deletebackupapps", all);
         return values.toJSONString();
     }
 
@@ -471,12 +464,8 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
                         all.add(single);
                     }
             }
-            values.put("getbackupapps", all);
         }
-        else {
-            values.put("getbackupapps", "no values");
-        }
-
+        values.put("getbackupapps", all);
         return values.toJSONString();
     }
 
@@ -523,17 +512,9 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         }
 
         if(0 == clientDao.updateBackupAppInfo(boxMac, builder.toString())) {
-            if(clientDao.insertBackupAppInfo(boxMac, builder.toString())) {
-                values.put("requestbackupapps", all);
-            }
-            else {
-                values.put("requestbackupapps", "insert error");
-            }
+            clientDao.insertBackupAppInfo(boxMac, builder.toString());
         }
-        else {
-            values.put("requestbackupapps", all);
-        }
-
+        values.put("requestbackupapps", all);
         return values.toJSONString();
     }
 }
