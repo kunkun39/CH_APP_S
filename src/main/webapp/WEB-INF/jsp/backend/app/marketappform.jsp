@@ -157,7 +157,7 @@
                                 <label class="control-label">应用包名 [必填]</label>
                                 <div class="controls">
                                     <c:set var="packageChange" value="${app.id > 0 && app.status == 'PASSED'}"/>
-                                    <spring-form:input path="appPackage" maxlength="60" cssStyle="height:30px;" readonly="${packageChange}"/>&nbsp;
+                                    <spring-form:input path="appPackage" maxlength="80" cssStyle="height:30px;" readonly="${packageChange}"/>&nbsp;
                                     <spring-form:errors path="appPackage" cssClass="help-inline"/>
                                 </div>
                             </div>
