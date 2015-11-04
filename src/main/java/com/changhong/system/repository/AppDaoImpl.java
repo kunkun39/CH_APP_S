@@ -198,7 +198,7 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
             return null;
         }
         for (BoxRecommend recommend : recommends) {
-            if (recommend.getPageNumber() != pageNumber || recommend.getRecommendPosition() != recommendPosition) {
+            if (recommend.getPageNumber() != pageNumber && recommend.getRecommendPosition() != recommendPosition) {
                 return recommend;
             }
         }

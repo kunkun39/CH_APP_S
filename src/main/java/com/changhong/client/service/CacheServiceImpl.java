@@ -61,14 +61,14 @@ public class CacheServiceImpl implements CacheService {
         /**
          * 缓存APP
          */
-        int totalApps = appDao.loadMarketAppSize("", -1, "PASSED");
+        int totalApps = appDao.loadMarketAppSize("", -1, "ALL");
         CHPagingUtils paging = new CHPagingUtils(totalApps);
         int totalPages = paging.getNumPages();
 
         for (int currentPage = 1; currentPage <= totalPages; currentPage++) {
             paging.setCurrentPage(currentPage + "");
 
-            List<MarketApp> apps = appDao.loadMarketApps("", -1, "PASSED", paging.getStartPosition(), paging.getMaxItems());
+            List<MarketApp> apps = appDao.loadMarketApps("", -1, "ALL", paging.getStartPosition(), paging.getMaxItems());
             for (MarketApp app : apps) {
                 MarketAppDTO dto = MarketAppWebAssember.toMarketAppDTO(app);
                 appCache.put("APP_" + dto.getId(), dto);
@@ -201,7 +201,7 @@ public class CacheServiceImpl implements CacheService {
         List<MarketAppDTO> apps = new ArrayList<MarketAppDTO>();
         for (MarketAppDTO dto : appCache.values()) {
             int loopCategoryId = dto.getCategoryId();
-            if (idLists.contains(loopCategoryId + "")) {
+            if (idLists.contains(loopCategoryId + "") && "PASSED".equals(dto.getStatus())) {
                 apps.add(dto);
             }
         }
@@ -215,7 +215,7 @@ public class CacheServiceImpl implements CacheService {
         for (MarketAppDTO dto : appCache.values()) {
             String fullName = dto.getPinYingFull();
             String shortName = dto.getPinYingShort();
-            if (fullName.startsWith(keyWords) || shortName.startsWith(keyWords)) {
+            if ((fullName.startsWith(keyWords) || shortName.startsWith(keyWords)) && "PASSED".equals(dto.getStatus())) {
                 apps.add(dto);
                 searchNumber++;
                 if (searchNumber == 10) {

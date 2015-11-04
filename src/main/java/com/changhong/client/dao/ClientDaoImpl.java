@@ -1,5 +1,7 @@
 package com.changhong.client.dao;
 
+import com.changhong.common.utils.CHDateUtils;
+import com.changhong.common.utils.JodaUtils;
 import com.changhong.system.domain.AppDownloadHistory;
 import org.springframework.stereotype.Repository;
 
@@ -36,7 +38,12 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         } else if (type == 2) {
             pages = getSqlMapClientTemplate().queryForList("Client.selectHotestApps");
         } else {
-            pages = getSqlMapClientTemplate().queryForList("Client.selectFastestApps");
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            String firstDayThisMonth = JodaUtils.getFirstDateOfMonth().toString() + " 00:00:00";
+            String firstDayNextMonth = JodaUtils.getFirstDateOfNextMonth().toString();
+            parameters.put("firstDayThisMonth", firstDayThisMonth);
+            parameters.put("firstDayNextMonth", firstDayNextMonth);
+            pages = getSqlMapClientTemplate().queryForList("Client.selectFastestApps", parameters);
         }
         return pages;
     }

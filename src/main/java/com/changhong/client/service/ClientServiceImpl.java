@@ -164,6 +164,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
             app.put(ClientInfoProperties.APP_ID, dto.getId());
             app.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
             app.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
+            app.put(ClientInfoProperties.APP_STATUS, dto.getStatus());
             app.put(ClientInfoProperties.APP_VERSION_INT, dto.getAppVersionInt());
             app.put(ClientInfoProperties.APP_VERSION, dto.getAppVersion());
             app.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());

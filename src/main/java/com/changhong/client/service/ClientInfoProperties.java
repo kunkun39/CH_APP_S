@@ -28,6 +28,8 @@ public class ClientInfoProperties {
 
     public final static String APP_KEY = "key";
 
+    public final static String APP_STATUS = "sta";
+
     public final static String APP_VERSION_INT = "ver_int";
 
     public final static String APP_VERSION = "ver";

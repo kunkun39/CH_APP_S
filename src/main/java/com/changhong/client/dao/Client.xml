@@ -31,7 +31,7 @@
    </select>
 
     <select id="selectFastestApps"  resultClass="java.util.HashMap">
-       select count(app_id) as amount, app_id from app_download_history group by app_id order by amount desc limit 10
+       select count(app_id) as amount, app_id from app_download_history where timestamp &lt; #currentYear# and timestamp &gt; #nextYear# group by app_id order by amount desc limit 10
    </select>
 
     <update id="updateAppDownloadTimes"  parameterClass="java.util.HashMap">
