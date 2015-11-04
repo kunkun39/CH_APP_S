@@ -214,7 +214,6 @@
                                         <ul class="thumbnails">
                                         <li class="span3">
                                             <a class="thumbnail lightbox_trigger" href="${fileRequestHost}${app.appKey}/${app.posterActualFileName}">
-                                                <%--<img src="images/gallery/imgbox3.jpg" alt="" >--%>
                                                 <img width="400" height="200" alt="" src="${fileRequestHost}${app.appKey}/${app.posterActualFileName}"/>
                                             </a>
                                         </li>

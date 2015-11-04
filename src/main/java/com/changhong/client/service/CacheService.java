@@ -26,7 +26,7 @@ public interface CacheService {
      * 1 - 应用信息改变需要修改缓存
      * 2 - 应用状态不是通过，需要清空缓存
      */
-    void resetMarketAppInCache(MarketAppDTO dto, boolean remove);
+    void resetMarketAppInCache(MarketAppDTO dto);
 
     MarketAppDTO obtainMarketAppInCache(int appId);
 
@@ -73,4 +73,8 @@ public interface CacheService {
     int getCurrentClientVersion();
 
     void setCurrentClientVersion(int clientVersion);
+
+    boolean isClientBeginUpdate();
+
+    void setClientBeginUpdate(boolean clientBeginUpdate);
 }

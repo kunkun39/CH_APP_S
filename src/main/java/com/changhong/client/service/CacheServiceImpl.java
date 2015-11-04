@@ -51,7 +51,9 @@ public class CacheServiceImpl implements CacheService {
 
     private String bootImageFileName = "initial.png";
 
-    private int currentApkVersion = 1;
+    private int currentClientApkVersion = 1;
+
+    private boolean clientBeginUpdate = false;
 
     public void obtainInitCachedObjects() {
         long begin = System.currentTimeMillis();
@@ -115,7 +117,8 @@ public class CacheServiceImpl implements CacheService {
          * 系统当前版本
          */
         ClientVersion clientVersion = systemDao.findClientVersion();
-        currentApkVersion = clientVersion.getClientVersion();
+        currentClientApkVersion = clientVersion.getClientVersion();
+        clientBeginUpdate = clientVersion.isBeginUpdate();
         log.info("finish init client version");
 
 
@@ -132,12 +135,8 @@ public class CacheServiceImpl implements CacheService {
         }
     }
 
-    public void resetMarketAppInCache(MarketAppDTO dto, boolean remove) {
-        if (remove) {
-            appCache.remove("APP_" + dto.getId());
-        } else {
-            appCache.put("APP_" + dto.getId(), dto);
-        }
+    public void resetMarketAppInCache(MarketAppDTO dto) {
+        appCache.put("APP_" + dto.getId(), dto);
     }
 
     public MarketAppDTO obtainMarketAppInCache(int appId) {
@@ -244,7 +243,7 @@ public class CacheServiceImpl implements CacheService {
     public void updateAppDownloadTimes(int appId) {
         MarketAppDTO dto = obtainMarketAppInCache(appId);
         dto.setDownloadTimes(dto.getDownloadTimes() + 1);
-        resetMarketAppInCache(dto, false);
+        resetMarketAppInCache(dto);
     }
 
     /************************************LUNCHER推荐部分************************************/
@@ -288,10 +287,18 @@ public class CacheServiceImpl implements CacheService {
     /************************************系统版本************************************/
 
     public int getCurrentClientVersion() {
-        return currentApkVersion;
+        return currentClientApkVersion;
     }
 
     public void setCurrentClientVersion(int clientVersion) {
-        this.currentApkVersion = clientVersion;
+        this.currentClientApkVersion = clientVersion;
+    }
+
+    public boolean isClientBeginUpdate() {
+        return clientBeginUpdate;
+    }
+
+    public void setClientBeginUpdate(boolean clientBeginUpdate) {
+        this.clientBeginUpdate = clientBeginUpdate;
     }
 }

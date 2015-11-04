@@ -10,5 +10,6 @@
             <generator class="native"/>
         </id>
         <property name="clientVersion" column="client_version" type="java.lang.Integer"/>
+        <property name="beginUpdate" column="begin_update" type="java.lang.Boolean"/>
     </class>
 </hibernate-mapping>

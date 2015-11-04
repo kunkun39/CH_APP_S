@@ -1,5 +1,6 @@
 package com.changhong.system.repository;
 
+import com.alibaba.fastjson.JSONObject;
 import com.changhong.common.repository.HibernateEntityObjectDao;
 import com.changhong.common.utils.CHStringUtils;
 import com.changhong.system.domain.*;
@@ -189,6 +190,19 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
 
     public List<BoxRecommend> loadAllBoxRecommends() {
         return getHibernateTemplate().find("from BoxRecommend");
+    }
+
+    public BoxRecommend loadCheckIsAppRecommend(int appId, int pageNumber, int recommendPosition) {
+        List<BoxRecommend> recommends = getHibernateTemplate().find("from BoxRecommend b where b.marketApp.id = ? or b.tmpMarketApp.id = ?", new Object[]{appId, appId});
+        if (recommends.isEmpty()) {
+            return null;
+        }
+        for (BoxRecommend recommend : recommends) {
+            if (recommend.getPageNumber() != pageNumber || recommend.getRecommendPosition() != recommendPosition) {
+                return recommend;
+            }
+        }
+        return null;
     }
 
     /************************************LUNCHER推荐部分************************************/

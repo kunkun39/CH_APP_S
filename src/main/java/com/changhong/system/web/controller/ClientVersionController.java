@@ -50,12 +50,18 @@ public class ClientVersionController extends AbstractController {
             model.put("apkFileExist", apkFileExist);
 
             return new ModelAndView("/backend/system/clientversion", model);
-        } else {
+        } else if("add".equals(method)) {
             DefaultMultipartHttpServletRequest multipartRequest = (DefaultMultipartHttpServletRequest) request;
             MultipartFile clientApkUploadFile = multipartRequest.getFile("clientApkUploadFile");
             int version = ServletRequestUtils.getIntParameter(request, "clientVersion", 1);
 
             systemService.saveClientVersion(version, clientApkUploadFile);
+            return new ModelAndView(new RedirectView("clientversionshow.html?method=load"));
+
+        } else {
+            boolean beginUpdate = ServletRequestUtils.getBooleanParameter(request, "beginUpdate", false);
+
+            systemService.changeClientVersionStatus(beginUpdate);
             return new ModelAndView(new RedirectView("clientversionshow.html?method=load"));
         }
     }

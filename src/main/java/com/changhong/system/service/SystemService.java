@@ -15,6 +15,8 @@ public interface SystemService {
 
     void saveClientVersion(int clientVersion, MultipartFile clientApkUploadFile);
 
+    void changeClientVersionStatus(boolean beginUpdate);
+
     ClientBootImage obtainClientBootImage();
 
     void saveClientBootImage(String uploadFileName, MultipartFile clientImageUploadFile);

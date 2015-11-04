@@ -183,7 +183,7 @@ public class AppServiceImpl implements AppService {
 
         //reset the cache
         MarketAppDTO afterSave = MarketAppWebAssember.toMarketAppDTO(app);
-        cacheService.resetMarketAppInCache(afterSave, afterSave.getStatus().equals("PASSED") ? false : true);
+        cacheService.resetMarketAppInCache(afterSave);
 
         return app.getId();
     }
@@ -195,7 +195,7 @@ public class AppServiceImpl implements AppService {
 
         //reset the cache
         MarketAppDTO afterSave = MarketAppWebAssember.toMarketAppDTO(app);
-        cacheService.resetMarketAppInCache(afterSave, afterSave.getStatus().equals("PASSED") ? false : true);
+        cacheService.resetMarketAppInCache(afterSave);
 
         //record change history
         appDao.saveOrUpdate(history);
@@ -327,6 +327,20 @@ public class AppServiceImpl implements AppService {
         BoxRecommendRecord record = (BoxRecommendRecord) appDao.findById(1, BoxRecommendRecord.class);
         record.releaseChangeLock();
         appDao.saveOrUpdate(record);
+    }
+
+    public JSONObject obtainCheckIsAppRecommend(int appId, int pageNumber, int recommendPosition) {
+        BoxRecommend recommend = appDao.loadCheckIsAppRecommend(appId, pageNumber, recommendPosition);
+
+        JSONObject o = new JSONObject();
+        if (recommend != null) {
+            o.put("page_index", recommend.getPageNumber());
+            o.put("position_index", recommend.getRecommendPosition());
+        } else {
+            o.put("page_index", -1);
+            o.put("position_index", -1);
+        }
+        return o;
     }
 
     /************************************LUNCHER推荐部分************************************/

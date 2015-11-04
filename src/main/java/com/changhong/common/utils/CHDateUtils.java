@@ -19,7 +19,7 @@ public class CHDateUtils {
     }
 
     public static String getFullDateFormat(Date date){
-        SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd HH: mm: ss");
+        SimpleDateFormat time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formatString=time.format(date);
         return formatString;
 

@@ -1,6 +1,5 @@
 package com.changhong.system.repository;
 
-import com.alibaba.fastjson.JSONArray;
 import com.changhong.common.repository.EntityObjectDao;
 import com.changhong.system.domain.*;
 
@@ -40,6 +39,8 @@ public interface AppDao extends EntityObjectDao {
     BoxRecommend loadBoxRecommendPosition(int pageNumber, int recommendPosition);
 
     List<BoxRecommend> loadAllBoxRecommends();
+
+    BoxRecommend loadCheckIsAppRecommend(int appId, int pageNumber, int recommendPosition);
 
     /************************************LUNCHER推荐部分************************************/
 

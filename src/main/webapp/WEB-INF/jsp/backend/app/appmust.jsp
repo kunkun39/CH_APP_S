@@ -94,7 +94,7 @@
                                          &nbsp;
                                          应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
                                             &nbsp;
-                                            <i class="icon icon-search" onclick="searhRecommendApps();"></i>
+                                            <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -139,6 +139,13 @@
 
 <script type="text/javascript">
     var fileRequestHost = '${fileRequestHost}';
+
+    document.onkeydown = function(e){
+        if(!e) e = window.event;//火狐中是 window.event
+        if((e.keyCode || e.which) == 13){
+            jQuery("#app_search_button").click();
+        }
+    }
 
     function searhRecommendApps() {
         var contentContainer = jQuery("#search_list_content");

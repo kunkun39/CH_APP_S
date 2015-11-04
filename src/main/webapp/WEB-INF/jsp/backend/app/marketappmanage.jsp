@@ -57,8 +57,6 @@
               <tbody>
                 <tr>
                   <td>
-                      应用名称：<input type="text" name="appName" class="text" value="${paging.appName}" style="height: 25px;"/>
-                      &nbsp;
                       应用类别：<select name="categoryId" style="height: 30px;">
                           <option value="-1" <c:if test="${-1==paging.categoryId}">selected="true"</c:if>>全 部</option>
                           <c:forEach items="${categories}" var="category">
@@ -69,17 +67,19 @@
                           </c:forEach>
                       </select>
                       &nbsp;
-                     <i class="icon icon-search" onclick="jQuery('#app_search_form').submit();"></i>
+                      应用名称：<input type="text" name="appName" class="text" value="${paging.appName}" style="height: 25px;"/>
+                      &nbsp;
+                     <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="jQuery('#app_search_form').submit();"></i>
                   </td>
                 </tr>
                 <tr>
                   <td>
                       应用状态：
-                      <span onclick="searchApp('ALL');" class="badge <c:if test="${'ALL'==paging.appStatus}">badge-warning</c:if>">全  部</span>&nbsp;&nbsp;
-                      <span onclick="searchApp('CREAETED');" class="badge <c:if test="${'CREAETED'==paging.appStatus}">badge-warning</c:if>">待审核</span>&nbsp;&nbsp;
-                      <span onclick="searchApp('PASSED');" class="badge <c:if test="${'PASSED'==paging.appStatus}">badge-warning</c:if>">已上架</span>&nbsp;&nbsp;
-                      <span onclick="searchApp('OFFSHELVES');" class="badge <c:if test="${'OFFSHELVES'==paging.appStatus}">badge-warning</c:if>">已下架</span>&nbsp;&nbsp;
-                      <span onclick="searchApp('REJECTED');" class="badge <c:if test="${'REJECTED'==paging.appStatus}">badge-warning</c:if>">已拒绝</span>
+                      <span onclick="searchApp('ALL');" style="cursor: pointer" class="badge <c:if test="${'ALL'==paging.appStatus}">badge-warning</c:if>">全  部</span>&nbsp;&nbsp;
+                      <span onclick="searchApp('CREAETED');" style="cursor: pointer" class="badge <c:if test="${'CREAETED'==paging.appStatus}">badge-warning</c:if>">待审核</span>&nbsp;&nbsp;
+                      <span onclick="searchApp('PASSED');" style="cursor: pointer" class="badge <c:if test="${'PASSED'==paging.appStatus}">badge-warning</c:if>">已上架</span>&nbsp;&nbsp;
+                      <span onclick="searchApp('OFFSHELVES');" style="cursor: pointer" class="badge <c:if test="${'OFFSHELVES'==paging.appStatus}">badge-warning</c:if>">已下架</span>&nbsp;&nbsp;
+                      <span onclick="searchApp('REJECTED');" style="cursor: pointer" class="badge <c:if test="${'REJECTED'==paging.appStatus}">badge-warning</c:if>">已拒绝</span>
                   </td>
                 </tr>
               </tbody>
@@ -180,6 +180,13 @@
 //        var scrollLeft = $(document).scrollLeft();
 //        $(divName).css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft } ).show();
 //    }
+
+    document.onkeydown = function(e){
+        if(!e) e = window.event;//火狐中是 window.event
+        if((e.keyCode || e.which) == 13){
+            jQuery("#app_search_button").click();
+        }
+    }
 
     function appStatusChangeConfirm(marketAppId, resetStatus) {
         jQuery("#marketapp-dialog-confirm").css("visibility", "visible");

@@ -67,6 +67,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
         //一个小时访问一次
         all.put("client_v", cacheService.getCurrentClientVersion());
+        all.put("client_en", cacheService.isClientBeginUpdate());
         all.put("client_url", appMarketApkUpdateURL);
 
         JSONArray array = new JSONArray();

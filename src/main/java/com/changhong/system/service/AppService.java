@@ -62,6 +62,8 @@ public interface AppService {
 
     void cancelBoxRecommend();
 
+    JSONObject obtainCheckIsAppRecommend(int appId, int pageNumber, int recommendPosition);
+
     /************************************LUNCHER推荐部分************************************/
 
     List<LuncherRecommendDTO> obtainAllLuncherRecommend();

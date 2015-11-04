@@ -70,6 +70,13 @@
                                 </div>
                             </div>
                             <div class="form-actions">
+                                <c:if test="${version.beginUpdate}">
+                                    <input type="button" value="暂停更新" class="btn btn-danger" onclick="changeClientUpdateStatus(false);">
+                                </c:if>
+                                <c:if test="${!version.beginUpdate}">
+                                    <input type="button" value="开始更新" class="btn btn-danger" onclick="changeClientUpdateStatus(true);">
+                                </c:if>
+                                &nbsp;
                                 <input type="button" value="保 存" class="btn btn-success" onclick="saveClientVersion(this.form);">
                             </div>
                         </form>
@@ -115,6 +122,10 @@
             return !isNaN(s);
         }
         return false;
+    }
+
+    function changeClientUpdateStatus(status) {
+        window.location.href = "${pageContext.request.contextPath}/backend/clientversionshow.html?method=change&beginUpdate=" + status;
     }
 
 </script>

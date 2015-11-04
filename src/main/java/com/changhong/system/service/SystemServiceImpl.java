@@ -67,15 +67,23 @@ public class SystemServiceImpl implements SystemService {
             }
 
             //save domain
-            ClientVersion version = new ClientVersion();
-            version.setId(1);
+            ClientVersion version = systemDao.findClientVersion();
             version.setClientVersion(clientVersion);
             systemDao.saveClientVersion(version);
 
             //update cache
             cacheService.setCurrentClientVersion(clientVersion);
         }
+    }
 
+    public void changeClientVersionStatus(boolean beginUpdate) {
+        //save domain
+        ClientVersion version = systemDao.findClientVersion();
+        version.setBeginUpdate(beginUpdate);
+        systemDao.saveClientVersion(version);
+
+        //update cache
+        cacheService.setClientBeginUpdate(beginUpdate);
     }
 
     /*获得图片文件*/

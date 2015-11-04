@@ -35,7 +35,7 @@
 
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a style="font-size:13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="javascript:void(0);" class="current">Luncher应用推荐管理</a> </div>
+        <div id="breadcrumb"> <a style="font-size:13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px" href="javascript:void(0);" class="current">Launcher应用推荐管理</a> </div>
     </div>
 
     <div class="container-fluid">
@@ -48,7 +48,7 @@
                         <span class="icon">
                             <i class="icon-play-circle"></i>
                         </span>
-                        <h5>Luncher应用推荐管理</h5>
+                        <h5>Launcher应用推荐管理</h5>
                     </div>
 
                     <div class="widget-content">
@@ -97,7 +97,7 @@
                                          &nbsp;
                                          应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
                                             &nbsp;
-                                            <i class="icon icon-search" onclick="searhRecommendApps();"></i>
+                                            <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -122,20 +122,27 @@
 <div id="recommend-dialog-confirm" title="确认对话框?" style="visibility: hidden;">
     <p>
         <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-        请确认你是否要推荐该应用到Luncher页面?
+        请确认你是否要推荐该应用到Launcher页面?
     </p>
 </div>
 
 <div id="recommenddelete-dialog-confirm" title="确认对话框?" style="visibility: hidden;">
     <p>
         <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-        请确认你是否要删除Luncher页面的推荐?
+        请确认你是否要删除Launcher页面的推荐?
     </p>
 </div>
 
 
 <script type="text/javascript">
     var fileRequestHost = '${fileRequestHost}';
+
+    document.onkeydown = function(e){
+        if(!e) e = window.event;//火狐中是 window.event
+        if((e.keyCode || e.which) == 13){
+            jQuery("#app_search_button").click();
+        }
+    }
 
     function searhRecommendApps() {
         jQuery('#commit_form_mask').mask("正在加载数据，请耐心等待!");

@@ -50,6 +50,10 @@ public class SystemDWRHandler {
         appService.deleteLuncherRecommendPosition(recommendId);
     }
 
+    public String obtainCheckIsAppRecommend(int appId, int pageNumber, int recommendPosition) {
+        return appService.obtainCheckIsAppRecommend(appId, pageNumber, recommendPosition).toJSONString();
+    }
+
     public int caculateClientNumber(String clientFrom, String clientTo) {
         try {
             String[] tokens1 = StringUtils.delimitedListToStringArray(clientFrom, ":");

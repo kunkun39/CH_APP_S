@@ -13,6 +13,8 @@ public class ClientVersion {
 
     private int clientVersion;
 
+    private boolean beginUpdate;
+
     public int getId() {
         return id;
     }
@@ -27,5 +29,13 @@ public class ClientVersion {
 
     public void setClientVersion(int clientVersion) {
         this.clientVersion = clientVersion;
+    }
+
+    public boolean isBeginUpdate() {
+        return beginUpdate;
+    }
+
+    public void setBeginUpdate(boolean beginUpdate) {
+        this.beginUpdate = beginUpdate;
     }
 }

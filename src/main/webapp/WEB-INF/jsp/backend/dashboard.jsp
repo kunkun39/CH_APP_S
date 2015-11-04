@@ -113,7 +113,7 @@
                                      &nbsp;
                                      应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
                                         &nbsp;
-                                        <i class="icon icon-search" onclick="searhRecommendApps();"></i>
+                                        <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -191,10 +191,26 @@
     </p>
 </div>
 
+<div id="duplicate-dialog-confirm" title="消息对话框?" style="visibility: hidden;">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+        该应用已经退推荐到其他页面，是否继续？
+    </p>
+</div>
+
 <script type="text/javascript">
     var fileRequestHost = '${fileRequestHost}';
     var currentPage = 1;
 
+    // enter key can search app directly
+    document.onkeydown = function(e){
+        if(!e) e = window.event;//火狐中是 window.event
+        if((e.keyCode || e.which) == 13){
+            jQuery("#app_search_button").click();
+        }
+    }
+
+    // reset the page number currently
     function resetPageNumber(pageNumber) {
         currentPage = pageNumber;
         for(var i=1; i<=5; i++) {
@@ -206,6 +222,7 @@
         }
     }
 
+    // search app
     function searhRecommendApps() {
         var contentContainer = jQuery("#search_list_content");
         contentContainer.html("");
@@ -218,7 +235,7 @@
             var newContent = "<li><div class=\"article-post\" style=\"text-align: center;\"><span class=\"user-info\"> 最多显示20条查询的数据</span></div></li>";
             for(var i=0; i<statisticData.length; i++) {
                 var appValues = statisticData[i];
-                newContent = newContent + "<li><div class=\"fr\"><a class=\"btn btn-primary btn-mini\" onclick=\"recommendApp('" + appValues.appId + "')\">推荐</a></div>" +
+                newContent = newContent + "<li><div class=\"fr\"><a class=\"btn btn-primary btn-mini\" onclick=\"recommendAppTo('" + appValues.appId + "')\">推荐</a></div>" +
                         "<div class=\"user-thumb\"><img width=\"50\" height=\"50\" src=\"" + fileRequestHost + appValues.appKey + "/" + appValues.iconActualFileName + "\"></div>" +
                         "<div class=\"article-post\"><span class=\"user-info\"> 名称:" + appValues.appFullName + "&nbsp;&nbsp;&nbsp;&nbsp;版本:" + appValues.appVersion + "&nbsp;&nbsp;&nbsp;&nbsp;类别:" + appValues.appCategory +
                         "</span><p>描述:" + appValues.appDescription + "<br/><br/></p></div></li>";
@@ -227,7 +244,9 @@
         });
     }
 
-    function recommendApp(appId) {
+    // recommend app
+    function recommendAppTo(appId) {
+        //1 - check is position is selected or not
         var itemPostion = $("input[name='rem_radios']:checked").val();
         if(itemPostion == null || itemPostion == undefined || itemPostion == "") {
             jQuery("#notselected-dialog-confirm").css("visibility", "visible");
@@ -246,6 +265,40 @@
             return;
         }
 
+        //2 - recommend app to which page and position, first check is any other position recommend
+        SystemDWRHandler.obtainCheckIsAppRecommend(appId, currentPage, itemPostion, function(result) {
+            var boxRecommend = JSON.parse(result);
+            var pageIndex = boxRecommend.page_index;
+            var positionIndex = boxRecommend.position_index;
+
+            //2.1 - if recommend, comfirm with user
+            if(pageIndex > 0) {
+                jQuery("#duplicate-dialog-confirm").css("visibility", "visible");
+                jQuery("#duplicate-dialog-confirm").dialog({
+                    resizable: false,
+                    height:160,
+                    width:300,
+                    modal: true,
+                    buttons: {
+                        "确  认": function() {
+                            jQuery("#duplicate-dialog-confirm").css("visibility", "hidden");
+                            jQuery(this).dialog("close");
+                            confirmRecommendApp(itemPostion, appId);
+                        },
+                        "取  消": function() {
+                            jQuery("#duplicate-dialog-confirm").css("visibility", "hidden");
+                            jQuery(this).dialog("close");
+                        }
+                    }
+                });
+            } else {
+                //2.2 - not recommend, update the db
+                confirmRecommendApp(itemPostion, appId);
+            }
+        });
+    }
+
+    function confirmRecommendApp(itemPosition, appId) {
         jQuery("#recommend-dialog-confirm").css("visibility", "visible");
         jQuery("#recommend-dialog-confirm").dialog({
             resizable: false,
@@ -257,7 +310,7 @@
                         jQuery("#recommend-dialog-confirm").css("visibility", "hidden");
                         jQuery(this).dialog("close");
 
-                        SystemDWRHandler.updateBoxRecommendPosition(currentPage, itemPostion, appId, ${currentUserId}, function(result) {
+                        SystemDWRHandler.updateBoxRecommendPosition(currentPage, itemPosition, appId, ${currentUserId}, function(result) {
                             if(result) {
                                 jQuery("#commit_buttons").css("visibility", "visible");
                                 jQuery("#commit_info").css("visibility", "hidden");
@@ -265,13 +318,13 @@
                                 SystemDWRHandler.obtainRecommendApps(appId, -1, "", function(result) {
                                     var appValues = JSON.parse(result)[0];
                                     var path = "";
-                                    if(itemPostion <= 6) {
+                                    if(itemPosition <= 6) {
                                         path = fileRequestHost + appValues.appKey + "/" + appValues.posterActualFileName;
                                     } else {
                                         path = fileRequestHost + appValues.appKey + "/" + appValues.iconActualFileName;
                                     }
-                                    jQuery("#" + currentPage + "_pos_img_" + itemPostion).attr("src", path);
-                                    jQuery("#" + currentPage + "_pos_name_" + itemPostion).html(appValues.appFullName);
+                                    jQuery("#" + currentPage + "_pos_img_" + itemPosition).attr("src", path);
+                                    jQuery("#" + currentPage + "_pos_name_" + itemPosition).html(appValues.appFullName);
                                 });
                             } else {
                                 jQuery("#commit_buttons").css("visibility", "hidden");

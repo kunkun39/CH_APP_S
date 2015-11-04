@@ -39,7 +39,7 @@
             <li><a href="${pageContext.request.contextPath}/backend/marketappoverview.html">应用信息管理</a></li>
             <li><a href="${pageContext.request.contextPath}/backend/appmust.html?install=true">应用强制安装管理</a></li>
               <li><a href="${pageContext.request.contextPath}/backend/appmust.html?install=false">应用强制卸载管理</a></li>
-              <li><a href="${pageContext.request.contextPath}/backend/luncherrecommend.html">Luncher应用推荐管理</a></li>
+              <li><a href="${pageContext.request.contextPath}/backend/luncherrecommend.html">Launcher应用推荐管理</a></li>
           </ul>
         </li>
     </security:authorize>
