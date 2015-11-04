@@ -40,7 +40,7 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         } else {
             Map<String, Object> parameters = new HashMap<String, Object>();
             String firstDayThisMonth = JodaUtils.getFirstDateOfMonth().toString() + " 00:00:00";
-            String firstDayNextMonth = JodaUtils.getFirstDateOfNextMonth().toString();
+            String firstDayNextMonth = JodaUtils.getFirstDateOfNextMonth().toString() + " 00:00:00";
             parameters.put("firstDayThisMonth", firstDayThisMonth);
             parameters.put("firstDayNextMonth", firstDayNextMonth);
             pages = getSqlMapClientTemplate().queryForList("Client.selectFastestApps", parameters);
