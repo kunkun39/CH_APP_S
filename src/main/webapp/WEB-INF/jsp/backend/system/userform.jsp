@@ -89,6 +89,7 @@
                                     <label><input type="checkbox" name="roleUser" value="ROLE_APP_RECOMMEND"
                                             <c:if  test="${user.hasRoleAppRecommend}"> checked</c:if>
                                                                         />&nbsp;&nbsp;应用推荐管理 [可以进行应用推荐管理]</label>
+                                    <spring-form:errors path="password" cssClass="help-inline"/>
                                 </div>
                             </div>
                             <div class="form-actions">

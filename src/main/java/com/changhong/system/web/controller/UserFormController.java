@@ -58,6 +58,11 @@ public class UserFormController extends SimpleFormController {
                 errors.rejectValue("username", "user.username.exist");
             }
         }
+
+        String[] roles = ServletRequestUtils.getStringParameters(request, "roleUser");
+        if (roles == null || roles.length <= 0) {
+            errors.rejectValue("password", "user.role.empty");
+        }
     }
 
     @Override
