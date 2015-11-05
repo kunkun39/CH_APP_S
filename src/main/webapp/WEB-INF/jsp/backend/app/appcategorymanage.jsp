@@ -79,23 +79,26 @@
                     </div>
                 </li>
 
-                <c:forEach items="${category.children}" var="child">
-                    <li class="span1">
-                        <a class="thumbnail">
-                            <img style="width: 60px; height: 60px;" src="${fileRequestHost}category/${child.categoryIconName}" alt="" >
-                        </a>
-                        <div class="actions">
-                            <a title="" href="javascript:void(0);" onclick="openCategoryDialog('${child.id}', 'edit');"><i class="icon-pencil icon-white"></i></a>
-                            <a title="" href="javascript:void(0);" onclick="categoryDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
-                        </div>
-                        <div style="text-align: center;">
-                            ${child.categoryName}
-                        </div>
-                    </li>
-                </c:forEach>
+                <div id="menu">
+                    <c:forEach items="${category.children}" var="child">
+                        <li class="span1">
+
+                                 <a class="thumbnail">
+                                    <img style="width: 60px; height: 60px;" src="${fileRequestHost}category/${child.categoryIconName}" alt="" >
+                                </a>
+
+                            <div class="actions">
+                                <a title="" href="javascript:void(0);" onclick="openCategoryDialog('${child.id}', 'edit');"><i class="icon-pencil icon-white"></i></a>
+                                <a title="" href="javascript:void(0);" onclick="categoryDeleteConfirm('${child.id}');"><i class="icon-remove icon-white"></i></a>
+                            </div>
+                            <div style="text-align: center;">
+                                ${child.categoryName}
+                            </div>
+                        </li>
+                    </c:forEach>
+                </div>
 
             </ul>
-
             </c:forEach>
         </div>
       </div>
