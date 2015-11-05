@@ -160,7 +160,7 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         builder.append("from MarketApp m where 1=1");
         if (StringUtils.hasText(appName)) {
             String convert = appName.toUpperCase();
-            builder.append(" and m.appName like '%" + appName + "%' or m.pinYingShort like '%" + convert + "%' or m.pinYingFull like '%" + convert + "%'");
+            builder.append(" and (m.appName like '%" + appName + "%' or m.pinYingShort like '%" + convert + "%' or m.pinYingFull like '%" + convert + "%')");
         }
         if (categoryId > 0) {
             if (isIn) {
