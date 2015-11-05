@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-style.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-media.css" class="skin-color" />
     <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+    <script type='text/javascript' src='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.min.js'></script>
+    <link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.css'/>
 </head>
 
 <body>
@@ -71,10 +73,10 @@
                             </div>
                             <div class="form-actions">
                                 <c:if test="${version.beginUpdate}">
-                                    <input type="button" value="暂停更新" class="btn btn-danger" onclick="changeClientUpdateStatus(false);">
+                                    <input type="button" value="关闭更新" class="btn btn-danger" onclick="changeClientUpdateStatus(false);">
                                 </c:if>
                                 <c:if test="${!version.beginUpdate}">
-                                    <input type="button" value="开始更新" class="btn btn-danger" onclick="changeClientUpdateStatus(true);">
+                                    <input type="button" value="开启更新" class="btn btn-danger" onclick="changeClientUpdateStatus(true);">
                                 </c:if>
                                 &nbsp;
                                 <input type="button" value="保 存" class="btn btn-success" onclick="saveClientVersion(this.form);">
@@ -112,6 +114,7 @@
         }
 
         if(canSubmit) {
+            jQuery('#content').mask("正在上传数据文件，请耐心等待!");
             form.submit();
         }
     }
