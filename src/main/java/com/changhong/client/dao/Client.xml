@@ -54,7 +54,7 @@
 	</insert>
 
     <select id="selectHotestAppsByCategory"  resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
-       select id from market_app where app_status = 'PASSED' and app_category_id = #categoryId# order by download_times desc limit 9
+       select id from market_app where app_status = 'PASSED' and app_category_id = #categoryId# order by app_recommend desc, download_times desc limit 9
    </select>
 
     <select id="selectAppIdByBoxMac" resultClass="String" parameterClass="String">
