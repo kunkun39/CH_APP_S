@@ -30,17 +30,17 @@ public class PinyinResource {
 	}
 
 	protected static Properties getPinyinTable() {
-		String resourceName = "/pinying/pinyin.db";
+		String resourceName = "/pingying/pinyin.db";
 		return getResource(resourceName);
 	}
 
 	protected static Properties getMutilPintinTable() {
-		String resourceName = "/pinying/mutil_pinyin.db";
+		String resourceName = "/pingying/mutil_pinyin.db";
 		return getResource(resourceName);
 	}
 
 	protected static Properties getChineseTable() {
-		String resourceName = "/pinying/chinese.db";
+		String resourceName = "/pingying/chinese.db";
 		return getResource(resourceName);
 	}
 }
