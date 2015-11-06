@@ -50,7 +50,7 @@
 
 .tv_main .linec { width:100%; float:left; }
 .tv_main .linec .list { overflow:hidden; _zoom:1; }
-.tv_main .linec .list li.c { position:relative; float:left; width:220px; height:160px; margin-left:10px; margin-top:10px; _display:inline; text-align: center; overflow:hidden; }
+.tv_main .linec .list li.c { position:relative; float:left; width:230px; height:160px; margin-left:10px; margin-top:10px; _display:inline; text-align: center; overflow:hidden; }
 .tv_main .linec .list li p.icon { height:140px; width:100%; background-repeat:no-repeat; background-position:center; }
 .tv_main .linec .list li a.flag { height:20px; width:100%; text-align: center; color:#ffffff; font-size:14px;}
 .tv_main .linec .list li a.c { display:block; text-decoration:none; }

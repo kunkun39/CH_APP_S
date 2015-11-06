@@ -29,29 +29,21 @@
                             </c:when>
                         </c:choose>
 
-                        <c:set var="lineclass" value="c"/>
-                        <c:set var="lineicon" value="icon"/>
-                        <c:set var="lineflag" value="flag"/>
-                        <%--<c:if test="${counter.count == 3 || counter.count == 5 || counter.count == 7 || counter.count == 9}">--%>
-                            <%--<c:set var="lineclass" value="c1"/>--%>
-                            <%--<c:set var="lineicon" value="icon1"/>--%>
-                            <%--<c:set var="lineflag" value="flag1"/>--%>
-                        <%--</c:if>--%>
-
                         <c:if test="${counter.count == 6}">
                             <br/>
                             <br/>
                         </c:if>
 
-                        <li class="${lineclass}" style="background-color: ${linecolor}">
-                            <p class="${lineicon}">
+                        <li class="c" style="background-color: ${linecolor}">
+                            <p class="icon">
                                 <img style="width: 100%; height: 80%" src="${fileRequestHost}/topic/${topic.topicIconName}" alt="">
                             </p>
-                            <a class="${lineflag}">&nbsp;${topic.topicName}</a>
+                            <a class="flag">&nbsp;${topic.topicName}</a>
                         </li>
                     </c:if>
                 </c:forEach>
             </ul>
+
         </div>
     </div>
 </div>
