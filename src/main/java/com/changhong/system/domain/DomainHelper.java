@@ -60,6 +60,10 @@ public class DomainHelper {
                 AppChangeDetails details = new AppChangeDetails("应用类别", app.getAppCategory().getCategoryName() + " -> " + oldCategory.getCategoryName());
                 history.addChangeDetails(details);
             }
+            if (!dto.getAddTopics().equals(dto.getTopicIds())) {
+                AppChangeDetails details = new AppChangeDetails("应用专题", "修改应用专题");
+                history.addChangeDetails(details);
+            }
         }
 
         return history;

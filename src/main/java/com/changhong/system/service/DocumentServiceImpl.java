@@ -120,4 +120,34 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
         File iconFile = new File(directory, filename);
         iconFile.deleteOnExit();
     }
+
+    public void uploadTopicIconData(CategoryIcon icon) {
+        File directory = new File(baseStorePath + "topic");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        //save icon
+        File iconFile = new File(directory, icon.getActualFileName());
+        try {
+            OutputStream dataOut = new FileOutputStream(iconFile.getAbsolutePath());
+            FileCopyUtils.copy(icon.getFile().getInputStream(), dataOut);
+
+            logger.info("finish upload category icon file");
+        } catch (Exception e) {
+            logger.error(e);
+            throw new CHDocumentOperationException("exception poster icon failed for topic", e);
+        }
+    }
+
+    public void deleteTopicIconData(String filename) {
+        File directory = new File(baseStorePath + "topic");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        //delete icon
+        File iconFile = new File(directory, filename);
+        iconFile.deleteOnExit();
+    }
 }

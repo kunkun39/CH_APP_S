@@ -19,6 +19,7 @@ public class MarketOverviewPaging extends AbstractPaging<MarketAppDTO> {
 
     private String appName;
     private int categoryId;
+    private int topicId;
     private String appStatus;
 
     public MarketOverviewPaging(AppService appService) {
@@ -26,19 +27,19 @@ public class MarketOverviewPaging extends AbstractPaging<MarketAppDTO> {
     }
 
     public List<MarketAppDTO> getItems() {
-        return appService.obtainMarketApps(appName, categoryId, appStatus, getStartPosition(), getPageSize());
+        return appService.obtainMarketApps(appName, categoryId, topicId, appStatus, getStartPosition(), getPageSize());
     }
 
     public long getTotalItemSize() {
         if (totalItemSize >= 0) {
             return totalItemSize;
         }
-        totalItemSize = appService.obtainMarketAppSize(appName, categoryId, appStatus);
+        totalItemSize = appService.obtainMarketAppSize(appName, categoryId, topicId, appStatus);
         return totalItemSize;
     }
 
     public String getParameterValues() {
-        return "&appName=" + getAppName() + "&categoryId=" + getCategoryId() + "&appStatus=" + getAppStatus();
+        return "&appName=" + getAppName() + "&categoryId=" + getCategoryId() + "&topicId=" + getTopicId()  + "&appStatus=" + getAppStatus();
     }
 
     public String getAppName() {
@@ -55,6 +56,14 @@ public class MarketOverviewPaging extends AbstractPaging<MarketAppDTO> {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(int topicId) {
+        this.topicId = topicId;
     }
 
     public String getAppStatus() {

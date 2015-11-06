@@ -30,11 +30,21 @@ public interface AppService {
 
     boolean obtainCategoryHasApps(int categoryId);
 
+    /**************************************专题部分****************************************/
+
+    List<AppTopicDTO> obtainAllTopics();
+
+    void saveOrUpdateAppTopic(int topicId, String topicName, MultipartFile iconFile);
+
+    AppTopicDTO obtainAppTopicById(int topicId);
+
+    void deleteAppTopic(int topicId);
+
     /**************************************应用部分****************************************/
 
-    List<MarketAppDTO> obtainMarketApps(String appName, int categoryId, String appStatus, int startPosition, int pageSize);
+    List<MarketAppDTO> obtainMarketApps(String appName, int categoryId, int topicId, String appStatus, int startPosition, int pageSize);
 
-    int obtainMarketAppSize(String appName, int categoryId, String appStatus);
+    int obtainMarketAppSize(String appName, int categoryId, int topicId, String appStatus);
 
     MarketAppDTO obtainMarketAppById(int marketAppId);
 

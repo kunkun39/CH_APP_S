@@ -2,6 +2,7 @@ package com.changhong.system.web.controller;
 
 import com.changhong.system.service.AppService;
 import com.changhong.system.web.facade.dto.AppCategoryDTO;
+import com.changhong.system.web.facade.dto.AppTopicDTO;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
 import com.changhong.system.web.paging.MarketOverviewPaging;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -32,13 +33,17 @@ public class MarketAppManagementController extends AbstractController {
         List<AppCategoryDTO> categories = appService.obtainAllFirstLevelCategory(true);
         model.put("categories", categories);
 
+        List<AppTopicDTO> topics = appService.obtainAllTopics();
+        model.put("topics", topics);
+
         int current = ServletRequestUtils.getIntParameter(request, "current", 1);
         String appName = ServletRequestUtils.getStringParameter(request, "appName", "");
         String appStatus = ServletRequestUtils.getStringParameter(request, "appStatus", "ALL");
         int categoryId = ServletRequestUtils.getIntParameter(request, "categoryId", -1);
+        int topicId = ServletRequestUtils.getIntParameter(request, "topicId", -1);
 
         MarketOverviewPaging paging = new MarketOverviewPaging(appService);
-        constructPaging(paging, current, appName, categoryId, appStatus);
+        constructPaging(paging, current, appName, categoryId,topicId,  appStatus);
         List<MarketAppDTO> apps = paging.getItems();
         model.put("paging", paging);
         model.put("apps", apps);
@@ -47,10 +52,11 @@ public class MarketAppManagementController extends AbstractController {
         return new ModelAndView("backend/app/marketappmanage", model);
     }
 
-    private void constructPaging(MarketOverviewPaging paging, int current, String appName, int categoryId, String appStatus) {
+    private void constructPaging(MarketOverviewPaging paging, int current, String appName, int categoryId, int topicId, String appStatus) {
         paging.setCurrentPageNumber(current);
         paging.setAppName(appName);
         paging.setCategoryId(categoryId);
+        paging.setTopicId(topicId);
         paging.setAppStatus(appStatus);
     }
 

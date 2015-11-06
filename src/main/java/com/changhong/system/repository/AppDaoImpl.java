@@ -1,10 +1,10 @@
 package com.changhong.system.repository;
 
-import com.alibaba.fastjson.JSONObject;
 import com.changhong.common.repository.HibernateEntityObjectDao;
 import com.changhong.common.utils.CHStringUtils;
 import com.changhong.system.domain.*;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -35,6 +35,18 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         return size;
     }
 
+    /**************************************专题部分****************************************/
+
+    public List<AppTopic> loadAllTopics() {
+        return getHibernateTemplate().find("from AppTopic");
+    }
+
+    public void removeConstraintForApp(int topicId) {
+        Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+        SQLQuery query = session.createSQLQuery("delete from app_topic_link where topic_id = " + topicId);
+        query.executeUpdate();
+    }
+
     /**************************************应用部分****************************************/
 
     public boolean loadAppPackageDuplicate(int marketAppId, String packageName) {
@@ -42,7 +54,7 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         return size > 0 ? true : false;
     }
 
-    public List<MarketApp> loadMarketApps(String appName, int categoryId, String appStatus, int startPosition, int pageSize) {
+    public List<MarketApp> loadMarketApps(String appName, int categoryId, int topicId, String appStatus, int startPosition, int pageSize) {
         boolean isIn = false;
         List<Integer> ids = new ArrayList<Integer>();
         if (categoryId > 0) {
@@ -57,7 +69,11 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         }
 
         StringBuilder builder = new StringBuilder();
-        builder.append("from MarketApp m where 1=1");
+        builder.append("select m from MarketApp m");
+        if (topicId > 0) {
+            builder.append(" left join m.appTopics a");
+        }
+        builder.append(" where 1=1");
         if (StringUtils.hasText(appName)) {
             String convertAppName = appName.toUpperCase();
             builder.append(" and m.appName like '%" + convertAppName + "%' or m.pinYingShort like '%" + convertAppName + "%' or m.pinYingFull like '%" + convertAppName + "%'");
@@ -72,6 +88,9 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         if (!appStatus.equals("ALL")) {
             builder.append(" and m.appStatus = '" + appStatus + "'");
         }
+        if (topicId > 0) {
+            builder.append(" and a.id = " + topicId + "");
+        }
 
         builder.append(" order by m.id desc");
 
@@ -84,7 +103,7 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         return apps;
     }
 
-    public int loadMarketAppSize(String appName, int categoryId, String appStatus) {
+    public int loadMarketAppSize(String appName, int categoryId, int topicId, String appStatus) {
         boolean isIn = false;
         List<Integer> ids = new ArrayList<Integer>();
         if (categoryId > 0) {
@@ -99,7 +118,11 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         }
 
         StringBuilder builder = new StringBuilder();
-        builder.append("select count(m.id) from MarketApp m where 1=1");
+        builder.append("select count(m.id) from MarketApp m");
+        if (topicId > 0) {
+            builder.append(" left join m.appTopics a");
+        }
+        builder.append(" where 1=1");
         if (StringUtils.hasText(appName)) {
             String convertAppName = appName.toUpperCase();
             builder.append(" and m.appName like '%" + convertAppName + "%' or m.pinYingShort like '%" + convertAppName +  "%' or m.pinYingFull like '%" + convertAppName + "%'");
@@ -113,6 +136,9 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         }
         if (!appStatus.equals("ALL")) {
             builder.append(" and m.appStatus = '" + appStatus + "'");
+        }
+        if (topicId > 0) {
+            builder.append(" and a.id = " + topicId + "");
         }
 
         Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();

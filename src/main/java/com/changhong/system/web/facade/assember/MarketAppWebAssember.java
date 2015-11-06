@@ -3,6 +3,7 @@ package com.changhong.system.web.facade.assember;
 import com.changhong.common.repository.EntityLoadHolder;
 import com.changhong.common.utils.CHDateUtils;
 import com.changhong.system.domain.*;
+import com.changhong.system.web.facade.dto.AppTopicDTO;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class MarketAppWebAssember {
                     Integer.valueOf(dto.getAppVersionInt()), dto.getAppVersion(), dto.getAppPackage(), dto.getAppScores(), dto.isRecommend());
             history = DomainHelper.generateAppChangeHistories(app, dto);
         }
+
+        app.resetTopic(dto.getAddTopics());
 
         if (app.getAppCategory() == null || app.getAppCategory().getId() != dto.getCategoryId()) {
             AppCategory category = new AppCategory();
@@ -89,12 +92,15 @@ public class MarketAppWebAssember {
         final String pinyingShort = marketApp.getPinYingShort();
         final String pinyingFull = marketApp.getPinYingFull();
 
+        List<AppTopicDTO> topics = AppTopicWebAssember.toAppTopicDTOList(marketApp.getAppTopics());
+
         MarketAppDTO dto =  new MarketAppDTO(id, appKey, appName, appDescription, appNote, appVersionInt, appVersion, appPackage,
                 appScores, downloadTimes, appSize, status, statusName, recommend, categoryId, categoryName, fullCategoryName,
                 appIconId, iconActualFileName, iconFakeFileName,
                 appFileId, apkActualFileName, apkFakeFileName,
                 posterFileId, posterActualFileName, posterFakeFileName,
-                updateDate, pinyingShort, pinyingFull);
+                updateDate, pinyingShort, pinyingFull, topics);
+
         return dto;
     }
 

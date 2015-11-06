@@ -2,6 +2,8 @@ package com.changhong.system.web.facade.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * User: Jack Wang
  * Date: 15-7-30
@@ -72,6 +74,12 @@ public class MarketAppDTO {
     private MultipartFile apkFile;
     private MultipartFile posterFile;
 
+    //topics
+    private List<AppTopicDTO> topics;
+    private String topicIds;
+    private String addTopics;
+    private String deleteTopics;
+
     public MarketAppDTO() {
         this.appScores = 8;
     }
@@ -82,7 +90,8 @@ public class MarketAppDTO {
                         int appIconId, String iconActualFileName, String iconFakeFileName,
                         int appFileId, String apkActualFileName, String apkFakeFileName,
                         int appPosterId, String posterActualFileName, String posterFakeFileName,
-                        String updateDate, String pinYingShort, String pinYingFull) {
+                        String updateDate, String pinYingShort, String pinYingFull,
+                        List<AppTopicDTO> topics) {
         this.id = id;
         this.appKey = appKey;
         this.appFullName = appName;
@@ -112,6 +121,15 @@ public class MarketAppDTO {
         this.updateDate = updateDate;
         this.pinYingShort = pinYingShort;
         this.pinYingFull = pinYingFull;
+
+        this.topics = topics;
+        StringBuilder builder = new StringBuilder();
+        if (this.topics != null) {
+            for (AppTopicDTO topic : this.topics) {
+                builder.append(topic.getId() + ",");
+            }
+        }
+        this.topicIds = builder.toString();
     }
 
     public int getId() {
@@ -368,5 +386,37 @@ public class MarketAppDTO {
 
     public void setPinYingFull(String pinYingFull) {
         this.pinYingFull = pinYingFull;
+    }
+
+    public List<AppTopicDTO> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<AppTopicDTO> topics) {
+        this.topics = topics;
+    }
+
+    public String getTopicIds() {
+        return topicIds;
+    }
+
+    public void setTopicIds(String topicIds) {
+        this.topicIds = topicIds;
+    }
+
+    public String getAddTopics() {
+        return addTopics;
+    }
+
+    public void setAddTopics(String addTopics) {
+        this.addTopics = addTopics;
+    }
+
+    public String getDeleteTopics() {
+        return deleteTopics;
+    }
+
+    public void setDeleteTopics(String deleteTopics) {
+        this.deleteTopics = deleteTopics;
     }
 }

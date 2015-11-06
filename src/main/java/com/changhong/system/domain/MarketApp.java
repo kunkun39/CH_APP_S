@@ -7,7 +7,9 @@ import com.changhong.common.utils.CHStringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +60,8 @@ public class MarketApp extends EntityBase {
 
     private AppCategory appCategory;
 
+    private List<AppTopic> appTopics;
+
     /**
      * just temp used remeber change history
      */
@@ -87,6 +91,24 @@ public class MarketApp extends EntityBase {
             this.pinYingShort = PinyinHelper.getShortPinyin(appName).toUpperCase();
         } catch (Exception e) {
             logger.error("new app can't convert " + appName + " to pingying", e);
+        }
+    }
+
+    public void resetTopic(String addTopics) {
+        if (this.appTopics == null) {
+            this.appTopics = new ArrayList<AppTopic>();
+        } else {
+            this.appTopics.clear();
+        }
+
+        String[] resets = StringUtils.delimitedListToStringArray(addTopics, ",");
+        if (resets.length > 0) {
+            for (String reset : resets) {
+                if (StringUtils.hasText(reset)) {
+                    AppTopic topic = new AppTopic(Integer.valueOf(reset));
+                    this.appTopics.add(topic);
+                }
+            }
         }
     }
 
@@ -256,6 +278,14 @@ public class MarketApp extends EntityBase {
 
     public void setAppCategory(AppCategory appCategory) {
         this.appCategory = appCategory;
+    }
+
+    public List<AppTopic> getAppTopics() {
+        return appTopics;
+    }
+
+    public void setAppTopics(List<AppTopic> appTopics) {
+        this.appTopics = appTopics;
     }
 
     public AppChangeHistory getHistory() {

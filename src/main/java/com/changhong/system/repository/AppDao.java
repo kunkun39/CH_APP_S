@@ -20,13 +20,19 @@ public interface AppDao extends EntityObjectDao {
 
     int loadCategoryApps(int categoryId);
 
+    /**************************************专题部分****************************************/
+
+    List<AppTopic> loadAllTopics();
+
+    void removeConstraintForApp(int topicId);
+
     /**************************************应用部分****************************************/
 
     boolean loadAppPackageDuplicate(int marketAppId, String packageName);
 
-    List<MarketApp> loadMarketApps(String appName, int categoryId, String appStatus, int startPosition, int pageSize);
+    List<MarketApp> loadMarketApps(String appName, int categoryId, int topicId, String appStatus, int startPosition, int pageSize);
 
-    int loadMarketAppSize(String appName, int categoryId, String appStatus);
+    int loadMarketAppSize(String appName, int categoryId, int topicId, String appStatus);
 
     List<MarketApp> loadPageAppsByStartNumber(int startNumber);
 

@@ -19,4 +19,8 @@ public interface DocumentService {
     void uploadCategoryIconData(CategoryIcon icon);
 
     void deleteCategoryIconData(String filename);
+
+    void uploadTopicIconData(CategoryIcon icon);
+
+    void deleteTopicIconData(String filename);
 }

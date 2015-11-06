@@ -99,15 +99,70 @@ public class AppServiceImpl implements AppService {
         return size > 0 ? true : false;
     }
 
+    /**************************************专题部分****************************************/
+
+    public List<AppTopicDTO> obtainAllTopics() {
+        List<AppTopic> topics = appDao.loadAllTopics();
+        return AppTopicWebAssember.toAppTopicDTOList(topics);
+    }
+
+    public void saveOrUpdateAppTopic(int topicId, String topicName, MultipartFile iconFile) {
+        AppTopic topic = AppTopicWebAssember.toAppTopicDomain(topicId, topicName);
+
+        CategoryIcon icon = null;
+        if (iconFile != null && iconFile.getSize() > 0) {
+            icon = topic.getCategoryIcon();
+            if (icon != null && topicId > 0) {
+                icon.setFile(iconFile);
+            } else {
+                icon = new CategoryIcon(iconFile, "");
+            }
+            documentService.uploadTopicIconData(icon);
+            appDao.saveOrUpdate(icon);
+        }
+        if (icon != null) {
+            topic.setCategoryIcon(icon);
+        }
+
+        //reset the cache
+        AppTopicDTO dto = AppTopicWebAssember.toAppTopicDTO(topic);
+        cacheService.resetAppTopicInCache(dto, false);
+
+        appDao.saveOrUpdate(topic);
+    }
+
+    public AppTopicDTO obtainAppTopicById(int topicId) {
+        AppTopic topic = (AppTopic) appDao.findById(topicId, AppTopic.class);
+        AppTopicDTO dto = AppTopicWebAssember.toAppTopicDTO(topic);
+        return dto;
+    }
+
+    public void deleteAppTopic(int topicId) {
+        appDao.removeConstraintForApp(topicId);
+
+        AppTopic topic = (AppTopic) appDao.findById(topicId, AppTopic.class);
+        appDao.delete(topic);
+
+        //delete file
+        if (topic.getCategoryIcon() != null) {
+            documentService.deleteTopicIconData(topic.getCategoryIcon().getActualFileName());
+        }
+
+        //reset the cache
+        AppTopicDTO dto = new AppTopicDTO();
+        dto.setId(topicId);
+        cacheService.resetAppTopicInCache(dto, true);
+    }
+
     /**************************************应用部分****************************************/
 
-    public List<MarketAppDTO> obtainMarketApps(String appName, int categoryId, String appStatus, int startPosition, int pageSize) {
-        List<MarketApp> apps = appDao.loadMarketApps(appName, categoryId, appStatus, startPosition, pageSize);
+    public List<MarketAppDTO> obtainMarketApps(String appName, int categoryId, int topicId, String appStatus, int startPosition, int pageSize) {
+        List<MarketApp> apps = appDao.loadMarketApps(appName, categoryId, topicId, appStatus, startPosition, pageSize);
         return MarketAppWebAssember.toMarketAppDTOList(apps);
     }
 
-    public int obtainMarketAppSize(String appName, int categoryId, String appStatus) {
-        return appDao.loadMarketAppSize(appName, categoryId, appStatus);
+    public int obtainMarketAppSize(String appName, int categoryId, int topicId, String appStatus) {
+        return appDao.loadMarketAppSize(appName, categoryId, topicId, appStatus);
     }
 
     public MarketAppDTO obtainMarketAppById(int marketAppId) {

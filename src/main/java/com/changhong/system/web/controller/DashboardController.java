@@ -3,9 +3,8 @@ package com.changhong.system.web.controller;
 import com.changhong.system.domain.BoxRecommendRecord;
 import com.changhong.system.service.AppService;
 import com.changhong.system.web.facade.dto.AppCategoryDTO;
+import com.changhong.system.web.facade.dto.AppTopicDTO;
 import com.changhong.system.web.facade.dto.BoxRecommendDTO;
-import org.joda.time.LocalDate;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -33,10 +32,13 @@ public class DashboardController extends AbstractController {
         List<AppCategoryDTO> categories = appService.obtainAllFirstLevelCategory(true);
         model.put("categories", categories);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             AppCategoryDTO dto = categories.get(i);
             model.put("category_" + (i + 1), dto);
         }
+
+        List<AppTopicDTO> topics = appService.obtainAllTopics();
+        model.put("topics", topics);
 
         List<BoxRecommendDTO> recommends = appService.obtainAllBoxRecommends();
         model.put("recommends", recommends);

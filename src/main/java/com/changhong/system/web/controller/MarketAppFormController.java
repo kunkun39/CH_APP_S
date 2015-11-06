@@ -1,14 +1,15 @@
 package com.changhong.system.web.controller;
 
 import com.changhong.common.utils.CHFileUtils;
+import com.changhong.system.domain.AppTopic;
 import com.changhong.system.service.AppService;
 import com.changhong.system.web.facade.dto.AppCategoryDTO;
+import com.changhong.system.web.facade.dto.AppTopicDTO;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
@@ -56,6 +57,9 @@ public class MarketAppFormController extends SimpleFormController {
 
         List<AppCategoryDTO> categories = appService.obtainAllFirstLevelCategory(true);
         request.setAttribute("categories", categories);
+
+        List<AppTopicDTO> topics = appService.obtainAllTopics();
+        request.setAttribute("topics", topics);
 
         if (marketAppId > 0) {
             MarketAppDTO dto = appService.obtainMarketAppById(marketAppId);
@@ -175,7 +179,6 @@ public class MarketAppFormController extends SimpleFormController {
         String appStatus = ServletRequestUtils.getStringParameter(request, "appStatus", "ALL");
         int categoryId = ServletRequestUtils.getIntParameter(request, "categoryId", -1);
 
-
         MarketAppDTO app = (MarketAppDTO) command;
         int selectCategoryId = ServletRequestUtils.getIntParameter(request, "selectCategoryId", -1);
         app.setCategoryId(selectCategoryId);
@@ -195,6 +198,11 @@ public class MarketAppFormController extends SimpleFormController {
         if (posterFile != null && posterFile.getSize() > 0) {
             app.setPosterFile(posterFile);
         }
+
+        String addTopics = ServletRequestUtils.getStringParameter(request, "addTopics", "");
+        String deleteTopics = ServletRequestUtils.getStringParameter(request, "deleteTopics", "");
+        app.setAddTopics(addTopics);
+        app.setDeleteTopics(deleteTopics);
 
         int marketAppId = appService.saveOrUpdateMarketApp(app);
 
