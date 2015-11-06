@@ -57,10 +57,6 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
     }
 
     public String obtainAllAppCategoryInfo() {
-
-        //获得所有的应用总类信息，使用到了泛型
-        List<HashMap> values =  clientDao.loadAllAppCategoryInfo();
-
         //声明一个JSON对象，向JSON数据流中添加数据
         JSONObject all = new JSONObject();
         all.put("host", fileRequestHost);
@@ -70,6 +66,8 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         all.put("client_en", cacheService.isClientBeginUpdate());
         all.put("client_url", appMarketApkUpdateURL);
 
+        //获得所有的应用总类信息，使用到了泛型
+        List<HashMap> values =  clientDao.loadAllAppCategoryInfo();
         JSONArray array = new JSONArray();
         if (values != null) {
             //foreach循环访问集合里的元素
@@ -84,12 +82,26 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
                 array.add(single);
             }
         }
-        all.put("values", array);
+        all.put("category", array);
+
+        values =  clientDao.loadAllAppTopicInfo();
+        array = new JSONArray();
+        if (values != null) {
+            //foreach循环访问集合里的元素
+            for (HashMap value : values) {
+                JSONObject single = new JSONObject();
+                single.put(ClientInfoProperties.CATEGORY_ID, (Integer) value.get("topic_id") + "");
+                single.put(ClientInfoProperties.CATEGORY_NAME, (String) value.get("topic_name"));
+                single.put(ClientInfoProperties.CATEGORY_FILENAME, value.get("actual_filename") == null ? "" : (String) value.get("actual_filename"));
+
+                //向array集合里添加一个元素
+                array.add(single);
+            }
+        }
+        all.put("topics", array);
 
         return all.toJSONString();
     }
-
-
 
     public String obtainBoxIndexPageInfo() {
         List<HashMap> values =  clientDao.loadAllBoxPages();
@@ -132,6 +144,31 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
     public String obtainCategoryApps(int categoryId) {
         List<MarketAppDTO> apps = cacheService.obtainCachedAppByCategoryId(categoryId);
+
+        JSONObject values = new JSONObject();
+        values.put("host", fileRequestHost);
+
+        JSONArray all = new JSONArray();
+        if (apps != null) {
+            for (MarketAppDTO dto : apps) {
+                JSONObject single = new JSONObject();
+                single.put(ClientInfoProperties.APP_ID, dto.getId());
+                single.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
+                single.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
+                single.put(ClientInfoProperties.APP_SIZE, dto.getAppSize());
+                single.put(ClientInfoProperties.APP_SCORES, dto.getAppScores());
+                single.put(ClientInfoProperties.APP_RECOMMEND, dto.isRecommend());
+                single.put(ClientInfoProperties.APP_ICON_FILEPATH, dto.getIconActualFileName());
+                all.add(single);
+            }
+        }
+
+        values.put("values", all);
+        return values.toJSONString();
+    }
+
+    public String obtainTopicApps(int topicId) {
+        List<MarketAppDTO> apps = cacheService.obtainCachedAppByTopicId(topicId);
 
         JSONObject values = new JSONObject();
         values.put("host", fileRequestHost);

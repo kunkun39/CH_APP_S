@@ -1,9 +1,6 @@
 package com.changhong.client.service;
 
-import com.changhong.system.web.facade.dto.AppCategoryDTO;
-import com.changhong.system.web.facade.dto.AppMustDTO;
-import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
-import com.changhong.system.web.facade.dto.MarketAppDTO;
+import com.changhong.system.web.facade.dto.*;
 
 import java.util.List;
 
@@ -23,6 +20,12 @@ public interface CacheService {
     void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove);
 
     /**
+     * 1 - 专题删除需要清空缓存
+     * 2 - 专题信息改变需要修改缓存
+     */
+    void resetAppTopicInCache(AppTopicDTO dto, boolean remove);
+
+    /**
      * 1 - 应用信息改变需要修改缓存
      * 2 - 应用状态不是通过，需要清空缓存
      */
@@ -33,6 +36,8 @@ public interface CacheService {
     List<MarketAppDTO> obtainMarketAppInCache(String[] appPackages);
 
     List<MarketAppDTO> obtainCachedAppByCategoryId(int categoryId);
+
+    List<MarketAppDTO> obtainCachedAppByTopicId(int topicId);
 
     List<MarketAppDTO> obtainSearchApps(String keyWords);
 

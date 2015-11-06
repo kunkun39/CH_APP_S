@@ -26,6 +26,11 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         return categoryies;
     }
 
+    public List<HashMap> loadAllAppTopicInfo() {
+        List<HashMap> topics = getSqlMapClientTemplate().queryForList("Client.selectAllAppTopic");
+        return topics;
+    }
+
     public List<HashMap> loadAllBoxPages() {
         List<HashMap> pages = getSqlMapClientTemplate().queryForList("Client.selectAllBoxIndexPage");
         return pages;
@@ -99,4 +104,6 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
     public String loadBackupAppInfo(String boxMac) {
         return (String)getSqlMapClientTemplate().queryForObject("Client.selectAppIdByBoxMac", boxMac);
     }
+
+
 }

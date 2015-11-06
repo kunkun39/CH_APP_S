@@ -5,14 +5,8 @@ import com.changhong.common.utils.CHPagingUtils;
 import com.changhong.system.domain.*;
 import com.changhong.system.repository.AppDao;
 import com.changhong.system.repository.SystemDao;
-import com.changhong.system.web.facade.assember.AppCategoryWebAssember;
-import com.changhong.system.web.facade.assember.AppMustWebAssember;
-import com.changhong.system.web.facade.assember.LuncherRecommendWebAssember;
-import com.changhong.system.web.facade.assember.MarketAppWebAssember;
-import com.changhong.system.web.facade.dto.AppCategoryDTO;
-import com.changhong.system.web.facade.dto.AppMustDTO;
-import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
-import com.changhong.system.web.facade.dto.MarketAppDTO;
+import com.changhong.system.web.facade.assember.*;
+import com.changhong.system.web.facade.dto.*;
 import com.javacodegeeks.concurrent.ConcurrentLinkedHashMap;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -43,6 +37,8 @@ public class CacheServiceImpl implements CacheService {
 
     private ConcurrentLinkedHashMap<String, AppCategoryDTO> categoryCache = new ConcurrentLinkedHashMap<String, AppCategoryDTO>(200);
 
+    private ConcurrentLinkedHashMap<String, AppTopicDTO> topicCache = new ConcurrentLinkedHashMap<String, AppTopicDTO>(200);
+
     private ConcurrentLinkedHashMap<String, MarketAppDTO> appCache = new ConcurrentLinkedHashMap<String, MarketAppDTO>(MAX_CACHE_SIZE);
 
     private ConcurrentLinkedHashMap<String, LuncherRecommendDTO> luncherCache = new ConcurrentLinkedHashMap<String, LuncherRecommendDTO>(20);
@@ -61,14 +57,14 @@ public class CacheServiceImpl implements CacheService {
         /**
          * 缓存APP
          */
-        int totalApps = appDao.loadMarketAppSize("", -1, "ALL");
+        int totalApps = appDao.loadMarketAppSize("", -1, -1, "ALL");
         CHPagingUtils paging = new CHPagingUtils(totalApps);
         int totalPages = paging.getNumPages();
 
         for (int currentPage = 1; currentPage <= totalPages; currentPage++) {
             paging.setCurrentPage(currentPage + "");
 
-            List<MarketApp> apps = appDao.loadMarketApps("", -1, "ALL", paging.getStartPosition(), paging.getMaxItems());
+            List<MarketApp> apps = appDao.loadMarketApps("", -1, -1, "ALL", paging.getStartPosition(), paging.getMaxItems());
             for (MarketApp app : apps) {
                 MarketAppDTO dto = MarketAppWebAssember.toMarketAppDTO(app);
                 appCache.put("APP_" + dto.getId(), dto);
@@ -85,6 +81,16 @@ public class CacheServiceImpl implements CacheService {
             categoryCache.put("CATE_" + dto.getId(), dto);
         }
         log.info("finish init category with objects count " + categoryCache.size());
+
+        /**
+         * 缓存TOPIC
+         */
+        List<AppTopic> topics = appDao.loadAllTopics();
+        List<AppTopicDTO> topicDTOs = AppTopicWebAssember.toAppTopicDTOList(topics);
+        for (AppTopicDTO dto : topicDTOs) {
+            topicCache.put("TOP_" + dto.getId(), dto);
+        }
+        log.info("finish init topic with objects count " + topicCache.size());
 
          /**
          * 缓存Luncher
@@ -132,6 +138,14 @@ public class CacheServiceImpl implements CacheService {
             categoryCache.remove("CATE_" + dto.getId());
         } else {
             categoryCache.put("CATE_" + dto.getId(), dto);
+        }
+    }
+
+    public void resetAppTopicInCache(AppTopicDTO dto, boolean remove) {
+        if (remove) {
+            topicCache.remove("TOP_" + dto.getId());
+        } else {
+            topicCache.put("TOP_" + dto.getId(), dto);
         }
     }
 
@@ -203,6 +217,21 @@ public class CacheServiceImpl implements CacheService {
             int loopCategoryId = dto.getCategoryId();
             if (idLists.contains(loopCategoryId + "") && "PASSED".equals(dto.getStatus())) {
                 apps.add(dto);
+            }
+        }
+        return apps;
+    }
+
+    public List<MarketAppDTO> obtainCachedAppByTopicId(int topicId) {
+        List<MarketAppDTO> apps = new ArrayList<MarketAppDTO>();
+        for (MarketAppDTO dto : appCache.values()) {
+            List<AppTopicDTO> appTopics = dto.getTopics();
+            if (appTopics != null) {
+                for (AppTopicDTO appTopic : appTopics) {
+                    if (topicId == appTopic.getId() && "PASSED".equals(dto.getStatus())) {
+                        apps.add(dto);
+                    }
+                }
             }
         }
         return apps;

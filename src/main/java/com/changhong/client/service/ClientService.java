@@ -30,6 +30,11 @@ public interface ClientService {
     String obtainCategoryApps(int categoryId);
 
     /**
+     * 客户端获得专利下APP
+     */
+    String obtainTopicApps(int topicId);
+
+    /**
      * 客户端获得APP的详情
      */
     String obtainAppDetailsInfo(int appId);
