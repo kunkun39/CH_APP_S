@@ -54,10 +54,10 @@ public class BoxRecommendTag extends TagSupport {
             StringBuffer buffer = new StringBuffer();
             if (recommend == null || recommend.getMarketAppId() <= 0) {
                 if (!subRecommend) {
-                    buffer.append("<img id=\"" + imageId + "\" src=\"#\" title=\"推荐位置" + recommendPosition + "\"/>");
+                    buffer.append("<img id=\"" + imageId + "\" src=\"\" title=\"推荐位置" + recommendPosition + "\"/>");
                     buffer.append("<a id=\"" + nameId + "\" class=\"name\">位置" + recommendPosition + "</a>");
                 } else {
-                    buffer.append("<p class=\"show\"><img id=\"" + imageId + "\" src=\"#\" title=\"推荐位置" + recommendPosition + "\"/></p>");
+                    buffer.append("<p class=\"show\"><img id=\"" + imageId + "\" src=\"\" title=\"推荐位置" + recommendPosition + "\"/></p>");
                     buffer.append("<a id=\"" + nameId + "\" class=\"name\">位置" + recommendPosition + "</a>");
                 }
             } else {

@@ -105,7 +105,6 @@
                             </div>
                             <div class="article-post">
                                 <div class="fr">
-                                    <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_STATUS">
                                     <c:choose>
                                         <c:when test="${app.status == 'CREAETED'}">
                                             <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'PASSED')" class="btn btn-success btn-mini">通过审核</a>
@@ -121,7 +120,6 @@
                                             <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'CREAETED')" class="btn btn-inverse btn-mini">重新审核</a>
                                         </c:when>
                                     </c:choose>
-                                    </security:authorize>
 
                                     <a href="${fileRequestHost}${app.appKey}/${app.apkActualFileName}" target="_blank" class="btn btn-warning btn-mini">下载应用</a>
                                     <a href="${pageContext.request.contextPath}/backend/marketappform.html?marketAppId=${app.id}&appName=${paging.appName}&categoryId=${paging.categoryId}&appStatus=${paging.appStatus}" class="btn btn-primary btn-mini">编辑信息</a>
