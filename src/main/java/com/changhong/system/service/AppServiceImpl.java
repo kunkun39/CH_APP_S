@@ -54,7 +54,7 @@ public class AppServiceImpl implements AppService {
             if (iconFile != null && iconFile.getSize() > 0) {
                 icon = category.getCategoryIcon();
                 if (icon != null && categoryId > 0) {
-                    icon.setFile(iconFile);
+                    icon.changeFile(iconFile);
                 } else {
                     icon = new CategoryIcon(iconFile, "");
                 }
@@ -113,7 +113,7 @@ public class AppServiceImpl implements AppService {
         if (iconFile != null && iconFile.getSize() > 0) {
             icon = topic.getCategoryIcon();
             if (icon != null && topicId > 0) {
-                icon.setFile(iconFile);
+                icon.changeFile(iconFile);
             } else {
                 icon = new CategoryIcon(iconFile, "");
             }

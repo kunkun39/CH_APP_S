@@ -54,8 +54,8 @@
                 <c:forEach items="${topics}" var="topic">
                     <div id="menu">
                         <li class="span2">
-                             <a class="thumbnail">
-                                <img style="width: 100px; height: 100px;" src="${fileRequestHost}topic/${topic.topicIconName}" alt="" >
+                             <a class="thumbnail lightbox_trigger" href="${fileRequestHost}topic/${topic.topicIconName}">
+                                <img style="width: 160px; height: 100px;" src="${fileRequestHost}topic/${topic.topicIconName}" alt="" >
                             </a>
 
                             <div class="actions">

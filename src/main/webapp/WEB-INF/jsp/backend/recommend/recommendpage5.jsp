@@ -32,11 +32,11 @@
                         <c:set var="lineclass" value="c"/>
                         <c:set var="lineicon" value="icon"/>
                         <c:set var="lineflag" value="flag"/>
-                        <c:if test="${counter.count == 3 || counter.count == 5 || counter.count == 7 || counter.count == 9}">
-                            <c:set var="lineclass" value="c1"/>
-                            <c:set var="lineicon" value="icon1"/>
-                            <c:set var="lineflag" value="flag1"/>
-                        </c:if>
+                        <%--<c:if test="${counter.count == 3 || counter.count == 5 || counter.count == 7 || counter.count == 9}">--%>
+                            <%--<c:set var="lineclass" value="c1"/>--%>
+                            <%--<c:set var="lineicon" value="icon1"/>--%>
+                            <%--<c:set var="lineflag" value="flag1"/>--%>
+                        <%--</c:if>--%>
 
                         <c:if test="${counter.count == 6}">
                             <br/>
@@ -45,29 +45,13 @@
 
                         <li class="${lineclass}" style="background-color: ${linecolor}">
                             <p class="${lineicon}">
-                                <img src="${fileRequestHost}/topic/${topic.topicIconName}" alt="">
+                                <img style="width: 100%; height: 80%" src="${fileRequestHost}/topic/${topic.topicIconName}" alt="">
                             </p>
-                            <br/>
                             <a class="${lineflag}">&nbsp;${topic.topicName}</a>
                         </li>
                     </c:if>
                 </c:forEach>
             </ul>
         </div>
-        <%--<div class="firstline">--%>
-            <%--<ul class="list">--%>
-                <%--<c:forEach items="${category_4.children}" var="child" varStatus="counter">--%>
-                    <%--<c:if test="${counter.count < 5}">--%>
-                        <%--<li class="c${counter.count}">--%>
-                            <%--<p class="icon">--%>
-                                <%--<img src="${fileRequestHost}/category/${child.categoryIconName}" alt="">--%>
-                            <%--</p>--%>
-                            <%--<br/>--%>
-                            <%--<a class="flag">&nbsp;${child.categoryName}</a>--%>
-                        <%--</li>--%>
-                    <%--</c:if>--%>
-                <%--</c:forEach>--%>
-            <%--</ul>--%>
-        <%--</div>--%>
     </div>
 </div>
