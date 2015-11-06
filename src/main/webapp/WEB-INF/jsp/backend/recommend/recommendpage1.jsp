@@ -28,7 +28,7 @@
                     <p class="icon">
                         <img src="${pageContext.request.contextPath}/images/category/icon_nativeapp.png" alt="">
                     </p>
-                    <a class="flag">&nbsp;本地下载</a>
+                    <a class="flag">&nbsp;本地应用</a>
                 </li>
 
                 <li class="c4">
@@ -36,7 +36,7 @@
                     <p class="icon">
                         <img src="${pageContext.request.contextPath}/images/category/icon_nesessary.png" alt="">
                     </p>
-                    <a class="flag">&nbsp;装机必备</a>
+                    <a class="flag">&nbsp;云备份</a>
                 </li>
             </ul>
         </div>
