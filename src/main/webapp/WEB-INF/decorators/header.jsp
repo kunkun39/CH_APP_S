@@ -33,11 +33,12 @@
     <li class="active"><a href="${pageContext.request.contextPath}/backend/dashboard.html"><i class="icon icon-home"></i> <span>首页</span></a></li>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_INFO,ROLE_APP_STATUS">
-        <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-th"></i> <span>应用管理</span> <span class="label">5</span></a>
+        <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-th"></i> <span>应用管理</span> <span class="label">6</span></a>
           <ul>
-            <li><a href="${pageContext.request.contextPath}/backend/appcategoryoverview.html">应用类别管理</a></li>
-            <li><a href="${pageContext.request.contextPath}/backend/marketappoverview.html">应用信息管理</a></li>
-            <li><a href="${pageContext.request.contextPath}/backend/appmust.html?install=true">应用强制安装管理</a></li>
+              <li><a href="${pageContext.request.contextPath}/backend/appcategoryoverview.html">应用类别管理</a></li>
+              <li><a href="${pageContext.request.contextPath}/backend/apptopicoverview.html">应用专题管理</a></li>
+              <li><a href="${pageContext.request.contextPath}/backend/marketappoverview.html">应用信息管理</a></li>
+              <li><a href="${pageContext.request.contextPath}/backend/appmust.html?install=true">应用强制安装管理</a></li>
               <li><a href="${pageContext.request.contextPath}/backend/appmust.html?install=false">应用强制卸载管理</a></li>
               <li><a href="${pageContext.request.contextPath}/backend/luncherrecommend.html">Launcher应用推荐管理</a></li>
           </ul>
@@ -54,10 +55,10 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN">
-    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-user"></i> <span>系统设置</span> <span class="label">4</span></a>
+    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-user"></i> <span>系统设置</span> <span class="label">3</span></a>
       <ul>
         <li><a href="${pageContext.request.contextPath}/backend/useroverview.html">系统用户管理</a></li>
-        <li><a href="${pageContext.request.contextPath}/backend/clientoverview.html">客户端用户管理</a></li>
+        <%--<li><a href="${pageContext.request.contextPath}/backend/clientoverview.html">客户端用户管理</a></li>--%>
         <li><a href="${pageContext.request.contextPath}/backend/clientversionshow.html?method=load">客户端版本管理</a></li>
          <li><a href="${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load">开机广告管理</a></li>
       </ul>

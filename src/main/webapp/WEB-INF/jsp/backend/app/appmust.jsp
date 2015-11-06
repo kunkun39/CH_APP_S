@@ -71,42 +71,40 @@
                         <br/>
                         <br/>
 
-                        <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_RECOMMEND">
-                            <table class="table table-bordered table-striped">
-                                <thead>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th style="font-size:13px" >查询条件</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
-                                    <th style="font-size:13px" >查询条件</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                        应用类别：<select id="categoryId" name="categoryId" style="height: 30px;">
-                                            <option value="-1">全 部
-                                            </option>
-                                            <c:forEach items="${categories}" var="category">
-                                                <option value="${category.id}" >${category.categoryName}</option>
-                                                <c:forEach items="${category.children}" var="child">
-                                                    <option value="${child.id}">${category.categoryName} -> ${child.categoryName}</option>
-                                                </c:forEach>
+                                    <td>
+                                    应用类别：<select id="categoryId" name="categoryId" style="height: 30px;">
+                                        <option value="-1">全 部
+                                        </option>
+                                        <c:forEach items="${categories}" var="category">
+                                            <option value="${category.id}" >${category.categoryName}</option>
+                                            <c:forEach items="${category.children}" var="child">
+                                                <option value="${child.id}">${category.categoryName} -> ${child.categoryName}</option>
                                             </c:forEach>
-                                        </select>
-                                         &nbsp;
-                                         应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
-                                            &nbsp;
-                                            <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </c:forEach>
+                                    </select>
+                                     &nbsp;
+                                     应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
+                                        &nbsp;
+                                        <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <%--！搜索结果部分--%>
-                            <div class="widget-content nopadding">
-                            <ul id="search_list_content" class="recent-posts">
+                        <%--！搜索结果部分--%>
+                        <div class="widget-content nopadding">
+                        <ul id="search_list_content" class="recent-posts">
 
-                            </ul>
-                        </div>
-                        </security:authorize>
+                        </ul>
+                    </div>
 
                     </div>
                 </div>
