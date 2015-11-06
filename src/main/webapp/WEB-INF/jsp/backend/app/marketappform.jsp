@@ -169,8 +169,6 @@
                             </div>
                             <div class="control-group">
                                 <label class="control-label">应用类别 [必填]</label>
-                                <input type="hidden" id="add_categoies" name="addCategoies" value=""/>
-                                <input type="hidden" id="delete_categoies" name="deleteCategoies" value=""/>
                                 <div class="controls">
                                     <select id="selectCategoryId" name="selectCategoryId" style="height: 30px;">
                                         <c:forEach items="${categories}" var="category">
@@ -181,12 +179,29 @@
                                             </c:forEach>
                                         </c:forEach>
                                     </select>
-                                    <%--<a href="javascript:void(0);" onclick="appendAppCategory()" class="btn btn-warning btn-mini">添加类别</a>--%>
-                                    <%--<br/>--%>
-                                    <%--<br/>--%>
-                                    <%--<div id="exist_category">--%>
-                                        <%--<a href="#" onclick="deleteAppCategory()" class="btn btn-danger btn-mini">删除类别</a> 生活 -> 将抗<br/>--%>
-                                    <%--</div>--%>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">应用专题</label>
+                                <input type="hidden" id="add_topics" name="addTopics" value="${app.topicIds}"/>
+                                <input type="hidden" id="delete_topics" name="deleteTopics" value=""/>
+                                <div class="controls">
+                                    <select id="selectTopicId" name="selectTopicId" style="height: 30px;">
+                                        <c:forEach items="${topics}" var="topic">
+                                            <option value="${topic.id}">${topic.topicName}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <a href="javascript:void(0);" onclick="appendAppTopic()" class="btn btn-warning btn-mini">添加专题</a>
+                                    <br/>
+                                    <br/>
+                                    <div id="exist_topics">
+                                        <c:forEach items="${app.topics}" var="topic">
+                                            <div id="topic_exist_${topic.id}">
+                                                ${topic.topicName} <a href="#" onclick="deleteAppTopic('${topic.id}')" class="btn btn-danger btn-mini">删除专题</a> <br/>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
                                 </div>
                             </div>
 
@@ -289,12 +304,12 @@
 
 <script type="text/javascript">
 
-    function appendAppCategory() {
-        var categoryId = jQuery("#selectCategoryId").val();
-        var categoryLable = jQuery("#selectCategoryId").find("option:selected").text();
-        var alreadyAdd = jQuery("#add_categoies").val();
+    function appendAppTopic() {
+        var topicId = jQuery("#selectTopicId").val();
+        var topicLable = jQuery("#selectTopicId").find("option:selected").text();
+        var alreadyAdd = jQuery("#add_topics").val();
 
-        if(alreadyAdd.indexOf(categoryId + ",") >= 0) {
+        if(alreadyAdd.indexOf(topicId + ",") >= 0) {
             jQuery("#marketapp-dialog-confirm").css("visibility", "visible");
             jQuery("#marketapp-dialog-confirm").dialog({
                 resizable: false,
@@ -310,25 +325,25 @@
             });
 
         } else {
-            jQuery("#add_categoies").val(alreadyAdd + categoryId + ",");
+            jQuery("#add_topics").val(alreadyAdd + topicId + ",");
 
-            var newHtml = "<div id=\"category_exist_" + categoryId + "\">" + categoryLable + " <a href=\"javascript:void(0);\" onclick=\"deleteAppCategory('" + categoryId + "')\" class=\"btn btn-danger btn-mini\">删除类别</a><br/><div>";
-            var oldHtml = jQuery("#exist_category").html();
-            jQuery("#exist_category").html(oldHtml + newHtml);
+            var newHtml = "<div id=\"topic_exist_" + topicId + "\">" + topicLable + " <a href=\"javascript:void(0);\" onclick=\"deleteAppTopic('" + topicId + "')\" class=\"btn btn-danger btn-mini\">删除专题</a><br/><div>";
+            var oldHtml = jQuery("#exist_topics").html();
+            jQuery("#exist_topics").html(oldHtml + newHtml);
         }
     }
 
-    function deleteAppCategory(categoryId) {
-        var alreadyAdd = jQuery("#add_categoies").val();
-        var alreadyDelete = jQuery("#delete_categoies").val();
+    function deleteAppTopic(topicId) {
+        var alreadyAdd = jQuery("#add_topics").val();
+        var alreadyDelete = jQuery("#delete_topics").val();
 
-        if(alreadyAdd.indexOf(categoryId + ",") >= 0) {
-            jQuery("#add_categoies").val(alreadyAdd.replace(categoryId + ",", ""))
+        if(alreadyAdd.indexOf(topicId + ",") >= 0) {
+            jQuery("#add_topics").val(alreadyAdd.replace(topicId + ",", ""))
         } else {
-            jQuery("#delete_categoies").val(alreadyDelete + categoryId + ",");
+            jQuery("#delete_topics").val(alreadyDelete + topicId + ",");
         }
 
-        jQuery("#category_exist_" + categoryId).remove();
+        jQuery("#topic_exist_" + topicId).remove();
     }
 
     function saveMarketApp(form) {

@@ -57,6 +57,9 @@
                 <prop key="/backend/appcategoryform.html">appCategoryFormController</prop>
                 <prop key="/backend/appcategoryoverview.html">appCategoryManagementController</prop>
                 <prop key="/backend/categorydelete.html">appCategoryDeleteController</prop>
+                <prop key="/backend/apptopicform.html">appTopicFormController</prop>
+                <prop key="/backend/apptopicoverview.html">appTopicManagementController</prop>
+                <prop key="/backend/topicdelete.html">appTopicDeleteController</prop>
                 <prop key="/backend/marketappoverview.html">marketAppManagementController</prop>
                 <prop key="/backend/marketappform.html">marketAppFormController</prop>
                 <prop key="/backend/marketappstatus.html">marketAppStatusController</prop>
@@ -73,6 +76,7 @@
                 <prop key="/client/boxpages.html">clientBoxIndexPageController</prop>
                 <prop key="/client/appdetails.html">clientAppDetailsController</prop>
                 <prop key="/client/categoryapps.html">clientAppColumnController</prop>
+                <prop key="/client/topicapps.html">clientAppForTopicController</prop>
                 <prop key="/client/appsearch.html">clientSearchAppController</prop>
                 <prop key="/client/appranklist.html">clientRankListController</prop>
                 <prop key="/client/appversions.html">clientAppVersionController</prop>
@@ -153,6 +157,20 @@
         <property name="appService" ref="appService"/>
     </bean>
 
+    <bean id="appTopicFormController" class="com.changhong.system.web.controller.AppTopicFormController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="appTopicManagementController" class="com.changhong.system.web.controller.AppTopicManagementController">
+        <property name="appService" ref="appService"/>
+        <property name="fileRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="appTopicDeleteController" class="com.changhong.system.web.controller.AppTopicDeleteController">
+        <property name="appService" ref="appService"/>
+    </bean>
+
     <bean id="marketAppManagementController" class="com.changhong.system.web.controller.MarketAppManagementController">
         <property name="appService" ref="appService"/>
         <property name="fileRequestHost" value="${application.file.request.path}"/>
@@ -209,6 +227,10 @@
     </bean>
 
     <bean id="clientAppColumnController" class="com.changhong.client.web.controller.ClientAppColumnController">
+        <property name="clientService" ref="clientService"/>
+    </bean>
+
+    <bean id="clientAppForTopicController" class="com.changhong.client.web.controller.ClientAppForTopicController">
         <property name="clientService" ref="clientService"/>
     </bean>
 

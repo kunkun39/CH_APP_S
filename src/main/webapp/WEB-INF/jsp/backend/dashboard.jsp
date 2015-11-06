@@ -75,7 +75,7 @@
                                     <li onclick="resetPageNumber(2);"><i class="icon-th-list"></i> ${category_1.categoryName}</li>
                                     <li onclick="resetPageNumber(3);"><i class="icon-gift"></i> ${category_2.categoryName}</li>
                                     <li onclick="resetPageNumber(4);"><i class="icon-briefcase"></i> ${category_3.categoryName}</li>
-                                    <li onclick="resetPageNumber(5);"><i class="icon-adjust"></i> ${category_4.categoryName}</li>
+                                    <li onclick="resetPageNumber(5);"><i class="icon-adjust"></i> 专题</li>
                                 </ul>
                             </div>
 

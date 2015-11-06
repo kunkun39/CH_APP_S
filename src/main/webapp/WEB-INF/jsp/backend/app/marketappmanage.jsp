@@ -67,6 +67,13 @@
                           </c:forEach>
                       </select>
                       &nbsp;
+                      应用专题：<select name="topicId" style="height: 30px;">
+                          <option value="-1" <c:if test="${-1==paging.topicId}">selected="true"</c:if>>全 部</option>
+                          <c:forEach items="${topics}" var="topic">
+                            <option value="${topic.id}" <c:if test="${topic.id==paging.topicId}">selected="true"</c:if>>${topic.topicName}</option>
+                          </c:forEach>
+                      </select>
+                      &nbsp;
                       应用名称：<input type="text" name="appName" class="text" value="${paging.appName}" style="height: 25px;"/>
                       &nbsp;
                      <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="jQuery('#app_search_form').submit();"></i>
@@ -105,6 +112,7 @@
                             </div>
                             <div class="article-post">
                                 <div class="fr">
+                                    <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_STATUS">
                                     <c:choose>
                                         <c:when test="${app.status == 'CREAETED'}">
                                             <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'PASSED')" class="btn btn-success btn-mini">通过审核</a>
@@ -120,6 +128,7 @@
                                             <a href="javascript:void(0);" onclick="appStatusChangeConfirm('${app.id}', 'CREAETED')" class="btn btn-inverse btn-mini">重新审核</a>
                                         </c:when>
                                     </c:choose>
+                                    </security:authorize>
 
                                     <a href="${fileRequestHost}${app.appKey}/${app.apkActualFileName}" target="_blank" class="btn btn-warning btn-mini">下载应用</a>
                                     <a href="${pageContext.request.contextPath}/backend/marketappform.html?marketAppId=${app.id}&appName=${paging.appName}&categoryId=${paging.categoryId}&appStatus=${paging.appStatus}" class="btn btn-primary btn-mini">编辑信息</a>

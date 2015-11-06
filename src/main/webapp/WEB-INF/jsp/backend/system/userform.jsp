@@ -78,9 +78,9 @@
                                             <c:if  test="${user.hasRoleAppInfo}"> checked</c:if>
                                                                         />&nbsp;&nbsp;应用信息管理 [可以进行应用基本管理]</label>
 
-                                    <%--<label><input type="checkbox" name="roleUser" value="ROLE_APP_STATUS"--%>
-                                            <%--<c:if  test="${user.hasRoleAppStatus}"> checked</c:if>--%>
-                                                                        <%--/>&nbsp;&nbsp;应用状态管理 [可以进行应用审核管理]</label>--%>
+                                    <label><input type="checkbox" name="roleUser" value="ROLE_APP_STATUS"
+                                            <c:if  test="${user.hasRoleAppStatus}"> checked</c:if>
+                                                                        />&nbsp;&nbsp;应用状态管理 [可以进行应用审核管理]</label>
 
                                     <label><input type="checkbox" name="roleUser" value="ROLE_APP_STATISTIC"
                                             <c:if  test="${user.hasRoleAppStatistic}"> checked</c:if>

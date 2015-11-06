@@ -5,7 +5,7 @@
     <div class="tv_main">
         <div class="linec">
             <ul class="list">
-                <c:forEach items="${category_4.children}" var="child" varStatus="counter">
+                <c:forEach items="${topics}" var="topic" varStatus="counter">
                     <c:if test="${counter.count <= 10}">
                         <c:set var="linecolor" value="#660066"/>
                         <c:choose>
@@ -45,10 +45,10 @@
 
                         <li class="${lineclass}" style="background-color: ${linecolor}">
                             <p class="${lineicon}">
-                                <img src="${fileRequestHost}/category/${child.categoryIconName}" alt="">
+                                <img src="${fileRequestHost}/topic/${topic.topicIconName}" alt="">
                             </p>
                             <br/>
-                            <a class="${lineflag}">&nbsp;${child.categoryName}</a>
+                            <a class="${lineflag}">&nbsp;${topic.topicName}</a>
                         </li>
                     </c:if>
                 </c:forEach>
