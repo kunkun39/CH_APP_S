@@ -138,13 +138,22 @@
         }
 
         var topicIconName = jQuery("#topicIconName").val();
-        if(topicIconName == null || topicIconName == '') {
-            jQuery("#topicIcon_help").css("display", "block");
-            return;
-        } else {
-            if(!isImage(topicIconName)) {
-                jQuery("#topicIcon_format_help").css("display", "block");
+        if(topicId <= 0) {
+            if(topicIconName == null || topicIconName == '') {
+                jQuery("#topicIcon_help").css("display", "block");
                 return;
+            } else {
+                if(!isImage(topicIconName)) {
+                    jQuery("#topicIcon_format_help").css("display", "block");
+                    return;
+                }
+            }
+        }  else {
+            if(topicIconName != null && topicIconName != '') {
+                if(!isImage(topicIconName)) {
+                    jQuery("#topicIcon_format_help").css("display", "block");
+                    return;
+                }
             }
         }
 

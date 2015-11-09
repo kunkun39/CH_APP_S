@@ -194,7 +194,7 @@
 <div id="duplicate-dialog-confirm" title="消息对话框?" style="visibility: hidden;">
     <p>
         <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-        该应用已经退推荐到其他页面，是否继续？
+        该应用已经推荐到其他页面，是否继续？
     </p>
 </div>
 

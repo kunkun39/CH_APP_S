@@ -128,7 +128,7 @@
                             <div class="control-group">
                                 <label class="control-label">应用名称 [必填]</label>
                                 <div class="controls">
-                                    <spring-form:input path="appFullName" maxlength="50" cssStyle="height: 30px;"/>&nbsp;
+                                    <spring-form:input path="appFullName" maxlength="40" cssStyle="height: 30px;"/>&nbsp;
                                     <spring-form:errors path="appFullName" cssClass="help-inline"/>
                                 </div>
                             </div>
@@ -172,6 +172,7 @@
                                 <div class="controls">
                                     <select id="selectCategoryId" name="selectCategoryId" style="height: 30px;">
                                         <c:forEach items="${categories}" var="category">
+                                            <option value="${category.id}" disabled="">${category.categoryName}</option>
                                             <c:forEach items="${category.children}" var="child">
                                                 <option value="${child.id}"
                                                         <c:if test="${child.id==app.categoryId}">selected="true"</c:if>>${category.categoryName}
@@ -253,14 +254,14 @@
                             <div class="control-group">
                                 <label class="control-label">应用简介 [必填]</label>
                                 <div class="controls">
-                                    <spring-form:textarea path="appDescription" cssClass="span20"/>
+                                    <spring-form:textarea path="appDescription" cssClass="span20" rows="4"/>
                                     <spring-form:errors path="appDescription" cssClass="help-inline"/>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">应用备注</label>
                                 <div class="controls">
-                                    <spring-form:textarea path="appNote" cssClass="span20"/>
+                                    <spring-form:textarea path="appNote" cssClass="span20" rows="4"/>
                                 </div>
                             </div>
                             <c:if test="${app.id > 0}">
