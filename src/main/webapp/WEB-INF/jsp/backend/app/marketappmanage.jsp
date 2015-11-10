@@ -153,12 +153,13 @@
                             </div>
                         </li>
                         </c:forEach>
-
-                        <li>
-                            <ch:paging urlMapping="${pageContext.request.contextPath}/backend/marketappoverview.html" showGoTo="false" paging="${paging}"/>
-                        </li>
                     </ul>
 
+                    <div class="pagination alternate">
+                        <ul>
+                            <ch:paging urlMapping="${pageContext.request.contextPath}/backend/marketappoverview.html" paging="${paging}"/>
+                        </ul>
+                    </div>
 
                 </div>
             </div>

@@ -138,8 +138,12 @@
             </table>
           </div>
 
-          <div class="widget-title">
-            <h5><ch:paging urlMapping="${pageContext.request.contextPath}/backend/useroverview.html" showGoTo="false" paging="${paging}"/></h5>
+          <div class="widget-content nopadding">
+            <div class="pagination alternate">
+                <ul>
+                    <ch:paging urlMapping="${pageContext.request.contextPath}/backend/userappoverview.html" paging="${paging}"/>
+                </ul>
+            </div>
           </div>
         </div>
 
