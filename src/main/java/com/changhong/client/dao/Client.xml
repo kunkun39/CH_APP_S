@@ -14,14 +14,6 @@
        select client_version from client_version
    </select>
 
-   <select id="selectAllAppCategory"  resultClass="java.util.HashMap">
-       select a.id as category_id,a.category_name,a.parent_id,c.actual_filename from app_category a left join category_icon c on a.category_icon_id = c.id
-   </select>
-
-    <select id="selectAllAppTopic"  resultClass="java.util.HashMap">
-       select a.id as topic_id,a.topic_name,c.actual_filename from app_topic a left join category_icon c on a.topic_icon_id = c.id
-   </select>
-
    <select id="selectAllBoxIndexPage"  resultClass="java.util.HashMap">
        select page_number,recommend_position,recommend_app_id from box_page_recommend
    </select>

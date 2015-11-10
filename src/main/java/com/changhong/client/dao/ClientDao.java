@@ -12,10 +12,6 @@ import java.util.List;
  */
 public interface ClientDao {
 
-    List<HashMap> loadAllAppCategoryInfo();
-
-    List<HashMap> loadAllAppTopicInfo();
-
     List<HashMap> loadAllBoxPages();
 
     List<HashMap> loadRankList(int type);

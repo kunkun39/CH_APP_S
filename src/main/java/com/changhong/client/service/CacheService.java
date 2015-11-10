@@ -2,6 +2,7 @@ package com.changhong.client.service;
 
 import com.changhong.system.web.facade.dto.*;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,17 +14,25 @@ public interface CacheService {
 
     void obtainInitCachedObjects();
 
+    /************************************专题和类别部分************************************/
+
     /**
      * 1 - 种类删除需要清空缓存
      * 2 - 种类信息改变需要修改缓存
      */
     void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove);
 
+    Collection<AppCategoryDTO> obtainAllCategories();
+
     /**
      * 1 - 专题删除需要清空缓存
      * 2 - 专题信息改变需要修改缓存
      */
     void resetAppTopicInCache(AppTopicDTO dto, boolean remove);
+
+    Collection<AppTopicDTO> obtainAllTopics();
+
+    /************************************App部分************************************/
 
     /**
      * 1 - 应用信息改变需要修改缓存

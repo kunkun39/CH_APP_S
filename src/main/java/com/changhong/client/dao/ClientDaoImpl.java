@@ -21,16 +21,6 @@ import org.apache.log4j.Logger;
 @Repository("clientDao")
 public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
 
-    public List<HashMap> loadAllAppCategoryInfo() {
-        List<HashMap> categoryies = getSqlMapClientTemplate().queryForList("Client.selectAllAppCategory");
-        return categoryies;
-    }
-
-    public List<HashMap> loadAllAppTopicInfo() {
-        List<HashMap> topics = getSqlMapClientTemplate().queryForList("Client.selectAllAppTopic");
-        return topics;
-    }
-
     public List<HashMap> loadAllBoxPages() {
         List<HashMap> pages = getSqlMapClientTemplate().queryForList("Client.selectAllBoxIndexPage");
         return pages;

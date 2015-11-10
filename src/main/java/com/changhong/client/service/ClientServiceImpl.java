@@ -6,20 +6,14 @@ import com.changhong.client.dao.ClientDao;
 import com.changhong.common.utils.CHListUtils;
 import com.changhong.common.utils.DesUtils;
 import com.changhong.system.domain.AppDownloadHistory;
-import com.changhong.system.web.facade.dto.AppMustDTO;
-import com.changhong.system.web.facade.dto.LuncherRecommendDTO;
-import com.changhong.system.web.facade.dto.MarketAppDTO;
+import com.changhong.system.web.facade.dto.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Jack Wang
@@ -67,16 +61,16 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         all.put("client_url", appMarketApkUpdateURL);
 
         //获得所有的应用总类信息，使用到了泛型
-        List<HashMap> values =  clientDao.loadAllAppCategoryInfo();
+        Collection<AppCategoryDTO> categories =  cacheService.obtainAllCategories();
         JSONArray array = new JSONArray();
-        if (values != null) {
+        if (categories != null) {
             //foreach循环访问集合里的元素
-            for (HashMap value : values) {
+            for (AppCategoryDTO value : categories) {
                 JSONObject single = new JSONObject();
-                single.put(ClientInfoProperties.CATEGORY_ID, (Integer) value.get("category_id") + "");
-                single.put(ClientInfoProperties.CATEGORY_NAME, (String) value.get("category_name"));
-                single.put(ClientInfoProperties.CATEGORY_PARENTID, value.get("parent_id") == null ? "-1" : (Integer) value.get("parent_id") + "");
-                single.put(ClientInfoProperties.CATEGORY_FILENAME, value.get("actual_filename") == null ? "" : (String) value.get("actual_filename"));
+                single.put(ClientInfoProperties.CATEGORY_ID, value.getId() + "");
+                single.put(ClientInfoProperties.CATEGORY_NAME, value.getCategoryName());
+                single.put(ClientInfoProperties.CATEGORY_PARENTID, value.getParentId());
+                single.put(ClientInfoProperties.CATEGORY_FILENAME, value.getCategoryIconName());
 
                 //向array集合里添加一个元素
                 array.add(single);
@@ -84,15 +78,15 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         }
         all.put("category", array);
 
-        values =  clientDao.loadAllAppTopicInfo();
+        Collection<AppTopicDTO> topics =  cacheService.obtainAllTopics();
         array = new JSONArray();
-        if (values != null) {
+        if (topics != null) {
             //foreach循环访问集合里的元素
-            for (HashMap value : values) {
+            for (AppTopicDTO value : topics) {
                 JSONObject single = new JSONObject();
-                single.put(ClientInfoProperties.CATEGORY_ID, (Integer) value.get("topic_id") + "");
-                single.put(ClientInfoProperties.CATEGORY_NAME, (String) value.get("topic_name"));
-                single.put(ClientInfoProperties.CATEGORY_FILENAME, value.get("actual_filename") == null ? "" : (String) value.get("actual_filename"));
+                single.put(ClientInfoProperties.CATEGORY_ID, value.getId() + "");
+                single.put(ClientInfoProperties.CATEGORY_NAME, value.getTopicName());
+                single.put(ClientInfoProperties.CATEGORY_FILENAME, value.getTopicIconName());
 
                 //向array集合里添加一个元素
                 array.add(single);

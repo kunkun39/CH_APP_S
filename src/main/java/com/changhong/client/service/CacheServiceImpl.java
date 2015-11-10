@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -133,12 +134,18 @@ public class CacheServiceImpl implements CacheService {
         log.info("finish init all in " + during + "ms");
     }
 
+    /************************************专题和类别部分************************************/
+
     public void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove) {
         if (remove) {
             categoryCache.remove("CATE_" + dto.getId());
         } else {
             categoryCache.put("CATE_" + dto.getId(), dto);
         }
+    }
+
+    public Collection<AppCategoryDTO> obtainAllCategories() {
+        return categoryCache.values();
     }
 
     public void resetAppTopicInCache(AppTopicDTO dto, boolean remove) {
@@ -148,6 +155,12 @@ public class CacheServiceImpl implements CacheService {
             topicCache.put("TOP_" + dto.getId(), dto);
         }
     }
+
+    public Collection<AppTopicDTO> obtainAllTopics() {
+        return topicCache.values();
+    }
+
+    /************************************App部分************************************/
 
     public void resetMarketAppInCache(MarketAppDTO dto) {
         appCache.put("APP_" + dto.getId(), dto);
