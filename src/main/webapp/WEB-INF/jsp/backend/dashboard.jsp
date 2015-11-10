@@ -105,8 +105,8 @@
                                         </option>
                                         <c:forEach items="${categories}" var="category">
                                             <option value="${category.id}" >${category.categoryName}</option>
-                                            <c:forEach items="${category.children}" var="child">
-                                                <option value="${child.id}">${category.categoryName} -> ${child.categoryName}</option>
+                                            <c:forEach items="${category.children}" var="child" varStatus="counter">
+                                                <option value="${child.id}">[${counter.count}] ${category.categoryName} -> ${child.categoryName}</option>
                                             </c:forEach>
                                         </c:forEach>
                                     </select>

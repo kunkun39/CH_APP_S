@@ -173,9 +173,9 @@
                                     <select id="selectCategoryId" name="selectCategoryId" style="height: 30px;">
                                         <c:forEach items="${categories}" var="category">
                                             <option value="${category.id}" disabled="">${category.categoryName}</option>
-                                            <c:forEach items="${category.children}" var="child">
+                                            <c:forEach items="${category.children}" var="child" varStatus="counter">
                                                 <option value="${child.id}"
-                                                        <c:if test="${child.id==app.categoryId}">selected="true"</c:if>>${category.categoryName}
+                                                        <c:if test="${child.id==app.categoryId}">selected="true"</c:if>>[${counter.count}] ${category.categoryName}
                                                     -> ${child.categoryName}</option>
                                             </c:forEach>
                                         </c:forEach>

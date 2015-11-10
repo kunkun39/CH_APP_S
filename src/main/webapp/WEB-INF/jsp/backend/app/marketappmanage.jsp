@@ -61,8 +61,8 @@
                           <option value="-1" <c:if test="${-1==paging.categoryId}">selected="true"</c:if>>全 部</option>
                           <c:forEach items="${categories}" var="category">
                             <option value="${category.id}" <c:if test="${category.id==paging.categoryId}">selected="true"</c:if>>${category.categoryName}</option>
-                            <c:forEach items="${category.children}" var="child">
-                                <option value="${child.id}" <c:if test="${child.id==paging.categoryId}">selected="true"</c:if>>${category.categoryName} -> ${child.categoryName}</option>
+                            <c:forEach items="${category.children}" var="child" varStatus="counter">
+                                <option value="${child.id}" <c:if test="${child.id==paging.categoryId}">selected="true"</c:if>>[${counter.count}] ${category.categoryName} -> ${child.categoryName}</option>
                             </c:forEach>
                           </c:forEach>
                       </select>
