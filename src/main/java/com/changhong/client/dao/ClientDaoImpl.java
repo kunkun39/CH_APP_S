@@ -1,14 +1,12 @@
 package com.changhong.client.dao;
 
+import com.changhong.client.domain.AppFast;
 import com.changhong.common.utils.CHDateUtils;
 import com.changhong.common.utils.JodaUtils;
 import com.changhong.system.domain.AppDownloadHistory;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -34,11 +32,36 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
             pages = getSqlMapClientTemplate().queryForList("Client.selectHotestApps");
         } else {
             Map<String, Object> parameters = new HashMap<String, Object>();
-            String firstDayThisMonth = JodaUtils.getFirstDateOfMonth().toString() + " 00:00:00";
-            String firstDayNextMonth = JodaUtils.getFirstDateOfNextMonth().toString() + " 00:00:00";
-            parameters.put("firstDayThisMonth", firstDayThisMonth);
-            parameters.put("firstDayNextMonth", firstDayNextMonth);
+            String currentYear = CHDateUtils.getCurrentYear() + "";
+            String currentMonth = CHDateUtils.getCurrentMonth() + "";
+            parameters.put("currentYear", currentYear);
+            parameters.put("currentMonth", currentMonth);
             pages = getSqlMapClientTemplate().queryForList("Client.selectFastestApps", parameters);
+
+            //recreate the result
+            Map<String, AppFast> values = new HashMap<String, AppFast>();
+            for (HashMap page : pages) {
+                int appId = (Integer) page.get("app_id");
+                AppFast fast = values.get(appId + "");
+                if (fast == null) {
+                    fast = new AppFast(appId);
+                }
+                fast.add();
+                values.put(appId + "", fast);
+            }
+            Collection<AppFast> tempFasts = values.values();
+            List<AppFast> fasts = new ArrayList<AppFast>();
+            for (AppFast fast : tempFasts) {
+                fasts.add(fast);
+            }
+            Collections.sort(fasts);
+
+            pages.clear();
+            for (AppFast fast : fasts) {
+                Map<String, Integer> appResult = new HashMap<String, Integer>();
+                appResult.put("app_id", fast.getAppId());
+                pages.add((HashMap) appResult);
+            }
         }
         return pages;
     }

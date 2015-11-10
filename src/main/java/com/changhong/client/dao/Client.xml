@@ -27,8 +27,8 @@
    </select>
 
     <select id="selectFastestApps"  resultClass="java.util.HashMap">
-       select count(app_id) as amount, app_id from app_download_history where timestamp &lt; #firstDayNextMonth# and timestamp &gt; #firstDayThisMonth# group by app_id order by amount desc limit 10
-   </select>
+        select app_id from app_download_history where sta_year = #currentYear# and sta_month = #currentMonth# limit 500;
+    </select>
 
     <update id="updateAppDownloadTimes"  parameterClass="java.util.HashMap">
        update market_app set download_times = download_times + 1 where id = #appId#
