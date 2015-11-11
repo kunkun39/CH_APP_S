@@ -101,6 +101,12 @@
                     <h5>结果</h5>
                 </div>
                 <div class="widget-content nopadding">
+                    <div class="pagination alternate" style="padding-left: 10px">
+                        <ul>
+                            <ch:paging urlMapping="${pageContext.request.contextPath}/backend/marketappoverview.html" paging="${paging}"/>
+                        </ul>
+                    </div>
+
                     <ul class="recent-posts">
                         <c:forEach items="${apps}" var="app">
                         <li>
@@ -155,7 +161,7 @@
                         </c:forEach>
                     </ul>
 
-                    <div class="pagination alternate">
+                    <div class="pagination alternate" style="padding-left: 10px">
                         <ul>
                             <ch:paging urlMapping="${pageContext.request.contextPath}/backend/marketappoverview.html" paging="${paging}"/>
                         </ul>

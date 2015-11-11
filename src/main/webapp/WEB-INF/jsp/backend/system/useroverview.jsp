@@ -139,7 +139,7 @@
           </div>
 
           <div class="widget-content nopadding">
-            <div class="pagination alternate">
+            <div class="pagination alternate" style="padding-left: 10px">
                 <ul>
                     <ch:paging urlMapping="${pageContext.request.contextPath}/backend/userappoverview.html" paging="${paging}"/>
                 </ul>

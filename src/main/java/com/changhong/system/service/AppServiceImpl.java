@@ -66,11 +66,11 @@ public class AppServiceImpl implements AppService {
             }
         }
 
+        appDao.saveOrUpdate(category);
+
         //reset the cache
         AppCategoryDTO dto = AppCategoryWebAssember.toAppCategoryDTO(category, false);
         cacheService.resetAppCategoryInCache(dto, false);
-
-        appDao.saveOrUpdate(category);
     }
 
     public AppCategoryDTO obtainAppCategoryById(int categoryId) {
@@ -124,11 +124,11 @@ public class AppServiceImpl implements AppService {
             topic.setCategoryIcon(icon);
         }
 
+        appDao.saveOrUpdate(topic);
+
         //reset the cache
         AppTopicDTO dto = AppTopicWebAssember.toAppTopicDTO(topic);
         cacheService.resetAppTopicInCache(dto, false);
-
-        appDao.saveOrUpdate(topic);
     }
 
     public AppTopicDTO obtainAppTopicById(int topicId) {
