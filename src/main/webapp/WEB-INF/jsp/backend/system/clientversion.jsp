@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-style.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-media.css" class="skin-color" />
     <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/js/jquery-ui/jquery-ui-1.8.22.custom.css" type="text/css"/>
     <script type='text/javascript' src='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.min.js'></script>
     <link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.css'/>
 </head>
@@ -89,6 +91,13 @@
     </div>
 </div>
 
+<div id="update-dialog-confirm" title="确认对话框?" style="visibility: hidden;">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+        开启或关闭更新将会影响机顶盒的的更新，请确认是否继续？
+    </p>
+</div>
+
 <script type="text/javascript">
     function endWith(str, endWith) {
         var reg = new RegExp(endWith + "$");
@@ -128,7 +137,24 @@
     }
 
     function changeClientUpdateStatus(status) {
-        window.location.href = "${pageContext.request.contextPath}/backend/clientversionshow.html?method=change&beginUpdate=" + status;
+        jQuery("#update-dialog-confirm").css("visibility", "visible");
+        jQuery("#update-dialog-confirm").dialog({
+            resizable: false,
+            height:160,
+            width:300,
+            modal: true,
+            buttons: {
+                "确  认": function() {
+                    jQuery("#update-dialog-confirm").css("visibility", "hidden");
+                    jQuery(this).dialog("close");
+                    window.location.href = "${pageContext.request.contextPath}/backend/clientversionshow.html?method=change&beginUpdate=" + status;
+                },
+                "取  消": function() {
+                    jQuery("#update-dialog-confirm").css("visibility", "hidden");
+                    jQuery(this).dialog("close");
+                }
+            }
+        });
     }
 
 </script>

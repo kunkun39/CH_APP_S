@@ -351,6 +351,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
         cacheService.updateAppDownloadTimes(appId);
 
+        //if insert is two slow, you can use batc
         AppDownloadHistory history = new AppDownloadHistory(boxMac, appId, categoryFatherId, categoryId);
         clientDao.updateAppDownloadTime(history);
     }
