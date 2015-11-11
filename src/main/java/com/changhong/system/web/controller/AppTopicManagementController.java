@@ -28,6 +28,7 @@ public class AppTopicManagementController extends AbstractController {
 
         List<AppTopicDTO> topics = appService.obtainAllTopics();
         model.put("topics", topics);
+        model.put("topicSize", topics.size());
 
         model.put("fileRequestHost", fileRequestHost);
         return new ModelAndView("backend/app/apptopicmanage", model);
