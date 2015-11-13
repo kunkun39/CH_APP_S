@@ -61,6 +61,12 @@
                                 </div>
                            </div>
                            <div class="control-group">
+                                <label class="control-label">文件名</label>
+                                <div class="controls">
+                                    <input value="${fileName}" cssStyle="height:30px;" readonly="true"/>
+                                </div>
+                            </div>
+                           <div class="control-group">
                                 <label class="control-label">大小</label>
                                 <div class="controls">
                                     <input value="${fileSize}" cssStyle="height:30px;" readonly="true"/>M

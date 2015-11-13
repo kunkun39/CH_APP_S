@@ -77,6 +77,7 @@ public class AppInfoUtils {
             File file = new File(filepath);
             String fileSize = file.length() + "";
             model.put("fileSize", getFileSize(fileSize));
+            model.put("fileName", file.getName());
 
             if (shouldDelete && file.exists()) {
                 boolean deleted = file.delete();
