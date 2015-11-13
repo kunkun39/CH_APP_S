@@ -2,6 +2,9 @@ package com.changhong.system.service;
 
 import com.changhong.system.domain.CategoryIcon;
 import com.changhong.system.domain.MarketApp;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 /**
  * User: Jack Wang
@@ -23,4 +26,6 @@ public interface DocumentService {
     void uploadTopicIconData(CategoryIcon icon);
 
     void deleteTopicIconData(String filename);
+
+    Map<String, String> saveApkParserFileToFS(MultipartFile apkParserFlie);
 }

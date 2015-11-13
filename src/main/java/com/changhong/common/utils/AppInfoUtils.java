@@ -16,13 +16,13 @@ import java.util.zip.ZipFile;
  */
 public class AppInfoUtils {
 
-    public static Map<String, String> obtainApkInfo(String filepath) {
+    public static Map<String, String> obtainApkInfo(String filepath, boolean shouldDelete) {
         Map<String, String> model = new HashMap<String, String>();
 
+        ZipFile zipFile = null;
         try {
-
             //Opens a apk file
-            ZipFile zipFile = new ZipFile(filepath);
+            zipFile = new ZipFile(filepath);
             //把apk文件插入到"AndroidManifest.xml"中
             ZipEntry zipEntry = zipFile.getEntry("AndroidManifest.xml");
             if (zipEntry != null) {
@@ -63,34 +63,39 @@ public class AppInfoUtils {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                if (zipFile != null) {
+                    zipFile.close();
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
 
         try {
             File file = new File(filepath);
-
             String fileSize = file.length() + "";
+            model.put("fileSize", getFileSize(fileSize));
 
-            model.put("fileSize",getFileSize(fileSize));
-
-            //model.put("fileSize", file.length() + "");
-           // file.delete();
+            if (shouldDelete && file.exists()) {
+                boolean deleted = file.delete();
+            }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-
 
         return model;
     }
 
 
-    public static String getFileSize(String size) {
+    private static String getFileSize(String size) {
         double howManyMByte = Double.valueOf(size) / 1024 / 1024;
         return String.format("%.2f", howManyMByte);
     }
-//    public static void main(String[] args) {
-////        Map<String, String> map = AppInfoUtils.obtainApkInfo("C:\\Users\\Administrator\\Desktop\\YW\\TVhelperForOTT.apk");
-//        Map<String, String> map = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk");
-//
-//        System.out.println(map);
-//    }
+
+    public static void main(String[] args) {
+        Map<String, String> map = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk", false);
+        System.out.println(map);
+    }
 }

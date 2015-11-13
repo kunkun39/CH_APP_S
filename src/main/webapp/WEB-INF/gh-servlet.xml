@@ -52,7 +52,7 @@
                 <prop key="/backend/clientform.html">clientFormController</prop>
                 <prop key="/backend/clientversionshow.html">clientVersionController</prop>
                 <prop key="/backend/clientbootimageshow.html">clientBootImageController</prop>
-                <prop key="/backend/clientapkparsershow.html">clientApkParserController</prop>
+                <prop key="/backend/apkparsershow.html">apkOnlineParserController</prop>
 
 
                 <!--应用管理-->
@@ -144,10 +144,8 @@
         <property name="clientImageRequestHost" value="${application.file.request.path}"/>
     </bean>
 
-    <bean id="clientApkParserController" class="com.changhong.system.web.controller.ClientApkParserController">
-        <property name="systemService" ref="systemService"/>
-        <property name="baseStorePath" value="${application.upload.file.path}"/>
-
+    <bean id="apkOnlineParserController" class="com.changhong.system.web.controller.ApkOnlineParserController">
+        <property name="documentService" ref="documentService"/>
     </bean>
 
     <!--应用管理-->

@@ -1,9 +1,3 @@
-<%--
-  User: dangwei pan
-  Date: 15-11-11
-  Time: 上午11:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -20,6 +14,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-style.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-media.css" class="skin-color"/>
     <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+    <script type='text/javascript' src='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.min.js'></script>
+    <link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.css'/>
     <style type="text/css">
         p{
             font-size: 20px;
@@ -40,7 +36,7 @@
     <div id="content-header">
         <div id="breadcrumb">
             <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
-            <a style="font-size: 13px" href="javascript:void(0);" class="current">apk分析器管理</a>
+            <a style="font-size: 13px" href="javascript:void(0);" class="current">APK分析工具</a>
         </div>
     </div>
 
@@ -52,28 +48,45 @@
                         <span class="icon">
                             <i class="icon-info-sign"></i>
                         </span>
-                        <h5>apk分析器管理</h5>
+                        <h5>APK分析工具</h5>
                     </div>
 
                    <div class="widget-content nopadding">
-                       <form action="${pageContext.request.contextPath}/backend/clientapkparsershow.html" class="form-horizontal" method="post" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
-                            <input type="hidden" name="method" value="save"/>
-                           <div style="border:2px solid #d3d3d3" class="control-group">
-                                <label class="control-label">待解析APK文件[必选]</label>
+                       <form action="${pageContext.request.contextPath}/backend/apkparsershow.html" class="form-horizontal" method="post" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
+                           <input type="hidden" name="method" value="save"/>
+                           <div class="control-group">
+                                <label class="control-label">APK分析文件 [必选]</label>
                                 <div class="controls">
                                     <input type="file" id="clientApkParserFlie" name="clientApkParserFlie"/>
                                 </div>
                            </div>
-                           <div style="border-:2px solid #d3d3d3" class="control-group">
-                               <br/>
-                               <ul style="font-size: 14px;font-weight: bold;">文件大小:${fileSize}M</ul>
-                               <ul style="font-size: 14px;font-weight: bold;">包名:${packageName}</ul>
-                               <ul style="font-size: 14px;font-weight: bold;">版本名:${versionName}</ul>
-                               <ul style="font-size: 14px;font-weight: bold;">版本号:${versionCode}</ul>
-                           </div>
+                           <div class="control-group">
+                                <label class="control-label">大小</label>
+                                <div class="controls">
+                                    <input value="${fileSize}" cssStyle="height:30px;" readonly="true"/>M
+                                </div>
+                            </div>
+                           <div class="control-group">
+                                <label class="control-label">包名</label>
+                                <div class="controls">
+                                    <input value="${packageName}" cssStyle="height:30px;" readonly="true"/>
+                                </div>
+                            </div>
+                           <div class="control-group">
+                                <label class="control-label">版本号[数字]</label>
+                                <div class="controls">
+                                    <input value="${versionCode}" cssStyle="height:30px;" readonly="true"/>
+                                </div>
+                            </div>
+                           <div class="control-group">
+                                <label class="control-label">版本号[字符]</label>
+                                <div class="controls">
+                                    <input value="${versionName}" cssStyle="height:30px;" readonly="true"/>
+                                </div>
+                            </div>
                            <div class="form-actions">
                                   <input type="button" value="取 消" class="btn btn-success"
-                                       onclick="window.location.href='${pageContext.request.contextPath}/backend/clientapkparsershow.html?method=load'">
+                                       onclick="window.location.href='${pageContext.request.contextPath}/backend/apkparsershow.html?method=load'">
                                         &nbsp;
                                   <input type="button" value="确 定" class="btn btn-success"
                                        onclick="saveApkParser(this.form);">
@@ -90,6 +103,7 @@
 
 <script type="text/javascript">
     function saveApkParser(form){
+        jQuery('#content').mask("正在分析数据文件，请耐心等待!");
         form.submit();
     }
 </script>

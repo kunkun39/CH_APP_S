@@ -60,7 +60,7 @@
          <li><a href="${pageContext.request.contextPath}/backend/useroverview.html"><i class="icon icon-hand-right"></i> <span>系统用户管理</span></a></li>
          <li><a href="${pageContext.request.contextPath}/backend/clientversionshow.html?method=load"><i class="icon icon-hand-right"></i> <span>客户端版本管理</span></a></li>
          <li><a href="${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load"><i class="icon icon-hand-right"></i> <span>开机广告管理</span></a></li>
-         <li><a href="${pageContext.request.contextPath}/backend/clientapkparsershow.html?method=load"><i class="icon icon-hand-right"></i> <span style="font-size: 12px">apk分析器管理</span></a></li>
+         <li><a href="${pageContext.request.contextPath}/backend/apkparsershow.html?method=load"><i class="icon icon-hand-right"></i> <span>APK分析工具</span></a></li>
       </ul>
     </li>
     </security:authorize>

@@ -1,7 +1,9 @@
 package com.changhong.system.service;
 
 import com.changhong.common.exception.CHDocumentOperationException;
+import com.changhong.common.utils.AppInfoUtils;
 import com.changhong.system.domain.*;
+import com.sun.deploy.ui.AppInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -9,10 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * User: Jack Wang
@@ -154,5 +159,30 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
         //delete icon
         File iconFile = new File(directory, filename);
         iconFile.deleteOnExit();
+    }
+
+    public Map<String, String> saveApkParserFileToFS(MultipartFile apkParserFlie) {
+        Map<String, String> model = new HashMap<String, String>();
+
+        try {
+            if (apkParserFlie != null && apkParserFlie.getSize() > 0) {
+                //get apk file name
+                String ApkFilename = apkParserFlie.getOriginalFilename();
+                File directory = new File(baseStorePath, "parser");
+                if (!directory.exists()) {
+                    directory.mkdir();
+                }
+
+                File file = new File(directory, ApkFilename);
+                OutputStream dataOut = new FileOutputStream(file.getAbsolutePath());
+                FileCopyUtils.copy(apkParserFlie.getInputStream(), dataOut);
+
+                model = AppInfoUtils.obtainApkInfo(file.getAbsolutePath(), true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return model;
     }
 }

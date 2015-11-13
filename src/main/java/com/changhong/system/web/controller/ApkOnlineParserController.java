@@ -2,6 +2,7 @@ package com.changhong.system.web.controller;
 
 
 import com.changhong.common.utils.AppInfoUtils;
+import com.changhong.system.service.DocumentService;
 import com.changhong.system.service.SystemService;
 import org.hibernate.loader.custom.Return;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,46 +26,29 @@ import java.util.Map;
  * Time: 下午1:56
  * To change this template use File | Settings | File Templates.
  */
-public class ClientApkParserController extends AbstractController {
+public class ApkOnlineParserController extends AbstractController {
 
-    private SystemService systemService;
-
-    private String baseStorePath;
+    private DocumentService documentService;
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception{
-
         String method = ServletRequestUtils.getStringParameter(request, "method", "load");
 
         if("load".equals(method)){
             return new ModelAndView("backend/system/clientapkparser");
         }else {
-              //从页面选择框获得apk文件
+             //从页面选择框获得apk文件
             DefaultMultipartHttpServletRequest multipartRequest = (DefaultMultipartHttpServletRequest) request;
             MultipartFile clientApkParserFlie = multipartRequest.getFile("clientApkParserFlie");
 
             //apk保存到fs
-            systemService.saveApkParserFileToFS(clientApkParserFlie);
+            Map<String, String> model =  documentService.saveApkParserFileToFS(clientApkParserFlie);
 
-            //访问apk路径,直接从文件系统中获得
-            String direction = baseStorePath + clientApkParserFlie.getOriginalFilename();
-
-            //解析apk文件信息
-           // Map<String, String> model = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk");
-            Map<String, String> model = AppInfoUtils.obtainApkInfo(direction);
-
-            return new ModelAndView("backend/system/clientapkparser",model);
+            return new ModelAndView("backend/system/clientapkparser", model);
         }
-
-
-
     }
 
-    public void setSystemService(SystemService systemService) {
-        this.systemService = systemService;
-    }
-
-     public void setBaseStorePath(String baseStorePath) {
-        this.baseStorePath = baseStorePath;
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
     }
 }
