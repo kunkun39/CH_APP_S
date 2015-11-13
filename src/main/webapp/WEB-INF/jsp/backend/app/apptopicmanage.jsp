@@ -41,14 +41,14 @@
 
       <div class="widget-box">
         <div class="widget-title">
-            <c:if test="${topicSize < 30}">
+            <c:if test="${topicSize < 20}">
                 <a href="javascript:void(0);" onclick="openTopicDialog('-1', 'add');">
                     <span class="icon">
                         <i class="icon-plus"></i>
                     </span>
                 </a>
             </c:if>
-            <h5>应用专题管理【系统支持30个专题，如果超过这个大小，请先删除老的专题】</h5>
+            <h5>应用专题管理【系统当前支持20个专题】</h5>
         </div>
 
           <div class="widget-content">

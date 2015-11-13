@@ -50,7 +50,7 @@
                             <%--转换到后台method模式--%>
                             <input type="hidden" name="method" value="save"/>
                             <div class="control-group">
-                                <label class="control-label">开机广告 [必添]<br/> 比例(16:9)、大小(<512K)</label>
+                                <label class="control-label">开机广告 [必添]</label>
                                 <div class="controls">
                                     <%--<input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;--%>
                                     <%--<c:if test="${error}">--%>
@@ -62,7 +62,7 @@
                                     <%--&nbsp;--%>
                                     <%--<img width="540px" height="360px" alt="" src="${clientImageRequestHost}${clientbootimage.actualFileName}"/>--%>
 
-                                    <input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;
+                                    <input id="clientImageUploadFile" type="file" name="clientImageUploadFile"/>&nbsp;图片比例(16:9)、大小(<512K)
                                     <c:if test="${error}">
                                         <span id="clientImg_bigger" class="help-block" for="required" style="display:block;">选择的图片大小超过限制</span>
                                     </c:if>
