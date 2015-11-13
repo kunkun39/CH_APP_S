@@ -54,6 +54,8 @@ public interface AppDao extends EntityObjectDao {
 
     int loadMaxLuncherRecommendPosition();
 
+    boolean isAppLauncherSet(int appId);
+
     /************************************应用强制升级和卸载************************************/
 
     List<AppMust> loadAllAppMust();

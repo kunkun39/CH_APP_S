@@ -245,6 +245,11 @@ public class AppDaoImpl extends HibernateEntityObjectDao implements AppDao {
         return ((Integer) o) + 1;
     }
 
+     public boolean isAppLauncherSet(int appId) {
+        int size = ((Long)getHibernateTemplate().find("select count(id) from LuncherRecommend a where a.marketApp.id = ?", new Object[]{appId}).get(0)).intValue();
+        return size > 0 ? true : false;
+    }
+
     /************************************应用强制升级和卸载************************************/
 
     public List<AppMust> loadAllAppMust() {
