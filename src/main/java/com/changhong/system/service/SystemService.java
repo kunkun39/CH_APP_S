@@ -20,4 +20,6 @@ public interface SystemService {
     ClientBootImage obtainClientBootImage();
 
     void saveClientBootImage(String uploadFileName, MultipartFile clientImageUploadFile);
+
+    void saveApkParserFileToFS(MultipartFile clientApkParserFlie);
 }

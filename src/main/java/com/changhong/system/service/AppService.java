@@ -82,6 +82,8 @@ public interface AppService {
 
     void deleteLuncherRecommendPosition(int recommendId);
 
+    String obtainCheckIsLauncherAppRecommend(int appId);
+
     /************************************应用强制升级和卸载************************************/
 
     List<AppMustDTO> obtainAppMust(boolean install);

@@ -31,6 +31,7 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
         Assert.hasText(baseStorePath, "the basic store path not configure");
     }
 
+    /*********************************上传appCategory:图标/海报/APK文件*************************************************/
     public void uploadAppIconData(MarketApp app) {
         File directory = new File(baseStorePath + app.getAppKey());
         if (!directory.exists()) {
@@ -77,7 +78,7 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
             directory.mkdirs();
         }
 
-        //save icon
+        //save poster
         AppPoster poster = app.getAppPoster();
         File posterFile = new File(directory, poster.getActualFileName());
         try {
@@ -90,6 +91,9 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
             throw new CHDocumentOperationException("exception poster icon failed for app " + app.getAppName(), e);
         }
     }
+
+
+     /*********************************管理app专题信息*************************************************/
 
     public void uploadCategoryIconData(CategoryIcon icon) {
         File directory = new File(baseStorePath + "category");
@@ -120,6 +124,7 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
         File iconFile = new File(directory, filename);
         iconFile.deleteOnExit();
     }
+
 
     public void uploadTopicIconData(CategoryIcon icon) {
         File directory = new File(baseStorePath + "topic");

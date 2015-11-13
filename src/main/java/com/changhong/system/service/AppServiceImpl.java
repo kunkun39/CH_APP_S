@@ -388,6 +388,8 @@ public class AppServiceImpl implements AppService {
         BoxRecommend recommend = appDao.loadCheckIsAppRecommend(appId, pageNumber, recommendPosition);
 
         JSONObject o = new JSONObject();
+
+        //app is recommended
         if (recommend != null) {
             o.put("page_index", recommend.getPageNumber());
             o.put("position_index", recommend.getRecommendPosition());
@@ -442,6 +444,29 @@ public class AppServiceImpl implements AppService {
         for (LuncherRecommend luncherRecommend : recommends) {
             if(luncherRecommend.getPosition() > position)
             luncherRecommend.setPosition(luncherRecommend.getPosition() - 1);
+        }
+    }
+
+    public String obtainCheckIsLauncherAppRecommend(int appId){
+           try {
+            MarketApp app = (MarketApp) appDao.findById(appId, MarketApp.class);
+
+            //check app must is duplicate
+            boolean duplicate = appDao.isAppLauncherSet(appId);
+
+            JSONObject o = new JSONObject();
+            //推荐过
+            if (duplicate) {
+                o.put("appLauncherRecommend", -1);
+                return o.toJSONString();
+            } else {
+
+                o.put("appLauncherRecommend", app.getId());
+                return o.toJSONString();
+            }
+        } catch (Exception e) {
+            logger.error("save app mustfailed", e);
+            return null;
         }
     }
 

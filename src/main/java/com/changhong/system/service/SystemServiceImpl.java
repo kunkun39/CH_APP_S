@@ -132,4 +132,31 @@ public class SystemServiceImpl implements SystemService {
             cacheService.setBootImageFileName(actualFileName);
         }
     }
+
+    /*保存待解析的apk文件到fs中*/
+
+    public void saveApkParserFileToFS(MultipartFile clientApkParserFlie){
+            if (clientApkParserFlie != null && clientApkParserFlie.getSize() > 0){
+                    //get apk file name
+                    String ApkFilename = clientApkParserFlie.getOriginalFilename();
+                    File file = new File(baseStorePath, ApkFilename);
+//                    if (file.exists()) {
+//                        file.delete();
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+                    try {
+                        OutputStream dataOut = new FileOutputStream(file.getAbsolutePath());
+                        FileCopyUtils.copy(clientApkParserFlie.getInputStream(), dataOut);
+
+                        logger.info("finish upload client apk parser file");
+                    } catch (Exception e) {
+                        logger.error(e);
+                        throw new CHDocumentOperationException("exception upload client apk parser file");
+                    }
+            }
+    }
 }

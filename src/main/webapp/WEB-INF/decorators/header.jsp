@@ -55,12 +55,12 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN">
-    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-align-center"></i> <span>系统设置</span> <span class="label">3</span></a>
+    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-align-center"></i> <span>系统设置</span> <span class="label">4</span></a>
       <ul>
-        <li><a href="${pageContext.request.contextPath}/backend/useroverview.html"><i class="icon icon-hand-right"></i> <span>系统用户管理</span></a></li>
-        <%--<li><a href="${pageContext.request.contextPath}/backend/clientoverview.html">客户端用户管理</a></li>--%>
-        <li><a href="${pageContext.request.contextPath}/backend/clientversionshow.html?method=load"><i class="icon icon-hand-right"></i> <span>客户端版本管理</span></a></li>
+         <li><a href="${pageContext.request.contextPath}/backend/useroverview.html"><i class="icon icon-hand-right"></i> <span>系统用户管理</span></a></li>
+         <li><a href="${pageContext.request.contextPath}/backend/clientversionshow.html?method=load"><i class="icon icon-hand-right"></i> <span>客户端版本管理</span></a></li>
          <li><a href="${pageContext.request.contextPath}/backend/clientbootimageshow.html?method=load"><i class="icon icon-hand-right"></i> <span>开机广告管理</span></a></li>
+         <li><a href="${pageContext.request.contextPath}/backend/clientapkparsershow.html?method=load"><i class="icon icon-hand-right"></i> <span style="font-size: 12px">apk分析器管理</span></a></li>
       </ul>
     </li>
     </security:authorize>

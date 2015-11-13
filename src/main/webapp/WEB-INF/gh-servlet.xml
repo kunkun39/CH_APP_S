@@ -52,6 +52,8 @@
                 <prop key="/backend/clientform.html">clientFormController</prop>
                 <prop key="/backend/clientversionshow.html">clientVersionController</prop>
                 <prop key="/backend/clientbootimageshow.html">clientBootImageController</prop>
+                <prop key="/backend/clientapkparsershow.html">clientApkParserController</prop>
+
 
                 <!--应用管理-->
                 <prop key="/backend/appcategoryform.html">appCategoryFormController</prop>
@@ -140,6 +142,12 @@
     <bean id="clientBootImageController" class="com.changhong.system.web.controller.ClientBootImageController">
         <property name="systemService" ref="systemService"/>
         <property name="clientImageRequestHost" value="${application.file.request.path}"/>
+    </bean>
+
+    <bean id="clientApkParserController" class="com.changhong.system.web.controller.ClientApkParserController">
+        <property name="systemService" ref="systemService"/>
+        <property name="baseStorePath" value="${application.upload.file.path}"/>
+
     </bean>
 
     <!--应用管理-->
