@@ -157,11 +157,11 @@
             var newContent = "<li><div class=\"article-post\" style=\"text-align: center;\"><span class=\"user-info\"> 最多显示20条查询的数据</span></div></li>";
             for(var i=0; i<statisticData.length; i++) {
                 var appValues = statisticData[i];
-                newContent = newContent + "<li><div class=\"fr\"><a class=\"btn btn-primary btn-mini\" onclick=\"recommendApp('" + appValues.appId + "')\">强制</a></div>" +
+                newContent = newContent + "<li><div class=\"fr\"><a class=\"btn btn-primary btn-mini\" onclick=\"recommendAppTo('" + appValues.appId + "')\">推荐</a></div>" +
                         "<div class=\"user-thumb\"><img width=\"50\" height=\"50\" src=\"" + fileRequestHost + appValues.appKey + "/" + appValues.iconActualFileName + "\"></div>" +
-                        "<div class=\"article-post\"><span class=\"user-info\"> 名称:" + appValues.appFullName + "&nbsp;&nbsp;&nbsp;&nbsp;版本:" + appValues.appVersion + "&nbsp;&nbsp;&nbsp;&nbsp;类别:" + appValues.appCategory +
-                        "</span><p>描述:" + appValues.appDescription + "<br/></p></div></li>";
-            }
+                        "<div class=\"article-post\"><span class=\"user-info\"> 名称:</span>" + appValues.appFullName + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"user-info\"> 版本:</span>" + appValues.appVersion + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"user-info\"> 类别:</span>" + appValues.appCategory +
+                        "</span><p><span class=\"user-info\"> 描述:</span>" + appValues.appDescription + "<br/><br/></p></div></li>";
+                }
             contentContainer.html(newContent);
         });
     }

@@ -237,9 +237,9 @@
                 var appValues = statisticData[i];
                 newContent = newContent + "<li><div class=\"fr\"><a class=\"btn btn-primary btn-mini\" onclick=\"recommendAppTo('" + appValues.appId + "')\">推荐</a></div>" +
                         "<div class=\"user-thumb\"><img width=\"50\" height=\"50\" src=\"" + fileRequestHost + appValues.appKey + "/" + appValues.iconActualFileName + "\"></div>" +
-                        "<div class=\"article-post\"><span class=\"user-info\"> 名称:" + appValues.appFullName + "&nbsp;&nbsp;&nbsp;&nbsp;版本:" + appValues.appVersion + "&nbsp;&nbsp;&nbsp;&nbsp;类别:" + appValues.appCategory +
-                        "</span><p>描述:" + appValues.appDescription + "<br/><br/></p></div></li>";
-            }
+                        "<div class=\"article-post\"><span class=\"user-info\"> 名称:</span>" + appValues.appFullName + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"user-info\"> 版本:</span>" + appValues.appVersion + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class=\"user-info\"> 类别:</span>" + appValues.appCategory +
+                        "</span><p><span class=\"user-info\"> 描述:</span>" + appValues.appDescription + "<br/><br/></p></div></li>";
+                }
             contentContainer.html(newContent);
         });
     }

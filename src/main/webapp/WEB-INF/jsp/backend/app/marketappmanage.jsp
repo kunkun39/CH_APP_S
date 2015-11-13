@@ -142,16 +142,16 @@
 
                                 </div>
                                 <span class="user-info">
-                                    <span style=font-weight:bold>名称</span>: ${app.appFullName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style=font-weight:bold>版本</span>：${app.appVersion}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style=font-weight:bold>类别</span>：${app.fullCategoryName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style=font-weight:bold>下载</span>：${app.downloadTimes}次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style=font-weight:bold>大小</span>：${app.appSize}M&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-                                    <span style=font-weight:bold>状态</span>：${app.statusName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style=font-weight:bold>更新时间</span>：${app.updateDate} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <span style=font-weight:bold>评分</span>：${app.appScores}分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">名称</span>: ${app.appFullName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">版本</span>：${app.appVersion}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">类别</span>：${app.fullCategoryName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">下载</span>：${app.downloadTimes}次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">大小</span>：${app.appSize}M&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                    <span style="font-weight:bold">状态</span>：${app.statusName}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">更新时间</span>：${app.updateDate} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span style="font-weight:bold">评分</span>：${app.appScores}分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <br/>
-                                    <span style=font-weight:bold>简介</span>：${app.appDescription}
+                                    <span style="font-weight:bold">简介</span>：${app.appDescription}
                                     <br/>
                                     <br/>
                                 </span>
