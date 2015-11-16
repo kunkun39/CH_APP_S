@@ -169,7 +169,6 @@ public class CacheServiceImpl implements CacheService {
     public MarketAppDTO obtainMarketAppInCache(int appId) {
         MarketAppDTO dto = appCache.get("APP_" + appId);
         if (dto != null) {
-            log.info("get app from cache for id " + appId);
             return dto;
         }
 
@@ -190,7 +189,6 @@ public class CacheServiceImpl implements CacheService {
                 if (dto.getAppPackage().equals(appPackage)) {
                     apps.add(dto);
                     find = true;
-                    log.info("get app from cache for package " + appPackage);
                 }
             }
 

@@ -166,7 +166,7 @@
         });
     }
 
-    function recommendApp(appId) {
+    function recommendAppTo(appId) {
         jQuery("#recommend-dialog-confirm").css("visibility", "visible");
         jQuery("#recommend-dialog-confirm").dialog({
             resizable: false,
@@ -174,7 +174,7 @@
             width:300,
             modal: true,
             buttons: {
-                "确  认": function() {
+                "Confirm": function() {
                     var appMustId = -1;
                     jQuery("#recommend-dialog-confirm").css("visibility", "hidden");
                     jQuery(this).dialog("close");

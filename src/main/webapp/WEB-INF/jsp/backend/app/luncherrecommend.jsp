@@ -169,7 +169,7 @@
         });
     }
 
-    function recommendApp(appId) {
+    function recommendAppTo(appId) {
         jQuery("#recommend-dialog-confirm").css("visibility", "visible");
         jQuery("#recommend-dialog-confirm").dialog({
             resizable: false,

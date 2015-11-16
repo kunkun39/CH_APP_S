@@ -55,6 +55,10 @@ public class UserServiceImpl implements UserService {
 
     public void changeStatusForUser(int userId) {
         User user = (User) userDao.findById(userId, User.class);
+        if("chappadmin".equals(user.getUsername())) {
+            return;
+        }
+
         if (user.isEnabled()) {
             user.setEnabled(false);
         } else {
