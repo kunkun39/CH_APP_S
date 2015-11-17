@@ -37,7 +37,7 @@ public class MarketAppManagementController extends AbstractController {
         model.put("topics", topics);
 
         int current = ServletRequestUtils.getIntParameter(request, "current", 1);
-        String appName = ServletRequestUtils.getStringParameter(request, "appName", "");
+        String appName = ServletRequestUtils.getStringParameter(request, "appName", "").trim();
         String appStatus = ServletRequestUtils.getStringParameter(request, "appStatus", "ALL");
         int categoryId = ServletRequestUtils.getIntParameter(request, "categoryId", -1);
         int topicId = ServletRequestUtils.getIntParameter(request, "topicId", -1);

@@ -26,17 +26,17 @@ public class MarketAppWebAssember {
 
             history = DomainHelper.generateAppChangeHistories(app, dto);
 
-            app.setAppName(dto.getAppFullName());
+            app.setAppName(dto.getAppFullName().trim());
             app.setAppDescription(dto.getAppDescription());
             app.setAppNote(dto.getAppNote());
             app.setAppVersionInt(Integer.valueOf(dto.getAppVersionInt()));
-            app.setAppVersion(dto.getAppVersion());
-            app.setAppPackage(dto.getAppPackage());
+            app.setAppVersion(dto.getAppVersion().trim());
+            app.setAppPackage(dto.getAppPackage().trim());
             app.setAppScores(dto.getAppScores());
             app.setRecommend(dto.isRecommend());
         } else {
-            app = new MarketApp(dto.getAppFullName(), dto.getAppDescription(), dto.getAppNote(),
-                    Integer.valueOf(dto.getAppVersionInt()), dto.getAppVersion(), dto.getAppPackage(), dto.getAppScores(), dto.isRecommend());
+            app = new MarketApp(dto.getAppFullName().trim(), dto.getAppDescription(), dto.getAppNote(),
+                    Integer.valueOf(dto.getAppVersionInt()), dto.getAppVersion().trim(), dto.getAppPackage().trim(), dto.getAppScores(), dto.isRecommend());
             history = DomainHelper.generateAppChangeHistories(app, dto);
         }
 
