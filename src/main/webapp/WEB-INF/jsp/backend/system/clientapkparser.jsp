@@ -90,6 +90,12 @@
                                     <input value="${versionName}" cssStyle="height:30px;" readonly="true"/>
                                 </div>
                             </div>
+                           <div class="control-group">
+                                <label class="control-label">最小机顶盒SDK版本</label>
+                                <div class="controls">
+                                    <input value="${minSdkVersion}" cssStyle="height:30px;" readonly="true"/>
+                                </div>
+                           </div>
                            <div class="form-actions">
                                   <input type="button" value="取 消" class="btn btn-success"
                                        onclick="window.location.href='${pageContext.request.contextPath}/backend/apkparsershow.html?method=load'">

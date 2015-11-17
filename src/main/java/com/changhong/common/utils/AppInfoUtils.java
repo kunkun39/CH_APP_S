@@ -41,7 +41,7 @@ public class AppInfoUtils {
                         case XmlPullParser.START_TAG:
                             for (int k = 0; k < parser.getAttributeCount(); k++) {
                                 String attributeName = parser.getAttributeName(k);
-                                //System.out.println(attributeName + ":" + parser.getAttributeValue(k));
+                                System.out.println(attributeName + ":" + parser.getAttributeValue(k));
 
                                 if ("versionCode".equals(attributeName)) {
                                     model.put("versionCode", parser.getAttributeUnsignedIntValue(k, 0) + "");
@@ -51,6 +51,12 @@ public class AppInfoUtils {
                                 }
                                 if ("package".equals(attributeName)) {
                                     model.put("packageName", parser.getAttributeValue(k));
+                                }
+                                if ("minSdkVersion".equals(attributeName)) {
+                                    model.put("minSdkVersion", parser.getAttributeUnsignedIntValue(k, 0) + "");
+                                }
+                                if ("targetSdkVersion".equals(attributeName)) {
+                                    model.put("targetSdkVersion", parser.getAttributeUnsignedIntValue(k, 0) + "");
                                 }
                             }
                             break;
