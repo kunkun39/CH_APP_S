@@ -25,6 +25,10 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
     public final static int CLIENT_POST_SIZE = 6;
 
+    public final static String APP_MARKET_PACKAGE = "com.changhong.gdappstore";
+
+    public final static String APP_MARKET_APP_DETAILS = "com.changhong.gdappstore.activity.DetailActivity";
+
     @Autowired
     private CacheService cacheService;
 
@@ -361,6 +365,8 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
         JSONObject values = new JSONObject();
         values.put("host", fileRequestHost);
+        values.put("package", APP_MARKET_PACKAGE);
+        values.put("activity", APP_MARKET_APP_DETAILS);
 
         JSONArray all = new JSONArray();
         if (dtos != null) {

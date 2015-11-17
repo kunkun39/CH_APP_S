@@ -62,12 +62,13 @@ public class BoxRecommendTag extends TagSupport {
                 }
             } else {
                 String imageURL = fileRequestHost + recommend.getAppKey() + "/" + recommend.getPosterActualFileName();
+                String appName = recommend.getAppFullName();
                 if (!subRecommend) {
-                    buffer.append("<img id=\"" + imageId + "\" src=\"" + imageURL + "\" title=\"推荐位置" + recommendPosition + "\"/>");
-                    buffer.append("<a id=\"" + nameId + "\" class=\"name\">" + recommend.getAppFullName() + "</a>");
+                    buffer.append("<img id=\"" + imageId + "\" src=\"" + imageURL + "\" title=\"" + appName + "\"/>");
+                    buffer.append("<a id=\"" + nameId + "\" class=\"name\">" + appName + "</a>");
                 } else {
-                    buffer.append("<p class=\"show\"><img id=\"" + imageId + "\" src=\"" + imageURL + "\" title=\"推荐位置" + recommendPosition + "\"/></p>");
-                    buffer.append("<a id=\"" + nameId + "\" class=\"name\">" + recommend.getAppFullName() + "</a>");
+                    buffer.append("<p class=\"show\"><img id=\"" + imageId + "\" src=\"" + imageURL + "\" title=\"" + appName + "\"/></p>");
+                    buffer.append("<a id=\"" + nameId + "\" class=\"name\">" + appName + "</a>");
                 }
 
             }
