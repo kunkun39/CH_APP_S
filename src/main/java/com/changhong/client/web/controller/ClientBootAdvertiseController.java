@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 /**
- * User: dangwei pan
+ * User: dangwei
  * Date: 15-10-21
  * Time: 上午9:58
  * To change this template use File | Settings | File Templates.

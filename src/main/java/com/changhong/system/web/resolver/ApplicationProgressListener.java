@@ -13,9 +13,6 @@ public class ApplicationProgressListener implements ProgressListener {
 
     private HttpServletRequest request;
 
-    public ApplicationProgressListener() {
-    }
-
     public ApplicationProgressListener(HttpServletRequest request) {
         this.request = request;
     }
@@ -25,5 +22,9 @@ public class ApplicationProgressListener implements ProgressListener {
             int processRate = ((Long) ((byteRead * 100) / contentLength)).intValue();
             request.getSession().setAttribute("UPLAOD_FILE_PROCESS", processRate);
         }
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
     }
 }

@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
- * User: dangwei pan
+ * User: dangwei
  * Date: 15-10-8
  * Time: 下午2:57
  * To change this template use File | Settings | File Templates.
@@ -52,6 +52,7 @@ public class ClientBootImageController extends AbstractController {
         } else {
             //从页面上获取图片文件
             DefaultMultipartHttpServletRequest multipartRequest = (DefaultMultipartHttpServletRequest) request;
+            // "clientImageUploadFile"为input标签的"name"
             MultipartFile clientImageUploadFile = multipartRequest.getFile("clientImageUploadFile");
 
             //check the file size
@@ -59,7 +60,7 @@ public class ClientBootImageController extends AbstractController {
                 return new ModelAndView(new RedirectView("clientbootimageshow.html?method=load&error=true"));
             }
 
-            //获得图片原文件名
+            //获得图片原始文件名
             String uploadFileName = clientImageUploadFile != null ? clientImageUploadFile.getOriginalFilename() : "";
 
             /*保存:文件名保存到数据库中，文件保存到文件系统中*/

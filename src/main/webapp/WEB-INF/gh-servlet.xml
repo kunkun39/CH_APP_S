@@ -21,7 +21,7 @@
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
         <property name="defaultLocale" value="en"/>
     </bean>
-
+           <!--前台文件表单form上传的文件解析器-->
     <bean id="multipartResolver" class="com.changhong.system.web.resolver.ApplicationMultipartResolver">
         <property name="maxUploadSize" value="1024000000"/>
     </bean>
@@ -53,6 +53,7 @@
                 <prop key="/backend/clientversionshow.html">clientVersionController</prop>
                 <prop key="/backend/clientbootimageshow.html">clientBootImageController</prop>
                 <prop key="/backend/apkparsershow.html">apkOnlineParserController</prop>
+                <prop key="/backend/apkuploadprocess.html">apkUploadProcessController</prop>
 
 
                 <!--应用管理-->
@@ -91,6 +92,8 @@
                 <prop key="/client/deletebackupapp.html">clientDeleteAppBackupController</prop>
                 <prop key="/client/getbackupapp.html">clientGetAllAppBackupController</prop>
                 <prop key="/client/requestbackupapp.html">clientApplyAppBackupController</prop>
+                <!--<prop key="/client/apkuploadprocess.html">apkUploadProcessController</prop>-->
+
 
             </props>
 
@@ -98,6 +101,8 @@
     </bean>
 
     <bean id="errorHandleController" class="com.changhong.common.web.contorller.ApplicationExceptionController"/>
+
+    <bean id="apkUploadProcessController" class="com.changhong.system.web.controller.ApkUploadProcessController"/>
 
     <bean id="backendLoginController" class="com.changhong.system.web.controller.BackendLoginController">
         <property name="projectVersion" value="${application.version}"/>
@@ -291,4 +296,8 @@
     <bean id="clientApplyAppBackupController" class="com.changhong.client.web.controller.ClientApplyAppBackupController">
         <property name="clientService" ref="clientService"/>
     </bean>
+
+
+
+
 </beans>

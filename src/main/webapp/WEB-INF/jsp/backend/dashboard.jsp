@@ -31,9 +31,14 @@
 
 <%--内容部分***********************************************************--%>
 
+
+
 <div id="content">
     <div id="content-header">
-        <div id="breadcrumb"> <a style="font-size:13px"href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size:13px"href="javascript:void(0);" class="current">前台效果展示</a> </div>
+        <div id="breadcrumb">
+            <a style="font-size:13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
+            <a style="font-size:13px" href="javascript:void(0);" class="current">前台效果展示</a>
+        </div>
     </div>
 
     <div class="container-fluid">
@@ -100,7 +105,7 @@
                                 <tbody>
                                 <tr>
                                     <td>
-                                    应用类别：<select id="categoryId" name="categoryId" style="height: 30px;">
+                                    应用类别：<select id="categoryId" name="categoryId" style="height: 30px;" >
                                         <option value="-1">全 部
                                         </option>
                                         <c:forEach items="${categories}" var="category">
@@ -142,10 +147,10 @@
 
                             <%--！搜索结果部分--%>
                             <div class="widget-content nopadding">
-                            <ul id="search_list_content" class="recent-posts">
+                                <ul id="search_list_content" class="recent-posts">
 
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
                         </security:authorize>
 
                     </div>

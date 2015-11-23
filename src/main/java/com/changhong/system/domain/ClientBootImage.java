@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by IntelliJ IDEA.
- * User: dangwei pan
+ * User: dangwei
  * Date: 15-9-30
  * Time: 下午1:38
  * To change this template use File | Settings | File Templates.

@@ -249,6 +249,12 @@
                                         ${app.apkFakeFileName}  <a href="${fileRequestHost}${app.appKey}/${app.apkActualFileName}" target="_blank" class="btn btn-warning btn-mini">下载应用</a>
                                     </c:if>
                                 </div>
+                                <label class="control-label">文件下载进度</label>
+                                <div class="controls">
+                                    <div  class="progress progress-success progress-striped" style="width:40%">
+                                        <div  id = 'proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="control-group">
@@ -348,10 +354,23 @@
     }
 
     function saveMarketApp(form) {
-        jQuery('#content').mask("正在上传数据文件，请耐心等待!");
+       // jQuery('#content').mask("正在上传数据文件，请耐心等待!");
         form.submit();
+        getUploadMeter();
     }
 
+    function getUploadMeter(){
+        jQuery.getJSON("${pageContext.request.contextPath}/backend/apkuploadprocess.html", function(data){
+            jQuery("#proBar").css("width", data.percentage+''+'%');
+            jQuery("#proVal").html(data.percentage+'%');
+            if(data.percentage == 100){
+                //停止请求
+                window.clearInterval(intId);
+            }
+            var intId = setInterval("getUploadMeter()",100);
+        });
+
+    }
 </script>
 
 </body>
