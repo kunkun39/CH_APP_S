@@ -14,10 +14,12 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-style.css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/maruti-media.css" class="skin-color"/>
     <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
-    <script type='text/javascript' src='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.min.js'></script>
-    <link rel='stylesheet' type='text/css' href='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.css'/>
+    <script type='text/javascript'
+            src='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.min.js'></script>
+    <link rel='stylesheet' type='text/css'
+          href='${pageContext.request.contextPath}/js/jquery-loadmask/jquery.loadmask.css'/>
     <style type="text/css">
-        p{
+        p {
             font-size: 20px;
             text-index: 2em;
         }
@@ -35,95 +37,107 @@
 <div id="content">
     <div id="content-header">
         <div id="breadcrumb">
-            <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a>
+            <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i
+                    class="icon-home"></i> 首页</a>
             <a style="font-size: 13px" href="javascript:void(0);" class="current">APK分析工具</a>
         </div>
     </div>
 
-   <div class="container-fluid" >
-       <div class="row-fluid" >
-           <div class="span12" >
-               <div class="widget-box">
-                   <div class="widget-title">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title">
                         <span class="icon">
                             <i class="icon-info-sign"></i>
                         </span>
                         <h5>APK分析工具</h5>
                     </div>
 
-                   <div class="widget-content nopadding">
-                       <form action="${pageContext.request.contextPath}/backend/apkparsershow.html" class="form-horizontal" method="post" name="basic_validate" id="basic_validate" novalidate="novalidate" enctype="multipart/form-data">
-                           <input type="hidden" name="method" value="save"/>
-                           <div class="control-group">
+                    <div class="widget-content nopadding">
+                        <form action="${pageContext.request.contextPath}/backend/apkparsershow.html"
+                              class="form-horizontal" method="post" name="basic_validate" id="basic_validate"
+                              novalidate="novalidate" enctype="multipart/form-data">
+                            <input type="hidden" name="method" value="save"/>
+
+                            <div class="control-group">
                                 <label class="control-label">APK分析文件 [必选]</label>
+
                                 <div class="controls">
                                     <input type="file" id="clientApkParserFlie" name="clientApkParserFlie"/>
                                     <span id="clientApk_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>
                                     <span id="clientApk_format_help" class="help-block" style="display: none;">选择文件不是apk格式,请重新选择</span>
                                 </div>
-                                             <%--测试代码--%>
-                               <label class="control-label">分析进度</label>
-                               <div class="controls">
-                                    <div  class="progress progress-success progress-striped" style="width:40%">
-                                        <div  id = 'proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
-                                    </div>
-                               </div>
+                                <%--测试代码--%>
+                                <label class="control-label">分析进度</label>
 
-                           </div>
-                           <div class="control-group">
+                                <div class="controls">
+                                    <div class="progress progress-success progress-striped" style="width:30%">
+                                        <div id='proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">文件名</label>
+
                                 <div class="controls">
-                                    <input value="${fileName}" style="height:30px;width: 180px" readonly="true"/>
+                                    <input value="${fileName}" style="height:30px;width: 200px" readonly="true"/>
                                 </div>
                             </div>
-                           <div class="control-group">
+                            <div class="control-group">
                                 <label class="control-label">大小</label>
+
                                 <div class="controls">
-                                    <input value="${fileSize}" style="height:30px;width: 180px" readonly="true"/>M
+                                    <input value="${fileSize}" style="height:30px;width: 200px" readonly="true"/>M
                                 </div>
                             </div>
-                           <div class="control-group">
+                            <div class="control-group">
                                 <label class="control-label">包名</label>
+
                                 <div class="controls">
-                                    <input  value="${packageName}" style="height:30px;width: 180px" readonly="true"/>
+                                    <input value="${packageName}" style="height:30px;width: 200px" readonly="true"/>
                                 </div>
                             </div>
-                           <div class="control-group">
+                            <div class="control-group">
                                 <label class="control-label">版本号[数字]</label>
+
                                 <div class="controls">
-                                    <input value="${versionCode}" style="height:30px;width: 180px" readonly="true"/>
+                                    <input value="${versionCode}" style="height:30px;width: 200px" readonly="true"/>
                                 </div>
                             </div>
-                           <div class="control-group">
+                            <div class="control-group">
                                 <label class="control-label">版本号[字符]</label>
+
                                 <div class="controls">
-                                    <input value="${versionName}" style="height:30px;width: 180px" readonly="true"/>
+                                    <input value="${versionName}" style="height:30px;width: 200px" readonly="true"/>
                                 </div>
                             </div>
-                           <div class="control-group">
+                            <div class="control-group">
                                 <label class="control-label">最小机顶盒SDK版本</label>
+
                                 <div class="controls">
-                                    <input value="${minSdkVersion}" style="height:30px;width: 180px" readonly="true"/>
+                                    <input value="${minSdkVersion}" style="height:30px;width: 200px" readonly="true"/>
                                 </div>
-                           </div>
-                           <div class="form-actions">
-                                  <input type="button" value="取 消" class="btn btn-success"
+                            </div>
+                            <div class="form-actions">
+                                <input type="button" value="取 消" class="btn btn-success"
                                        onclick="window.location.href='${pageContext.request.contextPath}/backend/apkparsershow.html?method=load'">
-                                        &nbsp;
-                                  <input id="subbut" type="button" value="确 定" class="btn btn-success"
+                                &nbsp;
+                                <input id="subbut" type="button" value="确 定" class="btn btn-success"
                                        onclick="saveApkParser(this.form);">
-                           </div>
-                       </form>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <script type="text/javascript">
-     function saveApkParser(form) {
+    function saveApkParser(form) {
         // jQuery("#clientImg_bigger").css("display", "block");
         var canSubmit = true;
         //文件是否为空的检查
@@ -143,9 +157,8 @@
             }
         }
         if (canSubmit) {
-           // jQuery('#content').mask("正在分析数据文件，请耐心等待!");
             form.submit();
-            getUploadMeter();
+            beginUploadProcess();
         }
     }
 
@@ -158,28 +171,20 @@
         }
     }
 
+    function beginUploadProcess() {
+        var intId = setInterval(getUploadMeter, 1000);
 
-    function getUploadMeter(){
-        jQuery.getJSON("${pageContext.request.contextPath}/backend/apkuploadprocess.html", function(data){
-            jQuery("#proBar").css("width", data.percentage+'%');
-            jQuery("#proVal").html(data.percentage+'%');
-            if(data.percentage == 100){
-                //stop requirement
-                window.clearInterval(intId);
-            }
-            var intId = setInterval("getUploadMeter()",100);
-        });
+        function getUploadMeter() {
+            jQuery.getJSON("${pageContext.request.contextPath}/backend/apkuploadprocess.html", function(data) {
+                jQuery("#proBar").css("width", data.percentage + '%');
+                jQuery("#proVal").html(data.percentage + '%');
 
-        /*获得json数据的第二种方法*/
-//           jQuery.ajax({
-//                url: "apkuploadprocess.html",
-//                type: "get",
-//                data: {},
-//                dataType:'json',
-//                success:function(data){
-//                     jQuery("#proBar").css("width", data.percentage+''+'%');
-//                }
-//            });
+                if (data.percentage == 100) {
+                    //stop requirement
+                    window.clearInterval(intId);
+                }
+            });
+        }
     }
 
 </script>
