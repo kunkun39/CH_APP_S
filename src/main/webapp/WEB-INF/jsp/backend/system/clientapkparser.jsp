@@ -73,7 +73,7 @@
                            <div class="control-group">
                                 <label class="control-label">文件名</label>
                                 <div class="controls">
-                                    <input value="${fileName}" cssStyle="height:30px;" readonly="true"/>
+                                    <input value="${fileName}" style="height:30px;width: 180px" readonly="true"/>
                                 </div>
                             </div>
                            <div class="control-group">
@@ -103,7 +103,7 @@
                            <div class="control-group">
                                 <label class="control-label">最小机顶盒SDK版本</label>
                                 <div class="controls">
-                                    <input value="${minSdkVersion}" cssStyle="height:30px;" readonly="true"/>
+                                    <input value="${minSdkVersion}" style="height:30px;width: 180px" readonly="true"/>
                                 </div>
                            </div>
                            <div class="form-actions">
