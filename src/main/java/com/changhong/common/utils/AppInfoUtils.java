@@ -3,7 +3,9 @@ package com.changhong.common.utils;
 import android.content.res.AXmlResourceParser;
 import org.xmlpull.v1.XmlPullParser;
 
+import javax.swing.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -23,7 +25,7 @@ public class AppInfoUtils {
         try {
             //Opens a apk file
             zipFile = new ZipFile(filepath);
-            //把apk文件插入到"AndroidManifest.xml"中
+            //获取"AndroidManifest.xml"中
             ZipEntry zipEntry = zipFile.getEntry("AndroidManifest.xml");
             if (zipEntry != null) {
                 //创建解析器
@@ -37,11 +39,10 @@ public class AppInfoUtils {
                         break;
                     }
                     switch (type) {
-                        //START_TAG = 2,标签的开始
                         case XmlPullParser.START_TAG:
+
                             for (int k = 0; k < parser.getAttributeCount(); k++) {
                                 String attributeName = parser.getAttributeName(k);
-                                System.out.println(attributeName + ":" + parser.getAttributeValue(k));
 
                                 if ("versionCode".equals(attributeName)) {
                                     model.put("versionCode", parser.getAttributeUnsignedIntValue(k, 0) + "");
@@ -67,6 +68,7 @@ public class AppInfoUtils {
                 }
             }
         } catch (Exception e) {
+            //在命令行打印异常信息在程序中出错的位置及原因
             e.printStackTrace();
             return null;
         } finally {
@@ -101,8 +103,8 @@ public class AppInfoUtils {
         return String.format("%.2f", howManyMByte);
     }
 
-    public static void main(String[] args) {
-        Map<String, String> map = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk", false);
-        System.out.println(map);
-    }
+//    public static void main(String[] args) {
+//        Map<String, String> map = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk", false);
+//        System.out.println(map);
+//    }
 }
