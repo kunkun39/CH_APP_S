@@ -40,9 +40,9 @@
         </div>
     </div>
 
-   <div class="container-fluid">
-       <div class="row-fluid">
-           <div class="span12">
+   <div class="container-fluid" >
+       <div class="row-fluid" >
+           <div class="span12" >
                <div class="widget-box">
                    <div class="widget-title">
                         <span class="icon">
@@ -58,7 +58,17 @@
                                 <label class="control-label">APK分析文件 [必选]</label>
                                 <div class="controls">
                                     <input type="file" id="clientApkParserFlie" name="clientApkParserFlie"/>
+                                    <span id="clientApk_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>
+                                    <span id="clientApk_format_help" class="help-block" style="display: none;">选择文件不是apk格式,请重新选择</span>
                                 </div>
+                                             <%--测试代码--%>
+                               <label class="control-label">分析进度</label>
+                               <div class="controls">
+                                    <div  class="progress progress-success progress-striped" style="width:40%">
+                                        <div  id = 'proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
+                                    </div>
+                               </div>
+
                            </div>
                            <div class="control-group">
                                 <label class="control-label">文件名</label>
@@ -69,25 +79,25 @@
                            <div class="control-group">
                                 <label class="control-label">大小</label>
                                 <div class="controls">
-                                    <input value="${fileSize}" cssStyle="height:30px;" readonly="true"/>M
+                                    <input value="${fileSize}" style="height:30px;width: 180px" readonly="true"/>M
                                 </div>
                             </div>
                            <div class="control-group">
                                 <label class="control-label">包名</label>
                                 <div class="controls">
-                                    <input value="${packageName}" cssStyle="height:30px;" readonly="true"/>
+                                    <input  value="${packageName}" style="height:30px;width: 180px" readonly="true"/>
                                 </div>
                             </div>
                            <div class="control-group">
                                 <label class="control-label">版本号[数字]</label>
                                 <div class="controls">
-                                    <input value="${versionCode}" cssStyle="height:30px;" readonly="true"/>
+                                    <input value="${versionCode}" style="height:30px;width: 180px" readonly="true"/>
                                 </div>
                             </div>
                            <div class="control-group">
                                 <label class="control-label">版本号[字符]</label>
                                 <div class="controls">
-                                    <input value="${versionName}" cssStyle="height:30px;" readonly="true"/>
+                                    <input value="${versionName}" style="height:30px;width: 180px" readonly="true"/>
                                 </div>
                             </div>
                            <div class="control-group">
@@ -100,11 +110,10 @@
                                   <input type="button" value="取 消" class="btn btn-success"
                                        onclick="window.location.href='${pageContext.request.contextPath}/backend/apkparsershow.html?method=load'">
                                         &nbsp;
-                                  <input type="button" value="确 定" class="btn btn-success"
+                                  <input id="subbut" type="button" value="确 定" class="btn btn-success"
                                        onclick="saveApkParser(this.form);">
                            </div>
                        </form>
-
                    </div>
                </div>
            </div>
@@ -114,10 +123,65 @@
 </div>
 
 <script type="text/javascript">
-    function saveApkParser(form){
-        jQuery('#content').mask("正在分析数据文件，请耐心等待!");
-        form.submit();
+     function saveApkParser(form) {
+        // jQuery("#clientImg_bigger").css("display", "block");
+        var canSubmit = true;
+        //文件是否为空的检查
+        var clientApkParserFlie = jQuery("#clientApkParserFlie").val();
+        if (clientApkParserFlie == null || clientApkParserFlie == '') {
+            jQuery("#clientApk_help").css("display", "block");
+            canSubmit = false;
+        } else {
+            jQuery("#clientApk_help").css("display", "none");
+            //文件是否符合apk格式检查
+            if (isImage(clientApkParserFlie)) {
+                jQuery("#clientApk_format_help").css("display", "none");
+                canSubmit = true;
+            } else {
+                jQuery("#clientApk_format_help").css("display", "block");
+                canSubmit = false;
+            }
+        }
+        if (canSubmit) {
+           // jQuery('#content').mask("正在分析数据文件，请耐心等待!");
+            form.submit();
+            getUploadMeter();
+        }
     }
+
+    function isImage(url) {
+        var filename = url.substring(url.lastIndexOf(".") + 1).toLowerCase();
+        if (filename != "apk") {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    function getUploadMeter(){
+        jQuery.getJSON("${pageContext.request.contextPath}/backend/apkuploadprocess.html", function(data){
+            jQuery("#proBar").css("width", data.percentage+'%');
+            jQuery("#proVal").html(data.percentage+'%');
+            if(data.percentage == 100){
+                //stop requirement
+                window.clearInterval(intId);
+            }
+            var intId = setInterval("getUploadMeter()",100);
+        });
+
+        /*获得json数据的第二种方法*/
+//           jQuery.ajax({
+//                url: "apkuploadprocess.html",
+//                type: "get",
+//                data: {},
+//                dataType:'json',
+//                success:function(data){
+//                     jQuery("#proBar").css("width", data.percentage+''+'%');
+//                }
+//            });
+    }
+
 </script>
 </body>
 </html>
