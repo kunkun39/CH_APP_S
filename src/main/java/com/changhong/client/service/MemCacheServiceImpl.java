@@ -336,6 +336,14 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         return clientBeginUpdate;
     }
 
+    public void setClientBeginUpdate(boolean clientBeginUpdate) {
+        memcacheClient.put(IS_UPDATE, clientBeginUpdate);
+    }
+
+    /**
+     * *********************************数据同步***********************************
+     */
+
     protected <T> T obtainObject(String searchKey) {
         return (T) memcacheClient.get(searchKey);
     }
@@ -352,10 +360,6 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
             }
         }
         return list;
-    }
-
-    public void setClientBeginUpdate(boolean clientBeginUpdate) {
-        memcacheClient.put(IS_UPDATE, clientBeginUpdate);
     }
 
     public void sync() {
