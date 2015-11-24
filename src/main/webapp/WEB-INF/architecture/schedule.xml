@@ -14,25 +14,36 @@
 
     <context:component-scan base-package="com.changhong"/>
 
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:database.properties</value>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="syncMemCacheTask" class="com.changhong.client.service.SyncMemCacheTask">
         <property name="chCallBack" ref="memcacheService"/>
     </bean>
-	<bean id="testJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-		<property name="targetObject" ref="syncMemCacheTask"/>
-		<property name="targetMethod" value="syncMemCache"/>
-		<property name="concurrent" value="false"/>
-	</bean>
-    <bean id="testTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="testJobDetail"/>
-		<property name="cronExpression">
-            <value>0 0/10 * * * ?</value>
+
+    <bean id="cronJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="syncMemCacheTask"/>
+        <property name="targetMethod" value="syncMemCache"/>
+        <property name="concurrent" value="false"/>
+    </bean>
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="cronJobDetail"/>
+        <property name="cronExpression">
+            <value>${application.memcache.sync.cron}</value>
         </property>
     </bean>
 
     <bean id="autoTaskTrigger" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="testTrigger"/>
+                <ref bean="cronTrigger"/>
             </list>
         </property>
         <property name="autoStartup" value="true"/>

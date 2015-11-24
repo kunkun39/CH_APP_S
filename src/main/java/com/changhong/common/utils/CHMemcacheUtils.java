@@ -23,7 +23,7 @@ public class CHMemcacheUtils {
 
     private ICacheManager<IMemcachedCache> manager;
 
-    private IMemcachedCache memcachedCache;
+    private IMemcachedCache cacheClient;
 
     private CHCallBack callBack;
 
@@ -39,7 +39,9 @@ public class CHMemcacheUtils {
             manager.setResponseStatInterval(5 * 1000);
             manager.start();
 
-            memcachedCache = manager.getCache(CACHE_NAME);
+            //every time clear before init
+            cacheClient = manager.getCache(CACHE_NAME);
+            cacheClient.clear();
         } catch (Exception e) {
             log.error(e);
             return false;
@@ -51,15 +53,9 @@ public class CHMemcacheUtils {
         return true;
     }
 
-    public void setLocalCacheTime(int localCacheTime) {
-        if (localCacheTime > 0) {
-            this.localCacheTime = localCacheTime;
-        }
-    }
-
     public boolean put(String key, Object value) {
         try {
-            memcachedCache.put(key, value);
+            cacheClient.put(key, value);
         } catch (Exception e) {
             return false;
         }
@@ -67,23 +63,23 @@ public class CHMemcacheUtils {
     }
 
     public Object get(String key) {
-        return memcachedCache.get(key, localCacheTime);
+        return cacheClient.get(key, localCacheTime);
     }
 
     public Object getImmediate(String key) {
-        return memcachedCache.get(key);
+        return cacheClient.get(key);
     }
 
     public boolean containsKey(String key) {
-        return memcachedCache.containsKey(key);
+        return cacheClient.containsKey(key);
     }
 
     public Set<String> keySet() {
-        return memcachedCache.keySet();
+        return cacheClient.keySet();
     }
 
     public Object remove(String key) {
-        return memcachedCache.remove(key);
+        return cacheClient.remove(key);
     }
 
     public void stop() {
