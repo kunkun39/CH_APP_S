@@ -363,7 +363,9 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
     }
 
     public void sync() {
-        updateMemCacheFromDB();
+        if (isMaster) {
+            updateMemCacheFromDB();
+        }
     }
 
     private void updateMemCacheFromDB() {
