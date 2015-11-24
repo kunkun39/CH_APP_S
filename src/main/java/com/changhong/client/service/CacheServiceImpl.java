@@ -25,22 +25,22 @@ public class CacheServiceImpl implements CacheService {
     @Autowired
     CacheService memcacheService;
 
-    private String cacheMode;
+    private boolean localcache;
 
     private CacheService cacheService;
 
-    @Value("${application.cachemode}")
-    public void setCacheMode(String cacheMode) {
-        this.cacheMode = cacheMode;
+    @Value("${application.localcache}")
+    public void setLocalcache(boolean localcache) {
+        this.localcache = localcache;
     }
 
     public void obtainInitCachedObjects() {
-        log.info("cacheMode : " + cacheMode);
-        if (cacheMode.equals("memcached")) {
-            cacheService = memcacheService;
+        log.info("localcache : " + localcache);
+        if (localcache) {
+            cacheService = localcacheService;
         }
         else {
-            cacheService = localcacheService;
+            cacheService = memcacheService;
         }
         cacheService.obtainInitCachedObjects();
     }
