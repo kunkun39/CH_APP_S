@@ -1,5 +1,6 @@
 package com.changhong.system.web.facade.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * Date: 15-7-30
  * Time: 上午9:39
  */
-public class AppTopicDTO {
+public class AppTopicDTO implements Serializable {
 
     private int id;
 

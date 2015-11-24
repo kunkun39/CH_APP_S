@@ -36,4 +36,11 @@ public class CHListUtils {
         }
         return list1;
     }
+
+    public static boolean listIsEmpty(List list) {
+		if (list == null || list.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
 }

@@ -11,25 +11,32 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.0.xsd
             ">
+
     <context:component-scan base-package="com.changhong"/>
 
-    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <bean id="syncMemCacheTask" class="com.changhong.client.service.SyncMemCacheTask">
+        <property name="chCallBack" ref="memcacheService"/>
+    </bean>
+	<bean id="testJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="syncMemCacheTask"/>
+		<property name="targetMethod" value="syncMemCache"/>
+		<property name="concurrent" value="false"/>
+	</bean>
+    <bean id="testTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="testJobDetail"/>
+		<property name="cronExpression">
+            <value>0/15 * * * * ?</value>
+        </property>
+    </bean>
+
+    <bean id="autoTaskTrigger" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <bean class="org.springframework.scheduling.quartz.CronTriggerBean">
-                    <!--&lt;!&ndash; run every day 1AM &ndash;&gt;-->
-                    <!--<property name="cronExpression" value="0 0 0/6 * * ?"/>-->
-                    <!--&lt;!&ndash;<property name="cronExpression" value="* 0/1 * * * ?"/>&ndash;&gt;-->
-                    <!--<property name="jobDetail">-->
-                        <!--<bean class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
-                            <!--<property name="targetObject" ref="schedulerService"/>-->
-                            <!--<property name="targetMethod" value="renewProgramHistory"/>-->
-                            <!--<property name="concurrent" value="false"/>-->
-                        <!--</bean>-->
-                    <!--</property>-->
-                </bean>
+                <ref bean="testTrigger"/>
             </list>
         </property>
+        <property name="autoStartup" value="true"/>
+        <property name="schedulerName" value="cronScheduler"/>
     </bean>
 
 </beans>

@@ -2,6 +2,7 @@ package com.changhong.system.web.facade.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * Date: 15-7-30
  * Time: 下午4:23
  */
-public class MarketAppDTO {
+public class MarketAppDTO implements Serializable {
 
     private int id;
 

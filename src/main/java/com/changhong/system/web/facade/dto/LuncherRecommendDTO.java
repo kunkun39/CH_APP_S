@@ -1,11 +1,13 @@
 package com.changhong.system.web.facade.dto;
 
+import java.io.Serializable;
+
 /**
  * User: Jack Wang
  * Date: 15-9-25
  * Time: 下午3:03
  */
-public class LuncherRecommendDTO {
+public class LuncherRecommendDTO implements Serializable {
 
     private int id;
 

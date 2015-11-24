@@ -14,6 +14,7 @@ public interface CacheService {
 
     void obtainInitCachedObjects();
 
+    void processDestoryCached();
     /************************************专题和类别部分************************************/
 
     /**

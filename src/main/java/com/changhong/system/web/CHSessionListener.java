@@ -37,6 +37,9 @@ public class CHSessionListener implements HttpSessionListener, ServletContextLis
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        if (cacheService != null) {
+            cacheService.processDestoryCached();
+        }
         try {
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.shutdown();

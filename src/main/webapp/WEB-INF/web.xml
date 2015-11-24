@@ -10,6 +10,7 @@
         <param-value>
             /WEB-INF/architecture/core.xml
             /WEB-INF/architecture/security.xml
+            /WEB-INF/architecture/schedule.xml
             /WEB-INF/gh-servlet.xml
         </param-value>
     </context-param>
