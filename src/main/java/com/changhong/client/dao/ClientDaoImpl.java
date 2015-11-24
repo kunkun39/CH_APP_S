@@ -129,7 +129,7 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         parameters.put("sta_day",appBackupHistory.getDay());
         parameters.put("sta_hour",appBackupHistory.getHour());
         parameters.put("box_mac",appBackupHistory.getBoxMac());
-        parameters.put("app_opcode",appBackupHistory.getOpcode());
+        parameters.put("opcode",appBackupHistory.getOpcode());
         parameters.put("app_ids",appBackupHistory.getAppIds());
 
         object = getSqlMapClientTemplate().insert("Client.insertAppBackupHistory",parameters);
