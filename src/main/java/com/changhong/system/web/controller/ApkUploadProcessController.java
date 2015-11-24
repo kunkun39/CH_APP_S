@@ -19,12 +19,15 @@ import java.io.PrintWriter;
 public class ApkUploadProcessController extends AbstractController {
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        int percentage = (Integer)request.getSession().getAttribute("UPLAOD_FILE_PROCESS");
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int percentage = 0;
+        try {
+            percentage = (Integer) request.getSession().getAttribute("UPLAOD_FILE_PROCESS");
+            //maybe the list of process has not begin and this request already launched
+        } catch (Exception e) {
+        }
         JSONObject o = new JSONObject();
-        o.put("percentage", +percentage + "");
-
-        System.out.println(percentage);
+        o.put("percentage", percentage + "");
 
         //返回结果
         response.setContentType("application/json; charset=utf-8");

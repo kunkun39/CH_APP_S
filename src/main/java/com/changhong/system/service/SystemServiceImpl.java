@@ -5,6 +5,7 @@ import com.changhong.common.exception.CHDocumentOperationException;
 import com.changhong.common.utils.CHStringUtils;
 import com.changhong.system.domain.ClientBootImage;
 import com.changhong.system.domain.ClientVersion;
+import com.changhong.system.domain.MultipHost;
 import com.changhong.system.repository.SystemDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 /**
  * User: Jack Wang
@@ -37,6 +39,8 @@ public class SystemServiceImpl implements SystemService {
 
     @Value("${application.upload.file.path}")
     private String baseStorePath;
+
+    /*client version**********************************************************************/
 
     public ClientVersion obtainClientVersion() {
         return systemDao.findClientVersion();
@@ -86,6 +90,8 @@ public class SystemServiceImpl implements SystemService {
         cacheService.setClientBeginUpdate(beginUpdate);
     }
 
+    /*boot image**********************************************************************/
+
     /*获得图片文件*/
     public ClientBootImage obtainClientBootImage() {
         return (ClientBootImage) systemDao.findById(1, ClientBootImage.class);
@@ -131,5 +137,51 @@ public class SystemServiceImpl implements SystemService {
             //reset che cache
             cacheService.setBootImageFileName(actualFileName);
         }
+    }
+
+    /*multip host**********************************************************************/
+
+    public List<MultipHost> obtainAllMultipHosts() {
+        return systemDao.loadAllMultipHosts();
+    }
+
+    public void changeStatusForHost(int hostId) {
+        MultipHost host = (MultipHost) systemDao.findById(hostId, MultipHost.class);
+
+        if (host.isHostEnabled()) {
+            host.setHostEnabled(false);
+        } else {
+            host.setHostEnabled(true);
+        }
+
+        //reset the cache
+        cacheService.resetMultipHost(hostId, host.getHostName(), !host.isHostEnabled());
+    }
+
+    public void deleteMultipHost(int hostId) {
+        MultipHost host = (MultipHost) systemDao.findById(hostId, MultipHost.class);
+        systemDao.delete(host);
+
+        //reset the cache
+        cacheService.resetMultipHost(hostId, host.getHostName(), true);
+    }
+
+    public void saveOrUpdateMultipHost(int hostId, String hostName) {
+        MultipHost host = null;
+        if (hostId > 0) {
+            host = (MultipHost)systemDao.findById(hostId, MultipHost.class);
+        } else {
+            host = new MultipHost();
+        }
+        host.setHostName(hostName);
+
+        systemDao.saveOrUpdate(host);
+
+        //reset the cache
+        cacheService.resetMultipHost(host.getId(), host.getHostName(), !host.isHostEnabled());
+    }
+
+    public MultipHost obtainMultipHostById(int hostId) {
+        return (MultipHost)systemDao.findById(hostId, MultipHost.class);
     }
 }

@@ -2,7 +2,10 @@ package com.changhong.system.repository;
 
 import com.changhong.common.repository.HibernateEntityObjectDao;
 import com.changhong.system.domain.ClientVersion;
+import com.changhong.system.domain.MultipHost;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * User: Jack Wang
@@ -18,5 +21,9 @@ public class SystemDaoImpl extends HibernateEntityObjectDao implements SystemDao
 
     public void saveClientVersion(ClientVersion version) {
         getHibernateTemplate().saveOrUpdate(version);
+    }
+
+    public List<MultipHost> loadAllMultipHosts() {
+        return getHibernateTemplate().find("from MultipHost");
     }
 }

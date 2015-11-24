@@ -1,7 +1,5 @@
 package com.changhong.client.service;
 
-import com.changhong.common.thread.ApplicationThreadPool;
-import com.changhong.common.utils.CHCallBack;
 import com.changhong.common.utils.CHMemcacheUtils;
 import com.changhong.common.utils.CHPagingUtils;
 import com.changhong.system.domain.*;
@@ -13,20 +11,14 @@ import com.javacodegeeks.concurrent.ConcurrentLinkedHashMap;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.mail.internet.NewsAddress;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Administrator
- * Date: 15-11-19
- * Time: 下午2:01
- * To change this template use File | Settings | File Templates.
+ * User: Peng Jie
  */
 @Service("memcacheService")
 public class MemCacheServiceImpl implements CacheService, CHCallBack {
@@ -38,11 +30,11 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     private final static String MARKET_APP = "APP_";
 
     private final static String CATEGORY_APP = "CATE_";
-    
+
     private final static String TOPIC_APP = "TOP_";
 
     private final static String LAUNCHER_RECOMMEND_APP = "LUN_";
-    
+
     private final static String MUST_APP = "MUST_";
 
     private final static String IMAGE_NAME = "IMG_NAME";
@@ -58,9 +50,6 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
 
     @Autowired
     private SystemDao systemDao;
-
-    @Autowired
-    private ApplicationThreadPool applicationThreadPool;
 
     private ConcurrentSkipListSet<Integer> categoryIndex = new ConcurrentSkipListSet<Integer>();
 
@@ -89,7 +78,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         boolean needReadDatafromDB = true;
         log.info("containsKey" + memcacheUtils.containsKey(MEMCACHE_INIT_KEY));
         if (memcacheUtils.containsKey(MEMCACHE_INIT_KEY)) {
-            while(((String)memcacheUtils.getImmediate(MEMCACHE_INIT_KEY)).equals("init start") && sleepCounter < 10) {
+            while (((String) memcacheUtils.getImmediate(MEMCACHE_INIT_KEY)).equals("init start") && sleepCounter < 10) {
                 sleepCounter++;
                 try {
                     Thread.sleep(5000);
@@ -98,13 +87,13 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
                 }
             }
             log.info("init" + (String) memcacheUtils.getImmediate(MEMCACHE_INIT_KEY));
-            if(((String) memcacheUtils.getImmediate(MEMCACHE_INIT_KEY)).equals("init end")) {
+            if (((String) memcacheUtils.getImmediate(MEMCACHE_INIT_KEY)).equals("init end")) {
                 needReadDatafromDB = false;
                 updateLocalCache();
             }
         }
-        if(needReadDatafromDB) {
-             memcacheUtils.put(MEMCACHE_INIT_KEY, "init start");
+        if (needReadDatafromDB) {
+            memcacheUtils.put(MEMCACHE_INIT_KEY, "init start");
             /**
              * 缓存APP
              */
@@ -186,6 +175,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
             log.info("finish init client version");
             memcacheUtils.put(MEMCACHE_INIT_KEY, "init end");
         }
+
         isInitEnd = true;
         long end = System.currentTimeMillis();
         long during = end - begin;
@@ -195,6 +185,22 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     public void processDestoryCached() {
         memcacheUtils.stop();
     }
+
+    /**
+     * *********************************文件服务器***********************************
+     */
+
+    public void resetMultipHost(int hostId, String hostName, boolean remove) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public String getRandomMutipHost() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * *********************************专题和类别部分***********************************
+     */
 
     public void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove) {
         if (remove) {
@@ -224,6 +230,10 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         return obtainAllTopicApps();
     }
 
+    /**
+     * *********************************App部分***********************************
+     */
+
     public void resetMarketAppInCache(MarketAppDTO dto) {
         memcacheUtils.put(MARKET_APP + dto.getId(), dto);
         appIndex.put(dto.getAppPackage(), dto.getId());
@@ -242,11 +252,10 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
             if (appIndex.containsKey(appPackage)) {
                 int appId = appIndex.get(appPackage);
                 MarketAppDTO dto = obtainMarketApp(appId);
-                if(dto != null) {
+                if (dto != null) {
                     apps.add(dto);
                     find = true;
-                }
-                else {
+                } else {
                     appIndex.remove(appPackage);
                 }
 
@@ -266,8 +275,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
 
         if (get != null && get.getParentId() > 0) {
             idLists.add(categoryId + "");
-        }
-        else {
+        } else {
             for (AppCategoryDTO loop : obtainAllCategories()) {
                 int loopParentId = loop.getParentId();
                 if (loopParentId == categoryId) {
@@ -343,6 +351,10 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         resetMarketAppInCache(dto);
     }
 
+    /**
+     * *********************************LUNCHER推荐部分***********************************
+     */
+
     public void resetLuncherRecommendInCache(LuncherRecommendDTO dto, boolean remove) {
         if (remove) {
             memcacheUtils.remove(LAUNCHER_RECOMMEND_APP + dto.getId());
@@ -357,6 +369,10 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         return obtainAllLuncherRecommend();
     }
 
+    /**
+     * *********************************应用强制升级和卸载***********************************
+     */
+
     public void resetAppMustInCache(AppMustDTO dto, boolean remove) {
         if (remove) {
             memcacheUtils.remove(MUST_APP + dto.getId());
@@ -369,9 +385,13 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         return obtainAllMustApps();
     }
 
+    /**
+     * *********************************开机图片***********************************
+     */
+
     public String getBootImageFileName() {
         String imgPathName = (String) memcacheUtils.get(IMAGE_NAME);
-        if(!StringUtils.hasText(imgPathName)) {
+        if (!StringUtils.hasText(imgPathName)) {
             imgPathName = ((ClientBootImage) appDao.findById(1, ClientBootImage.class)).getActualFileName();
             memcacheUtils.put(IMAGE_NAME, imgPathName);
         }
@@ -381,6 +401,10 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     public void setBootImageFileName(String bootImageFileName) {
         memcacheUtils.put(IMAGE_NAME, bootImageFileName);
     }
+
+    /**
+     * *********************************系统版本***********************************
+     */
 
     public int getCurrentClientVersion() {
         Integer version = (Integer) memcacheUtils.get(APK_VERSION);
@@ -411,9 +435,8 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     public void onCallBack() {
-        //applicationThreadPool.executeThread(new Thread(new SyncIndexRunnable()));
         log.info("onCallBack");
-        if(isInitEnd) {
+        if (isInitEnd) {
             String initValue = (String) memcacheUtils.getImmediate(MEMCACHE_INIT_KEY);
             if (!StringUtils.hasText(initValue)) {
                 return;
@@ -427,19 +450,19 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected AppCategoryDTO obtainCategoryAPP(int categoryId) {
-        if(categoryIndex.contains(categoryId)) {
+        if (categoryIndex.contains(categoryId)) {
             return null;
         }
 
         AppCategoryDTO dto = (AppCategoryDTO) memcacheUtils.get(CATEGORY_APP + categoryId);
-        if(null == dto) {
+        if (null == dto) {
             return dto;
         }
 
         log.info("not get CategoryAPP from cache for id " + categoryId);
 
         AppCategory category = (AppCategory) appDao.findById(categoryId, AppCategory.class);
-        if(category != null) {
+        if (category != null) {
             dto = AppCategoryWebAssember.toAppCategoryDTO(category, false);
             memcacheUtils.put(CATEGORY_APP + categoryId, dto);
         }
@@ -447,18 +470,18 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected AppTopicDTO obtainTopicAPP(int topicId) {
-        if(topicIndex.contains(topicId)) {
+        if (topicIndex.contains(topicId)) {
             return null;
         }
 
         AppTopicDTO dto = (AppTopicDTO) memcacheUtils.get(TOPIC_APP + topicId);
-        if(null == dto) {
+        if (null == dto) {
             return dto;
         }
         log.info("not get TopicAPP from cache for id " + topicId);
 
         AppTopic topic = (AppTopic) appDao.findById(topicId, AppTopic.class);
-        if(topic != null) {
+        if (topic != null) {
             dto = AppTopicWebAssember.toAppTopicDTO(topic);
             memcacheUtils.put(TOPIC_APP + dto.getId(), dto);
         }
@@ -466,7 +489,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected LuncherRecommendDTO obtainLuncherRecommend(int recommendId) {
-        if(launcherIndex.contains(recommendId)) {
+        if (launcherIndex.contains(recommendId)) {
             return null;
         }
 
@@ -478,7 +501,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         log.info("not get LuncherRecommend from cache for id " + recommendId);
 
         LuncherRecommend recommend = (LuncherRecommend) appDao.findById(recommendId, LuncherRecommend.class);
-        if(recommend != null) {
+        if (recommend != null) {
             dto = LuncherRecommendWebAssember.toLuncherRecommendDTO(recommend);
             memcacheUtils.put(LAUNCHER_RECOMMEND_APP + dto.getId(), dto);
         }
@@ -494,8 +517,8 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
 
         log.info("not get MarketApp from cache for id " + appId);
         MarketApp app = (MarketApp) appDao.findById(appId, MarketApp.class);
-        if(app != null) {
-            dto =  MarketAppWebAssember.toMarketAppDTO(app);
+        if (app != null) {
+            dto = MarketAppWebAssember.toMarketAppDTO(app);
             memcacheUtils.put(MARKET_APP + appId, dto);
             appIndex.put(dto.getAppPackage(), dto.getId());
         }
@@ -503,7 +526,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected AppMustDTO obtainMustApp(int mustId) {
-        if(mustIndex.contains(mustId)) {
+        if (mustIndex.contains(mustId)) {
             return null;
         }
 
@@ -515,7 +538,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         log.info("not get MustApp from cache for id " + mustId);
 
         AppMust appMust = (AppMust) appDao.findById(mustId, AppMust.class);
-        if(appMust != null) {
+        if (appMust != null) {
             dto = AppMustWebAssember.toAppMustDTODTO(appMust);
             memcacheUtils.put(MUST_APP + mustId, dto);
         }
@@ -528,12 +551,11 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
 
         Iterator iterator = categoryIndex.iterator();
         while (iterator.hasNext()) {
-            int categoryId = (Integer)iterator.next();
+            int categoryId = (Integer) iterator.next();
             AppCategoryDTO dto = obtainCategoryAPP(categoryId);
             if (dto != null) {
                 list.add(dto);
-            }
-            else {
+            } else {
                 categoryIndex.remove(categoryId);
             }
         }
@@ -550,8 +572,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
             AppTopicDTO dto = obtainTopicAPP(topicId);
             if (dto != null) {
                 list.add(dto);
-            }
-            else {
+            } else {
                 topicIndex.remove(topicId);
             }
         }
@@ -563,12 +584,11 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         ArrayList<LuncherRecommendDTO> list = new ArrayList<LuncherRecommendDTO>();
         Iterator iterator = launcherIndex.iterator();
         while (iterator.hasNext()) {
-            int recommendId = (Integer)iterator.next();
+            int recommendId = (Integer) iterator.next();
             LuncherRecommendDTO dto = obtainLuncherRecommend(recommendId);
             if (dto != null) {
                 list.add(dto);
-            }
-            else {
+            } else {
                 launcherIndex.remove(recommendId);
             }
         }
@@ -580,12 +600,11 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         ArrayList<AppMustDTO> list = new ArrayList<AppMustDTO>();
         Iterator iterator = mustIndex.iterator();
         while (iterator.hasNext()) {
-            int mustId = (Integer)iterator.next();
+            int mustId = (Integer) iterator.next();
             AppMustDTO dto = obtainMustApp(mustId);
             if (dto != null) {
                 list.add(dto);
-            }
-            else {
+            } else {
                 mustIndex.remove(mustId);
             }
         }
@@ -596,7 +615,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     protected List<MarketAppDTO> obtainAllMarketApps() {
         ArrayList<MarketAppDTO> list = new ArrayList<MarketAppDTO>();
 
-        for(int appId: appIndex.values()) {
+        for (int appId : appIndex.values()) {
             MarketAppDTO dto = obtainMarketApp(appId);
             if (dto != null) {
                 list.add(dto);
@@ -613,20 +632,16 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
             String keyName = (String) iterator.next();
             if (keyName.contains(MARKET_APP)) {
                 MarketAppDTO dto = (MarketAppDTO) memcacheUtils.get(keyName);
-                if(dto != null) {
+                if (dto != null) {
                     appIndex.put(dto.getAppPackage(), dto.getId());
                 }
-            }
-            else if (keyName.contains(CATEGORY_APP)) {
+            } else if (keyName.contains(CATEGORY_APP)) {
                 categoryIndex.add(Integer.valueOf(keyName.substring(CATEGORY_APP.length())));
-            }
-            else if (keyName.contains(TOPIC_APP)) {
+            } else if (keyName.contains(TOPIC_APP)) {
                 topicIndex.add(Integer.valueOf(keyName.substring(TOPIC_APP.length())));
-            }
-            else if (keyName.contains(LAUNCHER_RECOMMEND_APP)) {
+            } else if (keyName.contains(LAUNCHER_RECOMMEND_APP)) {
                 launcherIndex.add(Integer.valueOf(keyName.substring(LAUNCHER_RECOMMEND_APP.length())));
-            }
-            else if (keyName.contains(MUST_APP)) {
+            } else if (keyName.contains(MUST_APP)) {
                 mustIndex.add(Integer.valueOf(keyName.substring(MUST_APP.length())));
             }
         }

@@ -1,6 +1,5 @@
 package com.changhong.client.service;
 
-import com.changhong.common.utils.CHCallBack;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 

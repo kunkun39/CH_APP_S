@@ -1,6 +1,8 @@
 package com.changhong.client.service;
 
 import com.changhong.common.utils.CHPagingUtils;
+import com.changhong.common.utils.DesUtils;
+import com.changhong.common.utils.NumberUtils;
 import com.changhong.system.domain.*;
 import com.changhong.system.repository.AppDao;
 import com.changhong.system.repository.SystemDao;
@@ -17,11 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Administrator
- * Date: 15-11-19
- * Time: 下午1:44
- * To change this template use File | Settings | File Templates.
+ * User: Peng Jie
  */
 @Service("localcacheService")
 public class LocalCacheServiceImpl implements CacheService {
@@ -45,6 +43,8 @@ public class LocalCacheServiceImpl implements CacheService {
     private ConcurrentLinkedHashMap<String, LuncherRecommendDTO> luncherCache = new ConcurrentLinkedHashMap<String, LuncherRecommendDTO>(20);
 
     private ConcurrentLinkedHashMap<String, AppMustDTO> mustAppCache = new ConcurrentLinkedHashMap<String, AppMustDTO>(20);
+
+    private ConcurrentLinkedHashMap<String, String> multipHosts =  new ConcurrentLinkedHashMap<String, String>(10);
 
     private String bootImageFileName = "initial.png";
 
@@ -134,6 +134,25 @@ public class LocalCacheServiceImpl implements CacheService {
         log.info("finish init all in " + during + "ms");
     }
 
+    /************************************文件服务器************************************/
+
+    public void resetMultipHost(int hostId, String hostName, boolean remove) {
+        if (remove) {
+            multipHosts.remove("HOST_" + hostId);
+        } else {
+            multipHosts.put("HOST_" + hostId, DesUtils.getEncString(hostName));
+        }
+    }
+
+    public String getRandomMutipHost() {
+        if (!multipHosts.isEmpty()) {
+            List<String> keys = new ArrayList<String>(multipHosts.keySet());
+            int index = NumberUtils.generateRandomNumber(keys.size());
+            return multipHosts.get(keys.get(index));
+        }
+        return null;
+    }
+
     /************************************专题和类别部分************************************/
 
     public void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove) {
@@ -145,7 +164,7 @@ public class LocalCacheServiceImpl implements CacheService {
     }
 
     public void processDestoryCached() {
-
+        //do nothing
     }
 
     public Collection<AppCategoryDTO> obtainAllCategories() {

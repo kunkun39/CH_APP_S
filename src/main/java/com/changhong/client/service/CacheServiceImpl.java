@@ -1,9 +1,9 @@
 package com.changhong.client.service;
 
+import com.changhong.common.web.application.ApplicationEventPublisher;
 import com.changhong.system.web.facade.dto.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,27 +20,17 @@ public class CacheServiceImpl implements CacheService {
 
     private final static Logger log = LogManager.getLogger(CacheServiceImpl.class);
 
-    @Autowired
-    CacheService localcacheService;
-    @Autowired
-    CacheService memcacheService;
-
-    private boolean localcache;
+    @Value("${application.localcache}")
+    private boolean localCache;
 
     private CacheService cacheService;
 
-    @Value("${application.localcache}")
-    public void setLocalcache(boolean localcache) {
-        this.localcache = localcache;
-    }
-
     public void obtainInitCachedObjects() {
-        log.info("localcache : " + localcache);
-        if (localcache) {
-            cacheService = localcacheService;
-        }
-        else {
-            cacheService = memcacheService;
+        log.info("local cache : " + localCache);
+        if (localCache) {
+            cacheService = (CacheService) ApplicationEventPublisher.getCtx().getBean("localcacheService");
+        } else {
+            cacheService = (CacheService) ApplicationEventPublisher.getCtx().getBean("memcacheService");
         }
         cacheService.obtainInitCachedObjects();
     }
@@ -48,6 +38,18 @@ public class CacheServiceImpl implements CacheService {
     public void processDestoryCached() {
         cacheService.processDestoryCached();
     }
+
+    /************************************文件服务器************************************/
+
+    public void resetMultipHost(int hostId, String hostName, boolean remove) {
+        cacheService.resetMultipHost(hostId, hostName, remove);
+    }
+
+    public String getRandomMutipHost() {
+        return cacheService.getRandomMutipHost();
+    }
+
+    /************************************专题和类别部分************************************/
 
     public void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove) {
         cacheService.resetAppCategoryInCache(dto, remove);
@@ -64,6 +66,8 @@ public class CacheServiceImpl implements CacheService {
     public Collection<AppTopicDTO> obtainAllTopics() {
         return cacheService.obtainAllTopics();
     }
+
+    /************************************App部分************************************/
 
     public void resetMarketAppInCache(MarketAppDTO dto) {
         cacheService.resetMarketAppInCache(dto);
@@ -101,6 +105,8 @@ public class CacheServiceImpl implements CacheService {
         cacheService.updateAppDownloadTimes(appId);
     }
 
+    /************************************LUNCHER推荐部分************************************/
+
     public void resetLuncherRecommendInCache(LuncherRecommendDTO dto, boolean remove) {
         cacheService.resetLuncherRecommendInCache(dto, remove);
     }
@@ -108,6 +114,8 @@ public class CacheServiceImpl implements CacheService {
     public List<LuncherRecommendDTO> obtainLuncherRecommends() {
         return cacheService.obtainLuncherRecommends();
     }
+
+    /************************************应用强制升级和卸载************************************/
 
     public void resetAppMustInCache(AppMustDTO dto, boolean remove) {
         cacheService.resetAppMustInCache(dto, remove);
@@ -117,6 +125,8 @@ public class CacheServiceImpl implements CacheService {
         return cacheService.obtainAppMust();
     }
 
+    /************************************开机图片************************************/
+
     public String getBootImageFileName() {
         return cacheService.getBootImageFileName();
     }
@@ -124,6 +134,8 @@ public class CacheServiceImpl implements CacheService {
     public void setBootImageFileName(String bootImageFileName) {
         cacheService.setBootImageFileName(bootImageFileName);
     }
+
+    /************************************系统版本************************************/
 
     public int getCurrentClientVersion() {
         return cacheService.getCurrentClientVersion();

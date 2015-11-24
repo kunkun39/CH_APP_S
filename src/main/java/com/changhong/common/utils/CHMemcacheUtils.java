@@ -4,18 +4,14 @@ import com.alisoft.xplatform.asf.cache.ICacheManager;
 import com.alisoft.xplatform.asf.cache.IMemcachedCache;
 import com.alisoft.xplatform.asf.cache.memcached.CacheUtil;
 import com.alisoft.xplatform.asf.cache.memcached.MemcachedCacheManager;
-import com.changhong.client.service.LocalCacheServiceImpl;
+import com.changhong.client.service.CHCallBack;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.util.Set;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Administrator
- * Date: 15-11-19
- * Time: 下午4:58
- * To change this template use File | Settings | File Templates.
+ * User: Peng Jie
  */
 public class CHMemcacheUtils {
 
@@ -40,15 +36,15 @@ public class CHMemcacheUtils {
         try {
             manager = CacheUtil.getCacheManager(IMemcachedCache.class, MemcachedCacheManager.class.getName());
             manager.setConfigFile("memcached.xml");
-            manager.setResponseStatInterval(5*1000);
+            manager.setResponseStatInterval(5 * 1000);
             manager.start();
 
             memcachedCache = manager.getCache(CACHE_NAME);
-        }catch(Exception e) {
+        } catch (Exception e) {
             log.error(e);
             return false;
         }
-        if(callBack != null) {
+        if (callBack != null) {
             callBack.onCallBack();
         }
         log.info("Memcache.int() end");
@@ -64,7 +60,7 @@ public class CHMemcacheUtils {
     public boolean put(String key, Object value) {
         try {
             memcachedCache.put(key, value);
-        }catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -93,6 +89,7 @@ public class CHMemcacheUtils {
     public void stop() {
         manager.stop();
     }
+
     public static void main(String[] args) {
         CHMemcacheUtils memcacheUtils = new CHMemcacheUtils(null);
         memcacheUtils.initMemCache();

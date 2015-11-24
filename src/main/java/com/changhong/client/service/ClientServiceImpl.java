@@ -35,6 +35,9 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
     @Autowired
     private ClientDao clientDao;
 
+    @Value("${application.multip.host}")
+    private boolean multipHost = false;
+
     @Value("${application.file.request.path}")
     private String fileRequestHost;
 
@@ -46,10 +49,21 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         appMarketApkUpdateURL = DesUtils.getEncString(appMarketApkUpdateURL);
     }
 
+    private String decideWhichHost() {
+        String host = null;
+        if (multipHost) {
+            host = cacheService.getRandomMutipHost();
+        }
+        if (!StringUtils.hasText(host)) {
+            host = fileRequestHost;
+        }
+        return host;
+    }
+
     public String obtainBootImage(){
         //把开机图片组合成JSON数据流
         JSONObject all = new JSONObject();
-        all.put("host", fileRequestHost);
+        all.put("host", decideWhichHost());
         all.put("boot_img", cacheService.getBootImageFileName());
         return all.toJSONString();
     }
@@ -57,7 +71,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
     public String obtainAllAppCategoryInfo() {
         //声明一个JSON对象，向JSON数据流中添加数据
         JSONObject all = new JSONObject();
-        all.put("host", fileRequestHost);
+        all.put("host", decideWhichHost());
 
         //一个小时访问一次
         all.put("client_v", cacheService.getCurrentClientVersion());
@@ -105,7 +119,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         List<HashMap> values =  clientDao.loadAllBoxPages();
 
         JSONObject page = new JSONObject();
-        page.put("host", fileRequestHost);
+        page.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
         if (values != null) {
@@ -144,7 +158,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         List<MarketAppDTO> apps = cacheService.obtainCachedAppByCategoryId(categoryId);
 
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
         if (apps != null) {
@@ -169,7 +183,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         List<MarketAppDTO> apps = cacheService.obtainCachedAppByTopicId(topicId);
 
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
         if (apps != null) {
@@ -195,7 +209,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         JSONObject app = new JSONObject();
 
         if (dto != null) {
-            app.put("host", fileRequestHost);
+            app.put("host", decideWhichHost());
             app.put(ClientInfoProperties.APP_ID, dto.getId());
             app.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
             app.put(ClientInfoProperties.APP_KEY, dto.getAppKey());
@@ -220,7 +234,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
     public String obtainAppDetailsRecommend(int categoryId) {
         JSONObject all = new JSONObject();
-        all.put("host", fileRequestHost);
+        all.put("host", decideWhichHost());
 
         //获得最新的APPS
         JSONArray array = new JSONArray();
@@ -245,7 +259,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         List<MarketAppDTO> apps = cacheService.obtainSearchApps(keyWords);
 
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
         if (apps != null) {
@@ -268,7 +282,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
     public String obtainRankListApps() {
         JSONObject all = new JSONObject();
-        all.put("host", fileRequestHost);
+        all.put("host", decideWhichHost());
 
         //获得最新的APPS
         JSONArray newestArray = new JSONArray();
@@ -332,7 +346,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         apps.addAll(cacheService.obtainMarketAppInCache(appPackages));
 
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
         if (apps != null) {
@@ -364,7 +378,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         List<LuncherRecommendDTO> dtos = cacheService.obtainLuncherRecommends();
 
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
         values.put("package", APP_MARKET_PACKAGE);
         values.put("activity", APP_MARKET_APP_DETAILS);
 
@@ -388,7 +402,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         List<AppMustDTO> dtos = cacheService.obtainAppMust();
 
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
         if (dtos != null) {
@@ -479,7 +493,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
     public String obtainBackupApps(String boxMac) {
         JSONObject values = new JSONObject();
-        values.put("host", fileRequestHost);
+        values.put("host", decideWhichHost());
 
         JSONArray all = new JSONArray();
 

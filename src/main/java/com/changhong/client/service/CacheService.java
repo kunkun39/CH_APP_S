@@ -15,6 +15,13 @@ public interface CacheService {
     void obtainInitCachedObjects();
 
     void processDestoryCached();
+
+    /************************************文件服务器************************************/
+
+    void resetMultipHost(int hostId, String hostName, boolean remove);
+
+    String getRandomMutipHost();
+
     /************************************专题和类别部分************************************/
 
     /**

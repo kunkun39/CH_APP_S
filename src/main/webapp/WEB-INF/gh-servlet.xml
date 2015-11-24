@@ -54,6 +54,10 @@
                 <prop key="/backend/clientbootimageshow.html">clientBootImageController</prop>
                 <prop key="/backend/apkparsershow.html">apkOnlineParserController</prop>
                 <prop key="/backend/apkuploadprocess.html">apkUploadProcessController</prop>
+                <prop key="/backend/hostform.html">multipHostFormController</prop>
+                <prop key="/backend/hostoverview.html">multipHostManagementController</prop>
+                <prop key="/backend/hostenable.html">multipHostChangeEnableController</prop>
+                <prop key="/backend/hostdelete.html">multipHostDeleteController</prop>
 
 
                 <!--应用管理-->
@@ -102,8 +106,6 @@
 
     <bean id="errorHandleController" class="com.changhong.common.web.contorller.ApplicationExceptionController"/>
 
-    <bean id="apkUploadProcessController" class="com.changhong.system.web.controller.ApkUploadProcessController"/>
-
     <bean id="backendLoginController" class="com.changhong.system.web.controller.BackendLoginController">
         <property name="projectVersion" value="${application.version}"/>
     </bean>
@@ -111,6 +113,7 @@
     <bean id="dashboardController" class="com.changhong.system.web.controller.DashboardController">
         <property name="appService" ref="appService"/>
         <property name="fileRequestHost" value="${application.file.request.path}"/>
+        <property name="multipHost" value="${application.multip.host}"/>
     </bean>
 
     <!--用户管理-->
@@ -151,6 +154,24 @@
 
     <bean id="apkOnlineParserController" class="com.changhong.system.web.controller.ApkOnlineParserController">
         <property name="documentService" ref="documentService"/>
+    </bean>
+
+    <bean id="apkUploadProcessController" class="com.changhong.system.web.controller.ApkUploadProcessController"/>
+
+    <bean id="multipHostFormController" class="com.changhong.system.web.controller.MultipHostFormController">
+        <property name="systemService" ref="systemService"/>
+    </bean>
+
+    <bean id="multipHostManagementController" class="com.changhong.system.web.controller.MultipHostManagementController">
+        <property name="systemService" ref="systemService"/>
+    </bean>
+
+    <bean id="multipHostChangeEnableController" class="com.changhong.system.web.controller.MultipHostChangeEnableController">
+        <property name="systemService" ref="systemService"/>
+    </bean>
+
+    <bean id="multipHostDeleteController" class="com.changhong.system.web.controller.MultipHostDeleteController">
+        <property name="systemService" ref="systemService"/>
     </bean>
 
     <!--应用管理-->
