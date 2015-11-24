@@ -128,6 +128,15 @@ public class LocalCacheServiceImpl implements CacheService {
         clientBeginUpdate = clientVersion.isBeginUpdate();
         log.info("finish init client version");
 
+        /**
+         * 所有的HOST
+         */
+        List<MultipHost> hosts = systemDao.loadAllMultipHosts();
+        for (MultipHost host : hosts) {
+            multipHosts.put("HOST_" + host.getId(), DesUtils.getEncString(host.getHostName()));
+        }
+        log.info("finish init multip host");
+
 
         long end = System.currentTimeMillis();
         long during = end - begin;
