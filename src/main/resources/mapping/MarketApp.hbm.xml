@@ -18,6 +18,7 @@
     </class>
 
     <class name="com.changhong.system.domain.AppCategory" table="app_category">
+        <cache usage="read-write"/>
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
@@ -35,6 +36,7 @@
     </class>
 
     <class name="com.changhong.system.domain.AppTopic" table="app_topic">
+        <cache usage="read-write"/>
         <id name="id" column="id">
             <generator class="increment"/>
         </id>

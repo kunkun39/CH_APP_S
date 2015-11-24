@@ -38,11 +38,7 @@ public class HibernateEntityObjectDao extends HibernateDaoSupport implements Ent
 
     @SuppressWarnings("unchecked")
 	public EntityBase findById(int id, Class clazz) {
-        List list = getHibernateTemplate().find("from " + clazz.getName() + " do where do.id = ?", new Object[]{id});
-        if (list.isEmpty()) {
-            return null;
-        }
-        return (EntityBase) list.get(0);
+        return (EntityBase)getHibernateTemplate().get(clazz.getName(), id);
     }
 
     public <T extends EntityBase> List<T> findByIds(String[] ids, Class<T> clazz) {

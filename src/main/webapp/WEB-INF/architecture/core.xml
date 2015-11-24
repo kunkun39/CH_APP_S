@@ -16,7 +16,6 @@
 
     <context:spring-configured/>
 
-
     <context:component-scan base-package="com.changhong"/>
 
     <bean id="entityLoadHolder" class="com.changhong.common.repository.EntityLoadHolder">

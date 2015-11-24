@@ -73,7 +73,7 @@
 
 <div id="content">
   <div id="content-header">
-    <div id="breadcrumb"> <a style="font-size: 13px" href="javascript:void(0);" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size: 13px" href="javascript:void(0);" class="current">应用下载排行榜</a> </div>
+    <div id="breadcrumb"> <a style="font-size: 13px" href="javascript:void(0);" class="tip-bottom"><i class="icon-home"></i> 首页</a> <a style="font-size: 13px" href="javascript:void(0);" class="current">应用下载排行榜</a> </div>
   </div>
 
   <%--<div class="quick-actions_homepage">--%>
