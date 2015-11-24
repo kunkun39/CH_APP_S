@@ -25,7 +25,7 @@
     <bean id="testTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="testJobDetail"/>
 		<property name="cronExpression">
-            <value>* 0/10 * * * ?</value>
+            <value>0 0/10 * * * ?</value>
         </property>
     </bean>
 
