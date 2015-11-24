@@ -273,12 +273,12 @@
                                                        target="_blank" class="btn btn-warning btn-mini">下载应用</a>
                         </c:if>
                     </div>
-                    <label class="control-label">文件上传进度</label>
+                    <label id = "processBarTextControl" class="control-label" style="display: none">文件上传进度</label>
 
-                    <div class="controls">
-                        <div class="progress progress-success progress-striped" style="width:30%">
-                            <div id='proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
-                        </div>
+                    <div id = "processBarValControl" class="controls" style="display: none">
+                         <div class="progress progress-success progress-striped" style="width:30%">
+                             <div id='proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
+                         </div>
                     </div>
                 </div>
 
@@ -386,22 +386,24 @@
 
     function saveMarketApp(form) {
         form.submit();
-        beginUpload();
+        beginUploadProcess();
     }
 
-    function beginUpload() {
-        var intId = setInterval("getUploadMeter()", 1000);
+    function beginUploadProcess() {
+        jQuery("#processBarTextControl").css("display", "block");
+        jQuery("#processBarValControl").css("display", "block");
+        var intId = setInterval(getUploadMeter, 1000);
 
         function getUploadMeter() {
             jQuery.getJSON("${pageContext.request.contextPath}/backend/apkuploadprocess.html", function(data) {
-                jQuery("#proBar").css("width", data.percentage + '' + '%');
+                jQuery("#proBar").css("width", data.percentage + '%');
                 jQuery("#proVal").html(data.percentage + '%');
+
                 if (data.percentage == 100) {
-                    //停止请求
+                    //stop requirement
                     window.clearInterval(intId);
                 }
             });
-
         }
     }
 

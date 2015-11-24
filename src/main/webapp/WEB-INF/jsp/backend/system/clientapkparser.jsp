@@ -68,10 +68,10 @@
                                     <span id="clientApk_help" class="help-block" for="required" style="display:none">选择文件不能为空</span>
                                     <span id="clientApk_format_help" class="help-block" style="display: none;">选择文件不是apk格式,请重新选择</span>
                                 </div>
-                                <%--测试代码--%>
-                                <label class="control-label">分析进度</label>
 
-                                <div class="controls">
+                                <label id = "processBarTextControl" class="control-label" style="display: none">分析进度</label>
+
+                                <div id = "processBarValControl" class="controls" style="display: none">
                                     <div class="progress progress-success progress-striped" style="width:30%">
                                         <div id='proBar' class="bar" style="width: 0%"><span id="proVal"></span></div>
                                     </div>
@@ -172,6 +172,8 @@
     }
 
     function beginUploadProcess() {
+        jQuery("#processBarTextControl").css("display", "block");
+        jQuery("#processBarValControl").css("display", "block");
         var intId = setInterval(getUploadMeter, 1000);
 
         function getUploadMeter() {
