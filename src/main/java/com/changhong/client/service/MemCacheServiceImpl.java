@@ -1,7 +1,10 @@
 package com.changhong.client.service;
 
+import IceUtilInternal.StringUtil;
 import com.changhong.common.utils.CHMemcacheUtils;
 import com.changhong.common.utils.CHPagingUtils;
+import com.changhong.common.utils.DesUtils;
+import com.changhong.common.utils.NumberUtils;
 import com.changhong.system.domain.*;
 import com.changhong.system.repository.AppDao;
 import com.changhong.system.repository.SystemDao;
@@ -37,6 +40,8 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
 
     private final static String MUST_APP = "MUST_";
 
+    private final static String MULTIP_HOST = "HOST_";
+
     private final static String IMAGE_NAME = "IMG_NAME";
 
     private final static String APK_VERSION = "APK_VER";
@@ -58,6 +63,8 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     private ConcurrentSkipListSet<Integer> launcherIndex = new ConcurrentSkipListSet<Integer>();
 
     private ConcurrentSkipListSet<Integer> mustIndex = new ConcurrentSkipListSet<Integer>();
+
+    private ConcurrentSkipListSet<Integer> hostIndex = new ConcurrentSkipListSet<Integer>();
 
     private ConcurrentLinkedHashMap<String, Integer> appIndex = new ConcurrentLinkedHashMap<String, Integer>(MAX_CACHE_SIZE);
 
@@ -173,6 +180,17 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
             memcacheUtils.put(APK_VERSION, clientVersion.getClientVersion());
             memcacheUtils.put(IS_UPDATE, clientVersion.isBeginUpdate());
             log.info("finish init client version");
+
+            /**
+             * 所有的HOST
+             */
+            List<MultipHost> hosts = systemDao.loadAllMultipHosts();
+            for (MultipHost host : hosts) {
+                memcacheUtils.put(MULTIP_HOST + host.getId(), DesUtils.getEncString(host.getHostName()));
+                hostIndex.add(host.getId());
+            }
+            log.info("finish init multip host");
+
             memcacheUtils.put(MEMCACHE_INIT_KEY, "init end");
         }
 
@@ -191,11 +209,29 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
      */
 
     public void resetMultipHost(int hostId, String hostName, boolean remove) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (remove) {
+            memcacheUtils.remove(MULTIP_HOST + hostId);
+            hostIndex.remove(hostId);
+        } else {
+            memcacheUtils.put(MULTIP_HOST + hostId, DesUtils.getEncString(hostName));
+            hostIndex.add(hostId);
+        }
     }
 
     public String getRandomMutipHost() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (!hostIndex.isEmpty()) {
+            Iterator iterator = hostIndex.iterator();
+            List<Integer> keys = new ArrayList<Integer>();
+            while(iterator.hasNext()) {
+                keys.add((Integer) iterator.next());
+            }
+            int index = NumberUtils.generateRandomNumber(keys.size());
+            String hostName = obtainMultipHostName(index);
+            if(!StringUtils.hasText(hostName)) {
+                hostIndex.remove(index);
+            }
+        }
+        return null;
     }
 
     /**
@@ -450,7 +486,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected AppCategoryDTO obtainCategoryAPP(int categoryId) {
-        if (categoryIndex.contains(categoryId)) {
+        if (!categoryIndex.contains(categoryId)) {
             return null;
         }
 
@@ -470,7 +506,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected AppTopicDTO obtainTopicAPP(int topicId) {
-        if (topicIndex.contains(topicId)) {
+        if (!topicIndex.contains(topicId)) {
             return null;
         }
 
@@ -489,7 +525,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected LuncherRecommendDTO obtainLuncherRecommend(int recommendId) {
-        if (launcherIndex.contains(recommendId)) {
+        if (!launcherIndex.contains(recommendId)) {
             return null;
         }
 
@@ -526,7 +562,7 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
     }
 
     protected AppMustDTO obtainMustApp(int mustId) {
-        if (mustIndex.contains(mustId)) {
+        if (!mustIndex.contains(mustId)) {
             return null;
         }
 
@@ -544,6 +580,26 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         }
 
         return dto;
+    }
+
+    protected String obtainMultipHostName(int indexId) {
+        if (!hostIndex.contains(indexId)) {
+            return null;
+        }
+
+        String hostName = (String) memcacheUtils.get(MULTIP_HOST);
+
+        if(StringUtils.hasText(hostName)) {
+            return hostName;
+        }
+
+        MultipHost host = (MultipHost) systemDao.findById(indexId, MultipHost.class);
+        if(host != null) {
+            hostName = host.getHostName();
+            memcacheUtils.put(MULTIP_HOST, hostName);
+        }
+
+        return hostName;
     }
 
     protected List<AppCategoryDTO> obtainAllCategorieApps() {
@@ -643,6 +699,9 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
                 launcherIndex.add(Integer.valueOf(keyName.substring(LAUNCHER_RECOMMEND_APP.length())));
             } else if (keyName.contains(MUST_APP)) {
                 mustIndex.add(Integer.valueOf(keyName.substring(MUST_APP.length())));
+            }
+            else if (keyName.contains(MULTIP_HOST)) {
+                hostIndex.add(Integer.valueOf(keyName.substring(MULTIP_HOST.length())));
             }
         }
         log.info("updateLocalCache end!");
