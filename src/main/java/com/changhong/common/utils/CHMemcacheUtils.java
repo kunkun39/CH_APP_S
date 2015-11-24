@@ -4,7 +4,6 @@ import com.alisoft.xplatform.asf.cache.ICacheManager;
 import com.alisoft.xplatform.asf.cache.IMemcachedCache;
 import com.alisoft.xplatform.asf.cache.memcached.CacheUtil;
 import com.alisoft.xplatform.asf.cache.memcached.MemcachedCacheManager;
-import com.changhong.client.service.CHCallBack;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -25,11 +24,6 @@ public class CHMemcacheUtils {
 
     private IMemcachedCache cacheClient;
 
-    private CHCallBack callBack;
-
-    public CHMemcacheUtils(CHCallBack callBack) {
-        this.callBack = callBack;
-    }
 
     public boolean initMemCache() {
         log.info("Memcache.int() start");
@@ -45,9 +39,7 @@ public class CHMemcacheUtils {
             log.error(e);
             return false;
         }
-        if (callBack != null) {
-            callBack.onCallBack();
-        }
+
         log.info("Memcache.int() end");
         return true;
     }
@@ -90,7 +82,7 @@ public class CHMemcacheUtils {
     }
 
     public static void main(String[] args) {
-        CHMemcacheUtils memcacheUtils = new CHMemcacheUtils(null);
+        CHMemcacheUtils memcacheUtils = new CHMemcacheUtils();
         memcacheUtils.initMemCache();
     }
 }

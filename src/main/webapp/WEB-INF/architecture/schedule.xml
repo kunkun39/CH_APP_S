@@ -24,7 +24,7 @@
     </bean>
 
     <bean id="syncMemCacheTask" class="com.changhong.client.service.SyncMemCacheTask">
-        <property name="chCallBack" ref="memcacheService"/>
+        <property name="syncCallBack" ref="memcacheService"/>
     </bean>
 
     <bean id="cronJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
