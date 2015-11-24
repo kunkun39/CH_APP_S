@@ -41,7 +41,6 @@ public class CHMemcacheUtils {
 
             //every time clear before init
             cacheClient = manager.getCache(CACHE_NAME);
-            cacheClient.clear();
         } catch (Exception e) {
             log.error(e);
             return false;
@@ -80,6 +79,10 @@ public class CHMemcacheUtils {
 
     public Object remove(String key) {
         return cacheClient.remove(key);
+    }
+
+    public void clear() {
+        cacheClient.clear();
     }
 
     public void stop() {

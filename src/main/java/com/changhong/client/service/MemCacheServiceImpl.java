@@ -100,6 +100,8 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
 //        }
 //        if (needReadDatafromDB) {
             memcacheClient.put(MEMCACHE_INIT_KEY, "init start");
+            memcacheClient.clear();
+
             /**
              * 缓存APP
              */
@@ -648,45 +650,45 @@ public class MemCacheServiceImpl implements CacheService, CHCallBack {
         memcacheClient.put(IS_UPDATE, clientBeginUpdate);
     }
 
-//    public void onCallBack() {
-//        log.info("onCallBack");
-//        if (isInitEnd) {
-//            String initValue = (String) memcacheClient.getImmediate(MEMCACHE_INIT_KEY);
-//            if (!StringUtils.hasText(initValue)) {
-//                return;
-//            }
-//            if (!initValue.equals("init start")) {
-//                updateLocalCache();
-//                //保证数据永远不会超期
-//                memcacheClient.put(MEMCACHE_INIT_KEY, "init end");
-//            }
-//        }
-//    }
-//
-//    protected void updateLocalCache() {
-//        log.info("updateLocalCache start!");
-//        Set<String> keySet = memcacheClient.keySet();
-//        Iterator iterator = keySet.iterator();
-//        while (iterator.hasNext()) {
-//            String keyName = (String) iterator.next();
-//            if (keyName.contains(MARKET_APP)) {
-//                MarketAppDTO dto = (MarketAppDTO) memcacheClient.get(keyName);
-//                if (dto != null) {
-//                    appIndex.put(dto.getAppPackage(), dto.getId());
-//                }
-//            } else if (keyName.contains(CATEGORY_APP)) {
-//                categoryIndex.add(Integer.valueOf(keyName.substring(CATEGORY_APP.length())));
-//            } else if (keyName.contains(TOPIC_APP)) {
-//                topicIndex.add(Integer.valueOf(keyName.substring(TOPIC_APP.length())));
-//            } else if (keyName.contains(LAUNCHER_RECOMMEND_APP)) {
-//                launcherIndex.add(Integer.valueOf(keyName.substring(LAUNCHER_RECOMMEND_APP.length())));
-//            } else if (keyName.contains(MUST_APP)) {
-//                mustIndex.add(Integer.valueOf(keyName.substring(MUST_APP.length())));
-//            }
-//            else if (keyName.contains(MULTIP_HOST)) {
-//                hostIndex.add(Integer.valueOf(keyName.substring(MULTIP_HOST.length())));
-//            }
-//        }
-//        log.info("updateLocalCache end!");
-//    }
+    public void onCallBack() {
+        log.info("onCallBack");
+        if (isInitEnd) {
+            String initValue = (String) memcacheClient.getImmediate(MEMCACHE_INIT_KEY);
+            if (!StringUtils.hasText(initValue)) {
+                return;
+            }
+            if (!initValue.equals("init start")) {
+                updateLocalCache();
+                //保证数据永远不会超期
+                memcacheClient.put(MEMCACHE_INIT_KEY, "init end");
+            }
+        }
+    }
+
+    protected void updateLocalCache() {
+        log.info("updateLocalCache start!");
+        Set<String> keySet = memcacheClient.keySet();
+        Iterator iterator = keySet.iterator();
+        while (iterator.hasNext()) {
+            String keyName = (String) iterator.next();
+            if (keyName.contains(MARKET_APP)) {
+                MarketAppDTO dto = (MarketAppDTO) memcacheClient.get(keyName);
+                if (dto != null) {
+                    appIndex.put(dto.getAppPackage(), dto.getId());
+                }
+            } else if (keyName.contains(CATEGORY_APP)) {
+                categoryIndex.add(Integer.valueOf(keyName.substring(CATEGORY_APP.length())));
+            } else if (keyName.contains(TOPIC_APP)) {
+                topicIndex.add(Integer.valueOf(keyName.substring(TOPIC_APP.length())));
+            } else if (keyName.contains(LAUNCHER_RECOMMEND_APP)) {
+                launcherIndex.add(Integer.valueOf(keyName.substring(LAUNCHER_RECOMMEND_APP.length())));
+            } else if (keyName.contains(MUST_APP)) {
+                mustIndex.add(Integer.valueOf(keyName.substring(MUST_APP.length())));
+            }
+            else if (keyName.contains(MULTIP_HOST)) {
+                hostIndex.add(Integer.valueOf(keyName.substring(MULTIP_HOST.length())));
+            }
+        }
+        log.info("updateLocalCache end!");
+    }
 }
