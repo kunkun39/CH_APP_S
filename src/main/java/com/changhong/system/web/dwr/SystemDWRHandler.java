@@ -81,4 +81,8 @@ public class SystemDWRHandler {
         appService.deleteAppMust(appMustId);
     }
 
+    public String obtainBackUpAppStaticData(int year, int month) {
+        return statisticService.obtainStaticBackUpDataForLine(year, month).toString();
+    }
+
 }

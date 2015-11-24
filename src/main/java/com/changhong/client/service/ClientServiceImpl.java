@@ -3,6 +3,7 @@ package com.changhong.client.service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.changhong.client.dao.ClientDao;
+import com.changhong.common.domain.AppBackupHistory;
 import com.changhong.common.utils.CHListUtils;
 import com.changhong.common.utils.DesUtils;
 import com.changhong.system.domain.AppDownloadHistory;
@@ -43,6 +44,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
 
     @Value("${application.appmarket.update.path}")
     private String appMarketApkUpdateURL = "";
+
 
     public void afterPropertiesSet() throws Exception {
         fileRequestHost = DesUtils.getEncString(fileRequestHost);
@@ -487,6 +489,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
             }
             clientDao.updateBackupAppInfo(boxMac, builder.toString());
         }
+        clientDao.insertBackupAppHistory(new AppBackupHistory(boxMac, appIds, AppBackupHistory.DELETTE));
         values.put("deletebackupapps", all);
         return values.toJSONString();
     }
@@ -517,6 +520,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
                     }
             }
         }
+        clientDao.insertBackupAppHistory(new AppBackupHistory(boxMac, null, AppBackupHistory.RECOVER));
         values.put("getbackupapps", all);
         return values.toJSONString();
     }
@@ -566,6 +570,8 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
         if(0 == clientDao.updateBackupAppInfo(boxMac, builder.toString())) {
             clientDao.insertBackupAppInfo(boxMac, builder.toString());
         }
+        //batchingInsertService.insertBackupAppHistory(new AppBackupHistory(boxMac, appIds, 0));
+        clientDao.insertBackupAppHistory(new AppBackupHistory(boxMac, appIds, AppBackupHistory.BACKUP));
         values.put("requestbackupapps", all);
         return values.toJSONString();
     }

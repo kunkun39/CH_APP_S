@@ -1,7 +1,9 @@
 package com.changhong.client.dao;
 
 import com.changhong.client.domain.AppFast;
+import com.changhong.common.domain.AppBackupHistory;
 import com.changhong.common.utils.CHDateUtils;
+import com.changhong.common.utils.CHListUtils;
 import com.changhong.common.utils.JodaUtils;
 import com.changhong.system.domain.AppDownloadHistory;
 import org.springframework.stereotype.Repository;
@@ -118,5 +120,56 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
         return (String)getSqlMapClientTemplate().queryForObject("Client.selectAppIdByBoxMac", boxMac);
     }
 
+    public boolean insertBackupAppHistory(AppBackupHistory appBackupHistory) {
+        Object object = null;
+        Map<String, Object> parameters = new HashMap<String, Object>();
 
+        parameters.put("sta_year",appBackupHistory.getYear());
+        parameters.put("sta_month",appBackupHistory.getMonth());
+        parameters.put("sta_day",appBackupHistory.getDay());
+        parameters.put("sta_hour",appBackupHistory.getHour());
+        parameters.put("box_mac",appBackupHistory.getBoxMac());
+        parameters.put("app_opcode",appBackupHistory.getOpcode());
+        parameters.put("app_ids",appBackupHistory.getAppIds());
+
+        object = getSqlMapClientTemplate().insert("Client.insertAppBackupHistory",parameters);
+
+        if(object != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean insertBackupAppHistory(List<AppBackupHistory> backupHistoryList) {
+        if(!CHListUtils.listIsEmpty(backupHistoryList)) {
+            Object object = null;
+
+            object = getSqlMapClientTemplate().insert("Client.insertAppBackupHistoryList",backupHistoryList);
+
+            if(object != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<HashMap> loadBackupAppHistoryCount(int year, int opcode) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("sta_year",year);
+        parameters.put("opcode",opcode);
+
+        return getSqlMapClientTemplate().queryForList("Client.selectAppBackupHistoryCountByMonth", parameters);
+    }
+
+    public List<HashMap> loadBackupAppHistoryCount(int year, int month, int opcode) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("sta_year",year);
+        parameters.put("sta_month",month);
+        parameters.put("opcode",opcode);
+
+        return getSqlMapClientTemplate().queryForList("Client.selectAppBackupHistoryCountByDay", parameters);
+    }
 }

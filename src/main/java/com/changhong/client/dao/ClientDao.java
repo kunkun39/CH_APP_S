@@ -1,5 +1,6 @@
 package com.changhong.client.dao;
 
+import com.changhong.common.domain.AppBackupHistory;
 import com.changhong.system.domain.AppDownloadHistory;
 
 import java.util.HashMap;
@@ -25,4 +26,12 @@ public interface ClientDao {
     int updateBackupAppInfo(String boxMac, String appIDs);
 
     String loadBackupAppInfo(String boxMac);
+
+    boolean insertBackupAppHistory(AppBackupHistory appBackupHistory);
+
+    boolean insertBackupAppHistory(List<AppBackupHistory> backupHistoryList);
+
+    List<HashMap> loadBackupAppHistoryCount(int year, int opcode);
+
+    List<HashMap> loadBackupAppHistoryCount(int year, int month, int opcode);
 }

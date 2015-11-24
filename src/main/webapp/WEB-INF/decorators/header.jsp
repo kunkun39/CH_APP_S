@@ -50,6 +50,7 @@
       <ul>
         <li><a href="${pageContext.request.contextPath}/backend/marketappranklist.html"><i class="icon icon-hand-right"></i> <span>应用下载排行榜</span></a></li>
         <li><a href="${pageContext.request.contextPath}/backend/appstatistic.html"><i class="icon icon-hand-right"></i> <span>应用下载统计</span></a></li>
+          <li><a href="${pageContext.request.contextPath}/backend/backupappstatistic.html"><i class="icon icon-hand-right"></i> <span>云备份统计</span></a></li>
       </ul>
     </li>
     </security:authorize>

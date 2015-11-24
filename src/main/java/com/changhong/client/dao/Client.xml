@@ -62,7 +62,7 @@
             box_mac,
             app_ids
         )
-        values (#box_mac:String#,#app_ids:String#)
+        values (#box_mac:VARCHAR#,#app_ids:VARCHAR#)
         <selectKey resultClass="int" keyProperty="id">
 			select LAST_INSERT_ID() as id
 		</selectKey>
@@ -71,4 +71,56 @@
     <update id="updateAppBackupInfo" parameterClass="java.util.HashMap">
         update app_backup set app_ids=#app_ids# where box_mac=#box_mac#
     </update>
+
+    <insert id="insertAppBackupHistory" parameterClass="java.util.HashMap">
+        insert into app_backup_history(
+            sta_year,
+            sta_month,
+            sta_day,
+            sta_hour,
+            box_mac,
+            opcode,
+            app_ids
+        )
+		values(#sta_year:INT#,#sta_month:INT#,#sta_day:INT#,#sta_hour:INT#,
+            #box_mac:VARCHAR#,#opcode:INT#,#app_ids:VARCHAR#)
+        <selectKey resultClass="int">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+    </insert>
+
+    <insert id="insertAppBackupHistoryList" parameterClass="java.util.List">
+		insert into app_backup_history(
+            sta_year,
+            sta_month,
+            sta_day,
+            sta_hour,
+            box_mac,
+            opcode,
+            app_ids
+        )
+		values
+		<iterate conjunction="," >
+			(#list[].year:INT#,#list[].month:INT#,#list[].day:INT#,#list[].hour:INT#,
+            #list[].boxMac:VARCHAR#,#list[].opcode:INT#,#list[].appIds:VARCHAR#)
+		</iterate>
+		<selectKey resultClass="int">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+	</insert>
+
+    <select id="selectAppBackupHistoryCountByDay" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+        select sta_day, count(id) as total
+        from app_backup_history
+        where sta_year = #sta_year# and sta_month = #sta_month# and opcode = #opcode#
+        group by sta_day
+    </select>
+
+    <select id="selectAppBackupHistoryCountByMonth" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+        select sta_month, count(id) as total
+        from app_backup_history
+        where sta_year = #sta_year# and opcode = #opcode#
+        group by sta_month
+    </select>
+
 </sqlMap>

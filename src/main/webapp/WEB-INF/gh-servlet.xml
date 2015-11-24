@@ -72,6 +72,7 @@
                 <prop key="/backend/marketappstatus.html">marketAppStatusController</prop>
                 <prop key="/backend/marketappranklist.html">marketAppRankListController</prop>
                 <prop key="/backend/appstatistic.html">marketAppStatisticController</prop>
+                <prop key="/backend/backupappstatistic.html">marketBackupAppStaticController</prop>
                 <prop key="/backend/apphistory.html">appHistoryManagementController</prop>
                 <prop key="/backend/updateboxrecommend.html">boxRecommendUpdateController</prop>
                 <prop key="/backend/cancelboxrecommend.html">boxRecommendCancelController</prop>
@@ -224,6 +225,9 @@
 
     <bean id="marketAppStatisticController" class="com.changhong.system.web.controller.MarketAppStatisticController">
         <property name="appService" ref="appService"/>
+    </bean>
+
+    <bean id="marketBackupAppStaticController" class="com.changhong.system.web.controller.MarketBackupAppStaticController">
     </bean>
 
     <bean id="appHistoryManagementController" class="com.changhong.system.web.controller.AppHistoryManagementController">
