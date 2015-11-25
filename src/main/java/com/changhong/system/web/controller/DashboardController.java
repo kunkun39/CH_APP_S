@@ -26,8 +26,6 @@ public class DashboardController extends AbstractController {
 
     private String fileRequestHost;
 
-    private boolean multipHost;
-
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
@@ -50,7 +48,7 @@ public class DashboardController extends AbstractController {
         int currentUserId = SecurityUtils.currectUserId();
         model.put("currentUserId", currentUserId);
 
-        model.put("multipHost", multipHost);
+
         model.put("fileRequestHost", fileRequestHost);
         return new ModelAndView("backend/dashboard", model);
     }
@@ -61,9 +59,5 @@ public class DashboardController extends AbstractController {
 
     public void setFileRequestHost(String fileRequestHost) {
         this.fileRequestHost = fileRequestHost;
-    }
-
-    public void setMultipHost(boolean multipHost) {
-        this.multipHost = multipHost;
     }
 }

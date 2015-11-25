@@ -30,7 +30,7 @@
                         <div class="control-group">
                             <label class="control-label"></label>
                             <div class="controls">
-                                如:http://127.0.0.1/appmarket/uplaod/
+                                如:http://127.0.0.1/appmarket/upload/
                             </div>
                         </div>
                         <div class="form-actions">

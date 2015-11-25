@@ -18,11 +18,14 @@ public class BackendLoginController extends AbstractController {
 
     private String projectVersion;
 
+    private boolean multipHost;
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
 
         model.put("projectVersion", projectVersion);
+        request.getSession().setAttribute("multipHost", multipHost);
 
         return new ModelAndView("backend/index", model);
     }
@@ -30,5 +33,9 @@ public class BackendLoginController extends AbstractController {
 
     public void setProjectVersion(String projectVersion) {
         this.projectVersion = projectVersion;
+    }
+
+    public void setMultipHost(boolean multipHost) {
+        this.multipHost = multipHost;
     }
 }

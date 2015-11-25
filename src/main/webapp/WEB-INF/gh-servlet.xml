@@ -97,9 +97,6 @@
                 <prop key="/client/deletebackupapp.html">clientDeleteAppBackupController</prop>
                 <prop key="/client/getbackupapp.html">clientGetAllAppBackupController</prop>
                 <prop key="/client/requestbackupapp.html">clientApplyAppBackupController</prop>
-                <!--<prop key="/client/apkuploadprocess.html">apkUploadProcessController</prop>-->
-
-
             </props>
 
         </property>
@@ -109,12 +106,12 @@
 
     <bean id="backendLoginController" class="com.changhong.system.web.controller.BackendLoginController">
         <property name="projectVersion" value="${application.version}"/>
+        <property name="multipHost" value="${application.multip.host}"/>
     </bean>
 
     <bean id="dashboardController" class="com.changhong.system.web.controller.DashboardController">
         <property name="appService" ref="appService"/>
         <property name="fileRequestHost" value="${application.file.request.path}"/>
-        <property name="multipHost" value="${application.multip.host}"/>
     </bean>
 
     <!--用户管理-->
