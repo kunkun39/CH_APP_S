@@ -102,6 +102,7 @@
             <tx:method name="upload*" propagation="REQUIRED"/>
             <tx:method name="handle*" propagation="REQUIRED"/>
             <tx:method name="cancel*" propagation="REQUIRED"/>
+            <tx:method name="sync*" propagation="REQUIRED"/>
         </tx:attributes>
     </tx:advice>
 
