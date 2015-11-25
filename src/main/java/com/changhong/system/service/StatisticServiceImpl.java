@@ -55,7 +55,7 @@ public class StatisticServiceImpl implements StatisticService {
             }
 
             for(HashMap hashMap : backupList) {
-                statisticBackUpCount.put((Integer)hashMap.get("sta_day"), (Integer)hashMap.get("total"));
+                statisticBackUpCount.put((Integer)hashMap.get("sta_day"), ((Long)hashMap.get("total")).intValue());
             }
 
             for (int i=1; i<= totalDays; i++) {
@@ -69,7 +69,7 @@ public class StatisticServiceImpl implements StatisticService {
             }
 
             for(HashMap hashMap : deleteList) {
-                statisticDeleteCount.put((Integer)hashMap.get("sta_day"), (Integer)hashMap.get("total"));
+                statisticDeleteCount.put((Integer)hashMap.get("sta_day"), ((Long)hashMap.get("total")).intValue());
             }
 
             for (int i=1; i<= totalDays; i++) {
@@ -92,7 +92,7 @@ public class StatisticServiceImpl implements StatisticService {
             }
 
             for(HashMap hashMap : backupList) {
-                statisticBackUpCount.put((Integer)hashMap.get("sta_month"), (Integer)hashMap.get("total"));
+                statisticBackUpCount.put((Integer)hashMap.get("sta_month"), ((Long)hashMap.get("total")).intValue());
             }
 
             for (int i=1; i<= 12; i++) {
@@ -107,7 +107,7 @@ public class StatisticServiceImpl implements StatisticService {
             }
 
             for(HashMap hashMap : deleteList) {
-                statisticDeleteCount.put((Integer)hashMap.get("sta_month"), (Integer)hashMap.get("total"));
+                statisticDeleteCount.put((Integer)hashMap.get("sta_month"), ((Long)hashMap.get("total")).intValue());
             }
 
             for (int i=1; i<= 12; i++) {
