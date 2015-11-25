@@ -1,12 +1,15 @@
 package com.changhong.system.service;
 
+import com.changhong.common.exception.CHAppExistException;
 import com.changhong.common.exception.CHDocumentOperationException;
 import com.changhong.common.utils.AppInfoUtils;
 import com.changhong.system.domain.*;
+import com.changhong.system.repository.AppDao;
 import com.sun.deploy.ui.AppInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -15,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +32,9 @@ import java.util.Map;
 public class DocumentServiceImpl implements DocumentService, InitializingBean {
 
     private static final Log logger = LogFactory.getLog(DocumentServiceImpl.class);
+
+    @Autowired
+    private AppDao appDao;
 
     @Value("${application.upload.file.path}")
     private String baseStorePath;
@@ -57,7 +64,7 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
         }
     }
 
-    public void uploadAppApkData(MarketApp app) {
+    public String uploadAppApkData(MarketApp app) {
         File directory = new File(baseStorePath + app.getAppKey());
         if (!directory.exists()) {
             directory.mkdirs();
@@ -70,9 +77,30 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
             OutputStream dataOut = new FileOutputStream(apkFile.getAbsolutePath());
             FileCopyUtils.copy(apk.getFile().getInputStream(), dataOut);
 
+            Map<String, String> apkInfo = AppInfoUtils.obtainApkInfo(apkFile.getAbsolutePath(), false);
+            boolean packageDuplicate = appDao.loadAppPackageDuplicate(app.getId(), apkInfo.get("packageName"));
+            if (packageDuplicate) {
+                logger.info("app package is duplicate for " + app.getAppPackage());
+                apkFile.delete();
+                directory.delete();
+                return null;
+            }
+
+            if (app.getId() > 0) {
+                AppChangeDetails details = DomainHelper.generateNewApkFileChangeDetails(apk.getFile(), app.getAppVersion(), apkInfo.get("versionName"));
+                app.getHistory().addChangeDetails(details);
+            }
+
             logger.info("finish upload app apk file for" + app.getAppName());
-        } catch (Exception e) {
+            app.setAppSize(String.valueOf(apk.getFile().getSize()));
+            app.setAppVersionInt(Integer.valueOf(apkInfo.get("versionCode")));
+            app.setAppVersion(apkInfo.get("versionName"));
+            app.setAppPackage(apkInfo.get("packageName"));
+            return app.getAppPackage();
+        } catch (IOException e) {
             logger.error(e);
+            apkFile.delete();
+            directory.delete();
             throw new CHDocumentOperationException("exception app apk failed for app " + app.getAppName(), e);
         }
     }

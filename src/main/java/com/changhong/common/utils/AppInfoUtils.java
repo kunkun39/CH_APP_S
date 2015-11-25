@@ -56,9 +56,6 @@ public class AppInfoUtils {
                                 if ("minSdkVersion".equals(attributeName)) {
                                     model.put("minSdkVersion", parser.getAttributeUnsignedIntValue(k, 0) + "");
                                 }
-                                if ("targetSdkVersion".equals(attributeName)) {
-                                    model.put("targetSdkVersion", parser.getAttributeUnsignedIntValue(k, 0) + "");
-                                }
                             }
                             break;
 

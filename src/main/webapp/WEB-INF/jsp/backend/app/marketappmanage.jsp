@@ -113,7 +113,7 @@
                             <div class="user-thumb">
                                 <img style="width: 50px; height: 50px;" src="${fileRequestHost}${app.appKey}/${app.iconActualFileName}"/>
                                 <c:if test="${app.recommend}">
-                                    <span class="recommend">推荐</span>
+                                    <span class="badge badge-info" style="margin-top: 5px;">推荐</span>
                                 </c:if>
                             </div>
                             <div class="article-post">
@@ -138,7 +138,7 @@
 
                                     <a href="${fileRequestHost}${app.appKey}/${app.apkActualFileName}" target="_blank" class="btn btn-warning btn-mini">下载应用</a>
                                     <a href="${pageContext.request.contextPath}/backend/marketappform.html?marketAppId=${app.id}&current=${paging.currentPageNumber}&appName=${paging.appName}&categoryId=${paging.categoryId}&topicId=${paging.topicId}&appStatus=${paging.appStatus}" class="btn btn-primary btn-mini">编辑信息</a>
-                                    <input type="button" style="width:54px;height:22px" value="查看历史" class="btn btn-success btn-mini"  onclick="openHistoryModel('${app.id}')">
+                                    <input type="button" value="查看历史" class="btn btn-success btn-mini"  onclick="openHistoryModel('${app.id}')">
 
                                 </div>
                                 <span class="user-info">

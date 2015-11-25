@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.changhong.client.service.CacheService;
 import com.changhong.common.domain.EntityBase;
+import com.changhong.common.exception.CHAppExistException;
 import com.changhong.common.exception.CHApplicationException;
 import com.changhong.common.utils.SecurityUtils;
 import com.changhong.system.domain.*;
@@ -15,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -170,12 +172,31 @@ public class AppServiceImpl implements AppService {
         return MarketAppWebAssember.toMarketAppDTO(app);
     }
 
-    public boolean obtainAppPackageDuplicate(int marketAppId, String packageName) {
-        return appDao.loadAppPackageDuplicate(marketAppId, packageName);
-    }
-
-    public int saveOrUpdateMarketApp(MarketAppDTO appDTO) {
+    public int saveOrUpdateMarketApp(MarketAppDTO appDTO) throws Exception {
         MarketApp app = MarketAppWebAssember.toMarkAppDomain(appDTO);
+
+        //save apk
+        MultipartFile apkFile = appDTO.getApkFile();
+        if(apkFile != null && apkFile.getSize() > 0) {
+            AppFile old = new AppFile();
+            AppFile apk = null;
+            if (app.getAppFile() != null) {
+                apk = app.getAppFile();
+                //keep the old info
+                old.setInfo(apk);
+                apk.changeFile(apkFile);
+            } else {
+                apk = new AppFile(apkFile, "");
+                app.setAppFile(apk);
+            }
+
+            String packageName = documentService.uploadAppApkData(app);
+            if (!StringUtils.hasText(packageName)) {
+                //back the old info
+                apk.setInfo(old);
+                throw new CHAppExistException("package is duplicate for upload app");
+            }
+        }
 
         //save icon
         MultipartFile iconFile = appDTO.getIconFile();
@@ -188,22 +209,6 @@ public class AppServiceImpl implements AppService {
                 app.setAppIcon(icon);
             }
             documentService.uploadAppIconData(app);
-        }
-
-        //save apk
-        MultipartFile apkFile = appDTO.getApkFile();
-        if(apkFile != null && apkFile.getSize() > 0) {
-            AppFile apk = null;
-            if (app.getAppFile() != null) {
-                apk = app.getAppFile();
-                apk.changeFile(apkFile);
-            } else {
-                apk = new AppFile(apkFile, "");
-                app.setAppFile(apk);
-            }
-
-            documentService.uploadAppApkData(app);
-            app.setAppSize(String.valueOf(apkFile.getSize()));
         }
 
         //save poster

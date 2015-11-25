@@ -48,9 +48,7 @@ public interface AppService {
 
     MarketAppDTO obtainMarketAppById(int marketAppId);
 
-    boolean obtainAppPackageDuplicate(int marketAppId, String packageName);
-
-    int saveOrUpdateMarketApp(MarketAppDTO appDTO);
+    int saveOrUpdateMarketApp(MarketAppDTO appDTO) throws Exception;
 
     void changeMarketAppStatus(int marketAppId, String resetStatus);
 

@@ -15,4 +15,11 @@ public class AppFile extends Document {
     public AppFile(MultipartFile file, String actualFilePath) {
         super(file, actualFilePath);
     }
+
+    public void setInfo(AppFile appFile) {
+        setActualFileName(appFile.getActualFileName());
+        setActualFilePath(appFile.getActualFilePath());
+        setUploadFileName(appFile.getUploadFileName());
+        setUploadTime(appFile.getUploadTime());
+    }
 }

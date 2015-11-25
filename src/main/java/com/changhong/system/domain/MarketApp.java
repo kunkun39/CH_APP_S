@@ -70,15 +70,11 @@ public class MarketApp extends EntityBase {
     public MarketApp() {
     }
 
-    public MarketApp(String appName, String appDescription, String appNote, int appVersionInt, String appVersion,
-                     String appPackage, int appScores, boolean recommend) {
+    public MarketApp(String appName, String appDescription, String appNote, int appScores, boolean recommend) {
         this.appKey = CHStringUtils.getRandomString(8);
         this.appName = appName;
         this.appDescription = appDescription;
         this.appNote = appNote;
-        this.appVersionInt = appVersionInt;
-        this.appVersion = appVersion;
-        this.appPackage = appPackage;
         this.downloadTimes = 0;
         this.appStatus = AppStatus.CREAETED;
         this.createTime = new DateTime();

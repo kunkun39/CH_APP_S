@@ -1,5 +1,6 @@
 package com.changhong.system.web.controller;
 
+import com.changhong.common.exception.CHAppExistException;
 import com.changhong.common.utils.CHFileUtils;
 import com.changhong.system.domain.AppTopic;
 import com.changhong.system.service.AppService;
@@ -44,6 +45,8 @@ public class MarketAppFormController extends SimpleFormController {
         request.setAttribute("fileRequestHost", fileRequestHost);
         String alertInfoShow = ServletRequestUtils.getStringParameter(request, "alertInfoShow", "false");
         request.setAttribute("alertInfoShow", alertInfoShow);
+        String errorInfoShow = ServletRequestUtils.getStringParameter(request, "errorInfoShow", "false");
+        request.setAttribute("errorInfoShow", errorInfoShow);
 
         int marketAppId = ServletRequestUtils.getIntParameter(request, "marketAppId", -1);
         String current = ServletRequestUtils.getStringParameter(request, "current", "");
@@ -80,6 +83,7 @@ public class MarketAppFormController extends SimpleFormController {
             errors.rejectValue("appFullName", "app.appName.empty");
         }
 
+        /**
         String appVersionInt = ServletRequestUtils.getStringParameter(request, "appVersionInt", "");
         if (!StringUtils.hasText(appVersionInt)) {
             errors.rejectValue("appVersionInt", "app.version.empty");
@@ -92,19 +96,18 @@ public class MarketAppFormController extends SimpleFormController {
                 formatRight = false;
             }
 
-            /**
-            if (formatRight) {
-                String appOldVersionInt = ServletRequestUtils.getStringParameter(request, "appVersionOldInt", "0");
-                try {
-                    if(Integer.valueOf(appOldVersionInt) > Integer.valueOf(appVersionInt)) {
-                        errors.rejectValue("appVersionInt", "app.version.small.newversion");
-                    }
-                } catch (Exception e) {
-                    errors.rejectValue("appVersionInt", "app.version.notNumber");
-                }
-            }
-            */
+//            if (formatRight) {
+//                String appOldVersionInt = ServletRequestUtils.getStringParameter(request, "appVersionOldInt", "0");
+//                try {
+//                    if(Integer.valueOf(appOldVersionInt) > Integer.valueOf(appVersionInt)) {
+//                        errors.rejectValue("appVersionInt", "app.version.small.newversion");
+//                    }
+//                } catch (Exception e) {
+//                    errors.rejectValue("appVersionInt", "app.version.notNumber");
+//                }
+//            }
         }
+
 
         String appVersion = ServletRequestUtils.getStringParameter(request, "appVersion", "");
         if (!StringUtils.hasText(appVersion)) {
@@ -120,6 +123,7 @@ public class MarketAppFormController extends SimpleFormController {
                 errors.rejectValue("appPackage", "app.package.duplicate");
             }
         }
+        */
 
         String appDescription = ServletRequestUtils.getStringParameter(request, "appDescription", "");
         if (!StringUtils.hasText(appDescription)) {
@@ -207,8 +211,15 @@ public class MarketAppFormController extends SimpleFormController {
         app.setAddTopics(addTopics);
         app.setDeleteTopics(deleteTopics);
 
-        int marketAppId = appService.saveOrUpdateMarketApp(app);
-
+        int marketAppId = -1;
+        try {
+            marketAppId = appService.saveOrUpdateMarketApp(app);
+        } catch (CHAppExistException e) {
+            if (marketAppId == -1) {
+                marketAppId = app.getId();
+            }
+            return new ModelAndView(new RedirectView("marketappform.html?marketAppId=" + marketAppId + "&current=" + current + "&appName=" + appName + "&appStatus=" + appStatus + "&categoryId=" + categoryId + "&topicId=" + topicId + "&errorInfoShow=true"));
+        }
         return new ModelAndView(new RedirectView("marketappform.html?marketAppId=" + marketAppId + "&current=" + current + "&appName=" + appName + "&appStatus=" + appStatus + "&categoryId=" + categoryId + "&topicId=" + topicId + "&alertInfoShow=true"));
     }
 

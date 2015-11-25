@@ -126,6 +126,13 @@
                         已经成功保存该应用信息!
                     </div>
                 </c:if>
+                <c:if test="${errorInfoShow}">
+                    <div class="alert alert-danger alert-block">
+                        <a class="close" data-dismiss="alert" href="javascript:void(0);">×</a>
+                        <h4 class="alert-heading">提示信息</h4>
+                        应用文件对应包名冲突，请确认后再上传应用文件!
+                    </div>
+                </c:if>
 
                 <div id="app_error_information" class="alert alert-success alert-block" style="display: none;">
                     <a class="close" data-dismiss="alert" href="javascript:void(0);">×</a>
@@ -148,32 +155,32 @@
                         <div id="function-hint" style="float: left"></div>
                     </div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">应用版本(数字) [必填]</label>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">应用版本(数字) [必填]</label>--%>
 
-                    <div class="controls">
-                        <spring-form:input path="appVersionInt" maxlength="30" cssStyle="height:30px;"/>&nbsp;
-                        <spring-form:errors path="appVersionInt" cssClass="help-inline"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">应用版本（字符） [必填]</label>
+                    <%--<div class="controls">--%>
+                        <%--<spring-form:input path="appVersionInt" maxlength="30" cssStyle="height:30px;"/>&nbsp;--%>
+                        <%--<spring-form:errors path="appVersionInt" cssClass="help-inline"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">应用版本（字符） [必填]</label>--%>
 
-                    <div class="controls">
-                        <spring-form:input path="appVersion" maxlength="30" cssStyle="height:30px;"/>&nbsp;
-                        <spring-form:errors path="appVersion" cssClass="help-inline"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">应用包名 [必填]</label>
+                    <%--<div class="controls">--%>
+                        <%--<spring-form:input path="appVersion" maxlength="30" cssStyle="height:30px;"/>&nbsp;--%>
+                        <%--<spring-form:errors path="appVersion" cssClass="help-inline"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">应用包名 [必填]</label>--%>
 
-                    <div class="controls">
-                        <c:set var="packageChange" value="${app.id > 0 && app.status == 'PASSED'}"/>
-                        <spring-form:input path="appPackage" maxlength="80" cssStyle="height:30px;"
-                                           readonly="${packageChange}"/>&nbsp;
-                        <spring-form:errors path="appPackage" cssClass="help-inline"/>
-                    </div>
-                </div>
+                    <%--<div class="controls">--%>
+                        <%--<c:set var="packageChange" value="${app.id > 0 && app.status == 'PASSED'}"/>--%>
+                        <%--<spring-form:input path="appPackage" maxlength="80" cssStyle="height:30px;"--%>
+                                           <%--readonly="${packageChange}"/>&nbsp;--%>
+                        <%--<spring-form:errors path="appPackage" cssClass="help-inline"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="control-group">
                     <label class="control-label">是否推荐</label>
 
@@ -302,11 +309,20 @@
                 </div>
                 <c:if test="${app.id > 0}">
                     <div class="control-group">
-                        <label class="control-label">其他信息</label>
+                        <label class="control-label">基本信息</label>
+
+                        <div class="controls">
+                            <input class="span3" placeholder="包名：${app.appPackage}" readonly="true"/>&nbsp;
+                            <input class="span3" placeholder="版本：${app.appVersionInt}" readonly="true"/>&nbsp;
+                            <input class="span3" placeholder="版本名：${app.appVersion}" readonly="true"/>&nbsp;
+                            <input class="span3" placeholder="大小：${app.appSize}M" readonly="true"/>&nbsp;
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">&nbsp;</label>
 
                         <div class="controls">
                             <input class="span3" placeholder="下载：${app.downloadTimes}次" readonly="true"/>&nbsp;
-                            <input class="span3" placeholder="大小：${app.appSize}M" readonly="true"/>&nbsp;
                             <input class="span3" placeholder="状态：${app.statusName}" readonly="true"/>&nbsp;
                             <input class="span3" placeholder="更新时间：${app.updateDate}" readonly="true"/>&nbsp;
                         </div>

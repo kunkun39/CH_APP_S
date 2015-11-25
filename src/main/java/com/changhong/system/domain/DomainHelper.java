@@ -3,8 +3,11 @@ package com.changhong.system.domain;
 import com.changhong.common.repository.EntityLoadHolder;
 import com.changhong.common.utils.SecurityUtils;
 import com.changhong.system.web.facade.dto.MarketAppDTO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Jack Wang
@@ -27,6 +30,7 @@ public class DomainHelper {
                 AppChangeDetails details = new AppChangeDetails("应用评分", app.getAppScores() + " -> " + dto.getAppScores());
                 history.addChangeDetails(details);
             }
+            /**
             if (app.getAppVersionInt() != Integer.valueOf(dto.getAppVersionInt())) {
                 AppChangeDetails details = new AppChangeDetails("应用数字版本", app.getAppVersionInt() + " -> " + dto.getAppVersionInt());
                 history.addChangeDetails(details);
@@ -39,20 +43,9 @@ public class DomainHelper {
                 AppChangeDetails details = new AppChangeDetails("应用包名", app.getAppPackage() + " -> " + dto.getAppPackage());
                 history.addChangeDetails(details);
             }
+            */
             if (app.isRecommend() != dto.isRecommend()) {
                 AppChangeDetails details = new AppChangeDetails("应用推荐", "改变推荐的状态");
-                history.addChangeDetails(details);
-            }
-            if (dto.getIconFile() != null && dto.getIconFile().getSize() > 0) {
-                AppChangeDetails details = new AppChangeDetails("应用LOGO", "上传新的应用LOGO");
-                history.addChangeDetails(details);
-            }
-            if (dto.getPosterFile() != null && dto.getPosterFile().getSize() > 0) {
-                AppChangeDetails details = new AppChangeDetails("应用海报", "上传新的应用海报");
-                history.addChangeDetails(details);
-            }
-            if (dto.getApkFile() != null && dto.getApkFile().getSize() > 0) {
-                AppChangeDetails details = new AppChangeDetails("应用程序文件", "上传新的应用程序文件");
                 history.addChangeDetails(details);
             }
             if (app.getAppCategory().getId() != dto.getCategoryId()) {
@@ -62,6 +55,14 @@ public class DomainHelper {
             }
             if (!dto.getAddTopics().equals(dto.getTopicIds())) {
                 AppChangeDetails details = new AppChangeDetails("应用专题", "修改应用专题");
+                history.addChangeDetails(details);
+            }
+            if (dto.getIconFile() != null && dto.getIconFile().getSize() > 0) {
+                AppChangeDetails details = new AppChangeDetails("应用LOGO", "上传新的应用LOGO");
+                history.addChangeDetails(details);
+            }
+            if (dto.getPosterFile() != null && dto.getPosterFile().getSize() > 0) {
+                AppChangeDetails details = new AppChangeDetails("应用海报", "上传新的应用海报");
                 history.addChangeDetails(details);
             }
         }
@@ -79,5 +80,14 @@ public class DomainHelper {
         AppChangeDetails details = new AppChangeDetails("状态", AppStatus.valueOf(oldStatus).getDescription() + " -> " + AppStatus.valueOf(newStatus).getDescription());
         history.addChangeDetails(details);
         return history;
+    }
+
+    public static AppChangeDetails generateNewApkFileChangeDetails(MultipartFile newFile, String oldVersion, String newVersion) {
+        AppChangeDetails details = null;
+        if (newFile != null && newFile.getSize() > 0) {
+            details = new AppChangeDetails("应用程序文件", "上传新的应用程序文件，版本" + oldVersion + " -> " + newVersion);
+        }
+
+        return details;
     }
 }

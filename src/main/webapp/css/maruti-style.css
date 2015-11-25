@@ -642,6 +642,7 @@ a:hover {
     border-bottom: 1px dotted #AEBDC8;
     list-style: none outside none;
     padding: 10px;
+    min-height: 80px;
 }
 .recent-posts li.viewall, .recent-comments li.viewall, .recent-users li.viewall {
 	padding: 0;
