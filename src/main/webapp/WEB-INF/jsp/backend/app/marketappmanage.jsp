@@ -137,7 +137,7 @@
                                     </security:authorize>
 
                                     <a href="${fileRequestHost}${app.appKey}/${app.apkActualFileName}" target="_blank" class="btn btn-warning btn-mini">下载应用</a>
-                                    <a href="${pageContext.request.contextPath}/backend/marketappform.html?marketAppId=${app.id}&appName=${paging.appName}&categoryId=${paging.categoryId}&appStatus=${paging.appStatus}" class="btn btn-primary btn-mini">编辑信息</a>
+                                    <a href="${pageContext.request.contextPath}/backend/marketappform.html?marketAppId=${app.id}&current=${paging.currentPageNumber}&appName=${paging.appName}&categoryId=${paging.categoryId}&topicId=${paging.topicId}&appStatus=${paging.appStatus}" class="btn btn-primary btn-mini">编辑信息</a>
                                     <input type="button" style="width:54px;height:22px" value="查看历史" class="btn btn-success btn-mini"  onclick="openHistoryModel('${app.id}')">
 
                                 </div>
@@ -214,7 +214,7 @@
                     "确  认": function() {
                         jQuery("#marketapp-dialog-confirm").css("visibility", "hidden");
                         jQuery(this).dialog("close");
-                        window.location.href = '${pageContext.request.contextPath}/backend/marketappstatus.html?marketAppId=' + marketAppId + '&current=${paging.currentPageNumber}&appName=${paging.appName}&categoryId=${paging.categoryId}&appStatus=${paging.appStatus}&resetStatus=' + resetStatus;
+                        window.location.href = '${pageContext.request.contextPath}/backend/marketappstatus.html?marketAppId=' + marketAppId + '&current=${paging.currentPageNumber}&appName=${paging.appName}&categoryId=${paging.categoryId}&topicId=${paging.topicId}&appStatus=${paging.appStatus}&resetStatus=' + resetStatus;
                     },
                     "取  消": function() {
                         jQuery("#marketapp-dialog-confirm").css("visibility", "hidden");

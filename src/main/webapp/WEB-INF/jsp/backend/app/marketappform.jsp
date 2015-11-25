@@ -112,6 +112,9 @@
 
         <div class="widget-content nopadding">
             <spring-form:form commandName="app" class="form-horizontal" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="current" value="${current}"/>
+                <input type="hidden" name="categoryId" value="${categoryId}"/>
+                <input type="hidden" name="topicId" value="${topicId}"/>
                 <input type="hidden" name="marketAppId" value="${app.id}"/>
                 <input type="hidden" name="appVersionOldInt" value="${appVersionOldInt}"/>
                 <input type="hidden" id="appScore" name="appScores" value="${app.appScores}"/>
@@ -321,7 +324,7 @@
                     <input type="button" value="查看历史" class="btn btn-success" onclick="openHistoryModel('${app.id}')">
                     &nbsp;
                     <input type="button" value="返 回" class="btn btn-success"
-                           onclick="window.location.href='${pageContext.request.contextPath}/backend/marketappoverview.html?appName=${appName}&appStatus=${appStatus}&categoryId=${categoryId}'">
+                           onclick="window.location.href='${pageContext.request.contextPath}/backend/marketappoverview.html?appName=${appName}&current=${current}&appStatus=${appStatus}&categoryId=${categoryId}&topicId=${topicId}'">
                     &nbsp;
                     <input type="button" value="保 存" class="btn btn-success" onclick="saveMarketApp(this.form);">
                 </div>

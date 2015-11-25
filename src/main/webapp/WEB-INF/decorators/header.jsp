@@ -46,7 +46,7 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN,ROLE_APP_STATISTIC">
-    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-shopping-cart"></i> <span>统计管理</span> <span class="label">2</span></a>
+    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-shopping-cart"></i> <span>统计管理</span> <span class="label">3</span></a>
       <ul>
         <li><a href="${pageContext.request.contextPath}/backend/marketappranklist.html"><i class="icon icon-hand-right"></i> <span>应用下载排行榜</span></a></li>
         <li><a href="${pageContext.request.contextPath}/backend/appstatistic.html"><i class="icon icon-hand-right"></i> <span>应用下载统计</span></a></li>
@@ -56,7 +56,8 @@
     </security:authorize>
 
     <security:authorize ifAnyGranted="ROLE_ADMIN">
-    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-align-center"></i> <span>系统设置</span> <span class="label">4</span></a>
+    <li class="submenu"> <a href="javascript:void(0);"><i class="icon icon-align-center"></i> <span>系统设置</span>
+        <span class="label"><c:if test="${multipHost}">5</c:if><c:if test="${!multipHost}">4</c:if></span></a>
       <ul>
          <li><a href="${pageContext.request.contextPath}/backend/useroverview.html"><i class="icon icon-hand-right"></i> <span>系统用户管理</span></a></li>
          <li><a href="${pageContext.request.contextPath}/backend/clientversionshow.html?method=load"><i class="icon icon-hand-right"></i> <span>客户端版本管理</span></a></li>

@@ -50,10 +50,12 @@ public class MarketAppFormController extends SimpleFormController {
         String appName = ServletRequestUtils.getStringParameter(request, "appName", "");
         String appStatus = ServletRequestUtils.getStringParameter(request, "appStatus", "ALL");
         int categoryId = ServletRequestUtils.getIntParameter(request, "categoryId", -1);
+        int topicId = ServletRequestUtils.getIntParameter(request, "topicId", -1);
         request.setAttribute("current", current);
         request.setAttribute("appName", appName);
         request.setAttribute("appStatus", appStatus);
         request.setAttribute("categoryId", categoryId);
+        request.setAttribute("topicId", topicId);
 
         List<AppCategoryDTO> categories = appService.obtainAllFirstLevelCategory(true);
         request.setAttribute("categories", categories);
@@ -178,6 +180,7 @@ public class MarketAppFormController extends SimpleFormController {
         String appName = ServletRequestUtils.getStringParameter(request, "appName", "");
         String appStatus = ServletRequestUtils.getStringParameter(request, "appStatus", "ALL");
         int categoryId = ServletRequestUtils.getIntParameter(request, "categoryId", -1);
+        int topicId = ServletRequestUtils.getIntParameter(request, "topicId", -1);
 
         MarketAppDTO app = (MarketAppDTO) command;
         int selectCategoryId = ServletRequestUtils.getIntParameter(request, "selectCategoryId", -1);
@@ -206,7 +209,7 @@ public class MarketAppFormController extends SimpleFormController {
 
         int marketAppId = appService.saveOrUpdateMarketApp(app);
 
-        return new ModelAndView(new RedirectView("marketappform.html?marketAppId=" + marketAppId + "&current=" + current + "&appName=" + appName + "&appStatus=" + appStatus + "&categoryId=" + categoryId + "&alertInfoShow=true"));
+        return new ModelAndView(new RedirectView("marketappform.html?marketAppId=" + marketAppId + "&current=" + current + "&appName=" + appName + "&appStatus=" + appStatus + "&categoryId=" + categoryId + "&topicId=" + topicId + "&alertInfoShow=true"));
     }
 
     public void setAppService(AppService appService) {

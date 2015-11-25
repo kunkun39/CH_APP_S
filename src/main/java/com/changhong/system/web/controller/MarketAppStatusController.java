@@ -33,6 +33,7 @@ public class MarketAppStatusController extends AbstractController {
         String appName = ServletRequestUtils.getStringParameter(request, "appName", "");
         String appStatus = ServletRequestUtils.getStringParameter(request, "appStatus", "ALL");
         int categoryId = ServletRequestUtils.getIntParameter(request, "categoryId", -1);
+        int topicId = ServletRequestUtils.getIntParameter(request, "topicId", -1);
 
         int marketAppId = ServletRequestUtils.getIntParameter(request, "marketAppId", -1);
         String resetStatus = ServletRequestUtils.getStringParameter(request, "resetStatus", "");
@@ -43,7 +44,7 @@ public class MarketAppStatusController extends AbstractController {
 
         appService.changeMarketAppStatus(marketAppId, resetStatus);
 
-        return new ModelAndView(new RedirectView("marketappoverview.html?current=" + current + "&appName=" + appName + "&appStatus=" + appStatus + "&categoryId=" + categoryId));
+        return new ModelAndView(new RedirectView("marketappoverview.html?current=" + current + "&appName=" + appName + "&appStatus=" + appStatus + "&categoryId=" + categoryId + "&topicId=" + topicId));
 
     }
 
