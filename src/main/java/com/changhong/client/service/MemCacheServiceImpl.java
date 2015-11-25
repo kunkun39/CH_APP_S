@@ -88,7 +88,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     public String getRandomMutipHost() {
         List<String> list = obtainObjects(MULTIP_HOST);
-        if (CHListUtils.listIsEmpty(list)) {
+        if (!CHListUtils.listIsEmpty(list)) {
             int index = NumberUtils.generateRandomNumber(list.size());
             return list.get(index);
         }
