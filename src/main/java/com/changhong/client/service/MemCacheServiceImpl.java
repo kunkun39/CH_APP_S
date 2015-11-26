@@ -50,18 +50,14 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
     @Value("${application.memcache.master}")
     private boolean isMaster;
 
-    private CHMemcacheUtils memcacheClient;
-
     public void obtainInitCachedObjects() {
         long begin = System.currentTimeMillis();
 
         /**
          * 初始化memcache
          */
-        memcacheClient = new CHMemcacheUtils();
-        memcacheClient.initMemCache();
-
-        if (isMaster) {
+        boolean successful = CHMemcacheUtils.initMemCache();
+        if (successful && isMaster) {
             updateMemCacheFromDB();
         }
 
@@ -71,7 +67,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
     }
 
     public void processDestoryCached() {
-        memcacheClient.stop();
+        CHMemcacheUtils.stop();
     }
 
     /**
@@ -80,9 +76,9 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     public void resetMultipHost(int hostId, String hostName, boolean remove) {
         if (remove) {
-            memcacheClient.remove(MULTIP_HOST + hostId);
+            CHMemcacheUtils.remove(MULTIP_HOST + hostId);
         } else {
-            memcacheClient.put(MULTIP_HOST + hostId, DesUtils.getEncString(hostName));
+            CHMemcacheUtils.put(MULTIP_HOST + hostId, DesUtils.getEncString(hostName));
         }
     }
 
@@ -101,9 +97,9 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     public void resetAppCategoryInCache(AppCategoryDTO dto, boolean remove) {
         if (remove) {
-            memcacheClient.remove(CATEGORY_APP + dto.getId());
+            CHMemcacheUtils.remove(CATEGORY_APP + dto.getId());
         } else {
-            memcacheClient.put(CATEGORY_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(CATEGORY_APP + dto.getId(), dto);
         }
     }
 
@@ -117,9 +113,9 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     public void resetAppTopicInCache(AppTopicDTO dto, boolean remove) {
         if (remove) {
-            memcacheClient.remove(TOPIC_APP + dto.getId());
+            CHMemcacheUtils.remove(TOPIC_APP + dto.getId());
         } else {
-            memcacheClient.put(TOPIC_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(TOPIC_APP + dto.getId(), dto);
         }
     }
 
@@ -136,7 +132,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
      */
 
     public void resetMarketAppInCache(MarketAppDTO dto) {
-        memcacheClient.put(MARKET_APP + dto.getId(), dto);
+        CHMemcacheUtils.put(MARKET_APP + dto.getId(), dto);
     }
 
     public MarketAppDTO obtainMarketAppInCache(int appId) {
@@ -257,9 +253,9 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     public void resetLuncherRecommendInCache(LuncherRecommendDTO dto, boolean remove) {
         if (remove) {
-            memcacheClient.remove(LAUNCHER_RECOMMEND_APP + dto.getId());
+            CHMemcacheUtils.remove(LAUNCHER_RECOMMEND_APP + dto.getId());
         } else {
-            memcacheClient.put(LAUNCHER_RECOMMEND_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(LAUNCHER_RECOMMEND_APP + dto.getId(), dto);
         }
     }
 
@@ -277,9 +273,9 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     public void resetAppMustInCache(AppMustDTO dto, boolean remove) {
         if (remove) {
-            memcacheClient.remove(MUST_APP + dto.getId());
+            CHMemcacheUtils.remove(MUST_APP + dto.getId());
         } else {
-            memcacheClient.put(MUST_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(MUST_APP + dto.getId(), dto);
         }
     }
 
@@ -299,13 +295,13 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         String imgPathName = obtainObject(IMAGE_NAME);
         if (!StringUtils.hasText(imgPathName)) {
             imgPathName = ((ClientBootImage) appDao.findById(1, ClientBootImage.class)).getActualFileName();
-            memcacheClient.put(IMAGE_NAME, imgPathName);
+            CHMemcacheUtils.put(IMAGE_NAME, imgPathName);
         }
         return imgPathName;
     }
 
     public void setBootImageFileName(String bootImageFileName) {
-        memcacheClient.put(IMAGE_NAME, bootImageFileName);
+        CHMemcacheUtils.put(IMAGE_NAME, bootImageFileName);
     }
 
     /**
@@ -317,13 +313,13 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         if (null == version) {
             ClientVersion clientVersion = systemDao.findClientVersion();
             version = clientVersion.getClientVersion();
-            memcacheClient.put(APK_VERSION, version);
+            CHMemcacheUtils.put(APK_VERSION, version);
         }
         return version;
     }
 
     public void setCurrentClientVersion(int clientVersion) {
-        memcacheClient.put(APK_VERSION, clientVersion);
+        CHMemcacheUtils.put(APK_VERSION, clientVersion);
     }
 
     public boolean isClientBeginUpdate() {
@@ -331,13 +327,13 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         if (null == clientBeginUpdate) {
             ClientVersion clientVersion = systemDao.findClientVersion();
             clientBeginUpdate = clientVersion.isBeginUpdate();
-            memcacheClient.put(IS_UPDATE, clientBeginUpdate);
+            CHMemcacheUtils.put(IS_UPDATE, clientBeginUpdate);
         }
         return clientBeginUpdate;
     }
 
     public void setClientBeginUpdate(boolean clientBeginUpdate) {
-        memcacheClient.put(IS_UPDATE, clientBeginUpdate);
+        CHMemcacheUtils.put(IS_UPDATE, clientBeginUpdate);
     }
 
     /**
@@ -345,15 +341,15 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
      */
 
     protected <T> T obtainObject(String searchKey) {
-        return (T) memcacheClient.get(searchKey);
+        return (T) CHMemcacheUtils.get(searchKey);
     }
 
     protected <T> List<T> obtainObjects(String searchKey) {
         ArrayList<T> list = new ArrayList<T>();
-        Set<String> keySet = memcacheClient.keySet();
+        Set<String> keySet = CHMemcacheUtils.keySet();
         for (String key : keySet) {
             if (key.contains(searchKey)) {
-                T object = (T) memcacheClient.get(key);
+                T object = (T) CHMemcacheUtils.get(key);
                 if (object != null) {
                     list.add(object);
                 }
@@ -373,7 +369,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         /**
          * 清除memcached数据
          */
-        memcacheClient.clear();
+        CHMemcacheUtils.clear();
 
         /**
          * 缓存APP
@@ -389,7 +385,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
             List<MarketApp> apps = appDao.loadMarketApps("", -1, -1, "ALL", paging.getStartPosition(), paging.getMaxItems());
             for (MarketApp app : apps) {
                 MarketAppDTO dto = MarketAppWebAssember.toMarketAppDTO(app);
-                memcacheClient.put(MARKET_APP + dto.getId(), dto);
+                CHMemcacheUtils.put(MARKET_APP + dto.getId(), dto);
             }
             count += apps.size();
         }
@@ -401,7 +397,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         List<AppCategory> categories = appDao.loadAllCategory();
         List<AppCategoryDTO> dtos = AppCategoryWebAssember.toAppCategoryDTOList(categories, false);
         for (AppCategoryDTO dto : dtos) {
-            memcacheClient.put(CATEGORY_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(CATEGORY_APP + dto.getId(), dto);
         }
         log.info("finish init category with objects count " + dtos.size());
 
@@ -411,7 +407,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         List<AppTopic> topics = appDao.loadAllTopics();
         List<AppTopicDTO> topicDTOs = AppTopicWebAssember.toAppTopicDTOList(topics);
         for (AppTopicDTO dto : topicDTOs) {
-            memcacheClient.put(TOPIC_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(TOPIC_APP + dto.getId(), dto);
         }
         log.info("finish init topic with objects count " + topicDTOs.size());
 
@@ -421,7 +417,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         List<LuncherRecommend> recommends = appDao.loadAllLuncherRecommend();
         List<LuncherRecommendDTO> recommendDTOs = LuncherRecommendWebAssember.toLuncherRecommendDTOList(recommends);
         for (LuncherRecommendDTO dto : recommendDTOs) {
-            memcacheClient.put(LAUNCHER_RECOMMEND_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(LAUNCHER_RECOMMEND_APP + dto.getId(), dto);
         }
         log.info("finish init luncher recommend with objects count " + recommendDTOs.size());
 
@@ -431,7 +427,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
         List<AppMust> appMusts = appDao.loadAllAppMust();
         List<AppMustDTO> appMustDTOs = AppMustWebAssember.toAppMustDTOList(appMusts);
         for (AppMustDTO dto : appMustDTOs) {
-            memcacheClient.put(MUST_APP + dto.getId(), dto);
+            CHMemcacheUtils.put(MUST_APP + dto.getId(), dto);
         }
         log.info("finish init must app with objects count " + appMustDTOs.size());
 
@@ -439,15 +435,15 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
          * 强制应用
          */
         ClientBootImage bootImage = (ClientBootImage) appDao.findById(1, ClientBootImage.class);
-        memcacheClient.put(IMAGE_NAME, bootImage.getActualFileName());
+        CHMemcacheUtils.put(IMAGE_NAME, bootImage.getActualFileName());
         log.info("finish init boot image");
 
         /**
          * 系统当前版本
          */
         ClientVersion clientVersion = systemDao.findClientVersion();
-        memcacheClient.put(APK_VERSION, clientVersion.getClientVersion());
-        memcacheClient.put(IS_UPDATE, clientVersion.isBeginUpdate());
+        CHMemcacheUtils.put(APK_VERSION, clientVersion.getClientVersion());
+        CHMemcacheUtils.put(IS_UPDATE, clientVersion.isBeginUpdate());
         log.info("finish init client version");
 
         /**
@@ -455,7 +451,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
          */
         List<MultipHost> hosts = systemDao.loadAllMultipHosts();
         for (MultipHost host : hosts) {
-            memcacheClient.put(MULTIP_HOST + host.getId(), DesUtils.getEncString(host.getHostName()));
+            CHMemcacheUtils.put(MULTIP_HOST + host.getId(), DesUtils.getEncString(host.getHostName()));
         }
         log.info("finish init multip host");
 

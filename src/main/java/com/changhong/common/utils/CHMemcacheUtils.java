@@ -7,6 +7,7 @@ import com.alisoft.xplatform.asf.cache.memcached.MemcachedCacheManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,23 +17,22 @@ public class CHMemcacheUtils {
 
     private final static Logger log = LogManager.getLogger(CHMemcacheUtils.class);
 
-    private int localCacheTime = 10 * 60;
+    private static ICacheManager<IMemcachedCache> manager;
 
-    private final static String CACHE_NAME = "mclient0";
+    private static IMemcachedCache currentCache;
 
-    private ICacheManager<IMemcachedCache> manager;
+    private static String currentCacheName;
 
-    private IMemcachedCache cache() {
-        return manager.getCache(CACHE_NAME);
-    }
-
-    public boolean initMemCache() {
+    public static boolean initMemCache() {
         log.info("Memcache.int() start");
         try {
             manager = CacheUtil.getCacheManager(IMemcachedCache.class, MemcachedCacheManager.class.getName());
             manager.setConfigFile("memcached.xml");
-            manager.setResponseStatInterval(5 * 1000);
+            manager.setResponseStatInterval(3 * 1000);
             manager.start();
+
+            currentCacheName = "mclient0";
+            currentCache = cache0();
         } catch (Exception e) {
             log.error(e);
             return false;
@@ -42,45 +42,78 @@ public class CHMemcacheUtils {
         return true;
     }
 
-    public boolean put(String key, Object value) {
+    public static IMemcachedCache cache0(){
+        return manager.getCache("mclient0");
+    }
+
+    public static IMemcachedCache cache1(){
+        return manager.getCache("mclient1");
+    }
+
+    public static Object get(String key) {
+        return currentCache.get(key);
+    }
+
+    public static boolean put(String key, Object value) {
         try {
-            cache().put(key, value);
+            currentCache.put(key, value);
         } catch (Exception e) {
             return false;
         }
         return true;
     }
 
-    public Object get(String key) {
-        return cache().get(key, localCacheTime);
+    public static Set<String> keySet() {
+        Set<String> set = currentCache.keySet();
+        if (set == null || set.isEmpty()) {
+            if ("mclient0".equals(currentCacheName)) {
+                currentCacheName = "mclient1";
+                currentCache = cache1();
+                log.error("switch memcache to client1");
+            } else {
+                currentCacheName = "mclient0";
+                currentCache = cache0();
+                log.error("switch memcache to client0");
+            }
+            set = currentCache.keySet();
+        }
+        return set;
     }
 
-    public Object getImmediate(String key) {
-        return cache().get(key);
+    public static Object remove(String key) {
+        return currentCache.remove(key);
     }
 
-    public boolean containsKey(String key) {
-        return cache().containsKey(key);
+    public static void clear() {
+        currentCache.clear();
     }
 
-    public Set<String> keySet() {
-        return cache().keySet();
-    }
-
-    public Object remove(String key) {
-        return cache().remove(key);
-    }
-
-    public void clear() {
-        cache().clear();
-    }
-
-    public void stop() {
+    public static void stop() {
         manager.stop();
     }
 
     public static void main(String[] args) {
-        CHMemcacheUtils memcacheUtils = new CHMemcacheUtils();
-        memcacheUtils.initMemCache();
+        initMemCache();
+
+        Set<String> set = cache1().keySet();
+
+//        cache0().clear();
+//        cache1().clear();
+//
+//        cache0().put("key001", "value00001");
+//        cache0().put("key002", "value00002");
+//
+//        String values = (String)cache0().get("key002");
+//        System.out.println("get key:key0002=" + values);
+//        values = (String)cache1().get("key002");
+//        System.out.println("get key:key0002=" + values);
+//
+//        User user = new User("foejfoe", "fjeojfeo", "kunkun39", "jack80874042");
+//        cache0().put("USER_" + user.getId(), user);
+//
+//        User getUser = (User)cache1().get("USER_" + user.getId());
+//        System.out.println("get key:USER_" + getUser.getId() + " username:" + getUser.getUsername());
+
+        stop();
     }
 }

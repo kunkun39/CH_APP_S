@@ -2,24 +2,24 @@
 <memcached>
 
     <client name="mclient0" compressEnable="true" defaultEncoding="UTF-8" socketpool="pool0">
-        <errorHandler>com.moit.xplatform.asf.cache.memcached.MemcachedErrorHandler</errorHandler>
+        <errorHandler>com.alisoft.xplatform.asf.cache.memcached.MemcachedErrorHandler</errorHandler>
     </client>
 
-    <!--<client name="mclient1" compressEnable="true" defaultEncoding="UTF-8" socketpool="pool1">-->
-        <!--<errorHandler>com.moit.xplatform.asf.cache.memcached.MemcachedErrorHandler</errorHandler>-->
-    <!--</client>-->
+    <client name="mclient1" compressEnable="true" defaultEncoding="UTF-8" socketpool="pool1">
+        <errorHandler>com.alisoft.xplatform.asf.cache.memcached.MemcachedErrorHandler</errorHandler>
+    </client>
 
     <socketpool name="pool0" failover="true" initConn="5" minConn="5" maxConn="250" maintSleep="0"
         nagle="false" socketTO="3000" aliveCheck="true">
-        <servers>192.168.75.134:11211</servers>
+        <servers>192.168.75.135:11211</servers>
     </socketpool>
 
-    <!--<socketpool name="pool1" failover="true" initConn="5" minConn="5" maxConn="250" maintSleep="0"-->
-        <!--nagle="false" socketTO="3000" aliveCheck="true">-->
-        <!--<servers>192.168.75.135:11211</servers>-->
-    <!--</socketpool>-->
+    <socketpool name="pool1" failover="true" initConn="5" minConn="5" maxConn="250" maintSleep="0"
+        nagle="false" socketTO="3000" aliveCheck="true">
+        <servers>192.168.75.136:11211</servers>
+    </socketpool>
 
-    <!--<cluster name="cluster1" mode="active">-->
-        <!--<memCachedClients>mclient0,mclient1</memCachedClients>-->
-    <!--</cluster>-->
+    <cluster name="cluster1" mode="active">
+        <memCachedClients>mclient0,mclient1</memCachedClients>
+    </cluster>
 </memcached>
