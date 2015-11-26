@@ -7,7 +7,6 @@ import com.alisoft.xplatform.asf.cache.memcached.MemcachedCacheManager;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,6 +51,10 @@ public class CHMemcacheUtils {
 
     public static Object get(String key) {
         return currentCache.get(key);
+    }
+
+    public static Object[] gets(String[] keys) {
+        return currentCache.getMultiArray(keys);
     }
 
     public static boolean put(String key, Object value) {

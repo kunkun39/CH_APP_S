@@ -346,13 +346,18 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
 
     protected <T> List<T> obtainObjects(String searchKey) {
         ArrayList<T> list = new ArrayList<T>();
+        ArrayList<String> keys = new ArrayList<String>();
         Set<String> keySet = CHMemcacheUtils.keySet();
+
         for (String key : keySet) {
             if (key.contains(searchKey)) {
-                T object = (T) CHMemcacheUtils.get(key);
-                if (object != null) {
-                    list.add(object);
-                }
+                keys.add(key);
+            }
+        }
+
+        for ( T object : (T[]) CHMemcacheUtils.gets((String[]) keys.toArray())) {
+            if(object != null) {
+                list.add(object);
             }
         }
         return list;
