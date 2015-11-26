@@ -22,8 +22,9 @@ public class CHMemcacheUtils {
 
     private ICacheManager<IMemcachedCache> manager;
 
-    private IMemcachedCache cacheClient;
-
+    private IMemcachedCache cache() {
+        return manager.getCache(CACHE_NAME);
+    }
 
     public boolean initMemCache() {
         log.info("Memcache.int() start");
@@ -32,9 +33,6 @@ public class CHMemcacheUtils {
             manager.setConfigFile("memcached.xml");
             manager.setResponseStatInterval(5 * 1000);
             manager.start();
-
-            //every time clear before init
-            cacheClient = manager.getCache(CACHE_NAME);
         } catch (Exception e) {
             log.error(e);
             return false;
@@ -46,7 +44,7 @@ public class CHMemcacheUtils {
 
     public boolean put(String key, Object value) {
         try {
-            cacheClient.put(key, value);
+            cache().put(key, value);
         } catch (Exception e) {
             return false;
         }
@@ -54,27 +52,27 @@ public class CHMemcacheUtils {
     }
 
     public Object get(String key) {
-        return cacheClient.get(key, localCacheTime);
+        return cache().get(key, localCacheTime);
     }
 
     public Object getImmediate(String key) {
-        return cacheClient.get(key);
+        return cache().get(key);
     }
 
     public boolean containsKey(String key) {
-        return cacheClient.containsKey(key);
+        return cache().containsKey(key);
     }
 
     public Set<String> keySet() {
-        return cacheClient.keySet();
+        return cache().keySet();
     }
 
     public Object remove(String key) {
-        return cacheClient.remove(key);
+        return cache().remove(key);
     }
 
     public void clear() {
-        cacheClient.clear();
+        cache().clear();
     }
 
     public void stop() {
