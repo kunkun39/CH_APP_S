@@ -104,9 +104,21 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
     }
 
     public Collection<AppCategoryDTO> obtainAllCategories() {
-        List<AppCategoryDTO> list = obtainObjects(CATEGORY_APP);
-        if (CHListUtils.listIsEmpty(list)) {
+        List<AppCategoryDTO> tempList = obtainObjects(CATEGORY_APP);
+        List<AppCategoryDTO> list = new ArrayList<AppCategoryDTO>();
+        if (CHListUtils.listIsEmpty(tempList)) {
             list = null;
+        } else {
+            for (AppCategoryDTO dto : tempList) {
+                if (-1 == dto.getParentId()) {
+                    list.add(dto);
+                }
+            }
+            for (AppCategoryDTO dto : tempList) {
+                if (dto.getParentId() != -1) {
+                    list.add(dto);
+                }
+            }
         }
         return list;
     }
