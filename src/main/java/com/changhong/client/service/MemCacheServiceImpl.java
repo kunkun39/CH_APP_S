@@ -239,7 +239,7 @@ public class MemCacheServiceImpl implements CacheService, SyncCallBack {
     public int obtainAppCategoryId(int appId) {
         MarketAppDTO dto = obtainMarketAppInCache(appId);
         if (dto != null) {
-            dto.getCategoryId();
+            return dto.getCategoryId();
         }
         return -1;
     }
