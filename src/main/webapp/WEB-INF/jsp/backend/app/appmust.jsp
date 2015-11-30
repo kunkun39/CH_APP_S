@@ -174,7 +174,7 @@
             width:300,
             modal: true,
             buttons: {
-                "Confirm": function() {
+                "确认": function() {
                     var appMustId = -1;
                     jQuery("#recommend-dialog-confirm").css("visibility", "hidden");
                     jQuery(this).dialog("close");
