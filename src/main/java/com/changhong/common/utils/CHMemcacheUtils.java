@@ -58,7 +58,17 @@ public class CHMemcacheUtils {
     }
 
     public static Object[] gets(String[] keys) {
-        return currentCache.getMultiArray(keys);
+        Object[] objects = currentCache.getMultiArray(keys);
+        if (objects != null) {
+            for (Object object : objects) {
+                if (object == null) {
+                    clusterCopy();
+                    objects = currentCache.getMultiArray(keys);
+                    break;
+                }
+            }
+        }
+        return objects;
     }
 
     public static boolean put(String key, Object value) {
@@ -92,6 +102,16 @@ public class CHMemcacheUtils {
             set = currentCache.keySet();
         }
         return set;
+    }
+
+    public static void clusterCopy() {
+        if ("mclient0".equals(currentCacheName)) {
+             manager.clusterCopy("mclient0", "cluster1");
+            log.error("copy memcache to client1");
+        } else {
+            manager.clusterCopy("mclient1", "cluster1");
+            log.error("copy memcache to client0");
+        }
     }
 
     public static void clear() {
