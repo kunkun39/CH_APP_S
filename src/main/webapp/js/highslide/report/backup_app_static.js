@@ -13,6 +13,8 @@ var backup_line_sta_container = {
         categories: []
     },
     yAxis: {
+        minTickInterval : 5,
+        min : 0,
         title: {
             text: '次数'
         }
