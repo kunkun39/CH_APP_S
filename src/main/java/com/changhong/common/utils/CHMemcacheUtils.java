@@ -49,6 +49,10 @@ public class CHMemcacheUtils {
         return manager.getCache("mclient1");
     }
 
+    /**
+     * get, gets, put, remove first get value from one client which decide by key hash code
+     * after handle successful then sync to other clients
+     */
     public static Object get(String key) {
         return currentCache.get(key);
     }
@@ -66,6 +70,13 @@ public class CHMemcacheUtils {
         return true;
     }
 
+    public static Object remove(String key) {
+        return currentCache.remove(key);
+    }
+
+    /**
+     * get all ket from current helper client, this action not check again if this keyset is null
+     */
     public static Set<String> keySet() {
         Set<String> set = currentCache.keySet();
         if (set == null || set.isEmpty()) {
@@ -81,10 +92,6 @@ public class CHMemcacheUtils {
             set = currentCache.keySet();
         }
         return set;
-    }
-
-    public static Object remove(String key) {
-        return currentCache.remove(key);
     }
 
     public static void clear() {
