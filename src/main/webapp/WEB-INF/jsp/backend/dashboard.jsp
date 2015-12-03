@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/module.css" />
 
     <script src="${pageContext.request.contextPath}/js/jquery.min.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="${pageContext.request.contextPath}/js/maruti.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/dwr/engine.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/dwr/util.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/dwr/interface/SystemDWRHandler.js" type="text/javascript"></script>
@@ -119,6 +121,9 @@
                                      应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
                                         &nbsp;
                                         <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
+                                        <a class="lightbox_trigger" href="${pageContext.request.contextPath}/images/examlpe.jpg">
+                                            <img width="100px" height="50px" alt="" src="${pageContext.request.contextPath}/images/examlpe.jpg"/>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr>
