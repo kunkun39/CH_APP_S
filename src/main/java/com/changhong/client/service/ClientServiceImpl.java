@@ -449,6 +449,7 @@ public class ClientServiceImpl implements ClientService, InitializingBean {
                 single.put(ClientInfoProperties.APP_PACKAGE, dto.getAppPackage());
                 single.put(ClientInfoProperties.APP_SCORES, dto.getAppScores());
                 single.put(ClientInfoProperties.APP_SIZE, dto.getAppSize());
+                single.put(ClientInfoProperties.APP_NAME, dto.getAppFullName());
                 single.put(ClientInfoProperties.APP_IS_BACKUP, hashSet.contains(String.valueOf(dto.getId())) ? 1 : 0);
                 all.add(single);
             }
