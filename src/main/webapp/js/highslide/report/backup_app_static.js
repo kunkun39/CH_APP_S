@@ -14,6 +14,7 @@ var backup_line_sta_container = {
     },
     yAxis: {
         max : 0,
+        min : 0,
         minTickInterval : 5,
         title: {
             text: '次数'
