@@ -137,11 +137,15 @@
 
                 var maxBackupValue = getMaxValue(backupData);
                 var maxDeleteValue = getMaxValue(deleteData);
-                if (maxBackupValue > maxDeleteValue) {
-                    backup_line_sta_container.yAxis.max = maxBackupValue + 2;
+                var offset = backup_line_sta_container.yAxis.minTickInterval / 2;
+                if (maxBackupValue == maxDeleteValue && maxBackupValue == 0) {
+
+                }
+                else if (maxBackupValue > maxDeleteValue) {
+                    backup_line_sta_container.yAxis.max = maxBackupValue + offset;
                 }
                 else {
-                    backup_line_sta_container.yAxis.max = maxDeleteValue + 2;
+                    backup_line_sta_container.yAxis.max = maxDeleteValue + offset;
                 }
 
                 new Highcharts.Chart(backup_line_sta_container);
@@ -179,12 +183,15 @@
 
                 var maxBackupValue = getMaxValue(backupData);
                 var maxDeleteValue = getMaxValue(deleteData);
+                var offset = backup_line_sta_container.yAxis.minTickInterval / 2;
+                if (maxBackupValue == maxDeleteValue && maxBackupValue == 0) {
 
-                if (maxBackupValue > maxDeleteValue) {
-                    backup_line_sta_container.yAxis.max = maxBackupValue + 2;
+                }
+                else if (maxBackupValue > maxDeleteValue) {
+                    backup_line_sta_container.yAxis.max = maxBackupValue + offset;
                 }
                 else {
-                    backup_line_sta_container.yAxis.max = maxDeleteValue + 2;
+                    backup_line_sta_container.yAxis.max = maxDeleteValue + offset;
                 }
 
                 new Highcharts.Chart(backup_line_sta_container);
