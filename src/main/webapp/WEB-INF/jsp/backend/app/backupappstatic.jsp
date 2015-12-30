@@ -133,8 +133,16 @@
                     deleteData[i] = parseInt(delete_sta[i]);
                 }
                 backup_line_sta_container.series[1].data = deleteData;
-
                 backup_line_sta_container.title.text = "云备份统计";
+
+                var maxBackupValue = getMaxValue(backupData);
+                var maxDeleteValue = getMaxValue(deleteData);
+                if (maxBackupValue > maxDeleteValue) {
+                    backup_line_sta_container.yAxis.max = maxBackupValue + 2;
+                }
+                else {
+                    backup_line_sta_container.yAxis.max = maxDeleteValue + 2;
+                }
 
                 new Highcharts.Chart(backup_line_sta_container);
             });
@@ -156,7 +164,7 @@
                     backup_line_sta_container.xAxis.categories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
                 }
 
-                 var backupData = new Array();
+                var backupData = new Array();
                 for(var i=0; i<backup_sta.length; i++) {
                     backupData[i] = parseInt(backup_sta[i]);
                 }
@@ -167,13 +175,32 @@
                     deleteData[i] = parseInt(delete_sta[i]);
                 }
                 backup_line_sta_container.series[1].data = deleteData;
-
                 backup_line_sta_container.title.text = "云备份统计";
+
+                var maxBackupValue = getMaxValue(backupData);
+                var maxDeleteValue = getMaxValue(deleteData);
+
+                if (maxBackupValue > maxDeleteValue) {
+                    backup_line_sta_container.yAxis.max = maxBackupValue + 2;
+                }
+                else {
+                    backup_line_sta_container.yAxis.max = maxDeleteValue + 2;
+                }
+
                 new Highcharts.Chart(backup_line_sta_container);
             });
         }
     }
 
+    function getMaxValue(array) {
+        var maxValue = 0;
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] > maxValue) {
+                maxValue = array[i];
+            }
+        }
+        return maxValue;
+    }
 </script>
 </body>
 </html>

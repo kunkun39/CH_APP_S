@@ -13,10 +13,13 @@ var backup_line_sta_container = {
         categories: []
     },
     yAxis: {
+        max : 0,
         minTickInterval : 5,
-        min : 0,
         title: {
             text: '次数'
+        },
+        stackLabels: {
+            enabled:true
         }
     },
     tooltip: {
