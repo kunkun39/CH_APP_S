@@ -60,19 +60,19 @@
                 </li>
 
                 <li class="c">
-                    <ch:recommend pageNumber="4" recommendPosition="8" fileRequestHost="${fileRequestHost}" recommends="${recommends}" subRecommend="true"/>
-                </li>
-
-                <li class="c">
-                    <ch:recommend pageNumber="4" recommendPosition="9" fileRequestHost="${fileRequestHost}" recommends="${recommends}" subRecommend="true"/>
-                </li>
-
-                <li class="c">
                     <ch:recommend pageNumber="4" recommendPosition="10" fileRequestHost="${fileRequestHost}" recommends="${recommends}" subRecommend="true"/>
                 </li>
 
                 <li class="c">
+                    <ch:recommend pageNumber="4" recommendPosition="8" fileRequestHost="${fileRequestHost}" recommends="${recommends}" subRecommend="true"/>
+                </li>
+
+                <li class="c">
                     <ch:recommend pageNumber="4" recommendPosition="11" fileRequestHost="${fileRequestHost}" recommends="${recommends}" subRecommend="true"/>
+                </li>
+
+                <li class="c">
+                    <ch:recommend pageNumber="4" recommendPosition="9" fileRequestHost="${fileRequestHost}" recommends="${recommends}" subRecommend="true"/>
                 </li>
 
                 <li class="c">
