@@ -2,7 +2,6 @@ package com.changhong.common.repository;
 
 import com.changhong.common.domain.EntityBase;
 import com.changhong.common.utils.CHStringUtils;
-import org.apache.poi.hssf.record.formula.functions.T;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;

@@ -59,6 +59,9 @@ public class ClientDaoImpl extends IbatisEntityObjectDao implements ClientDao {
             Collections.sort(fasts);
 
             pages.clear();
+            if (fasts != null && fasts.size() > 10) {
+                fasts = fasts.subList(0, 10);
+            }
             for (AppFast fast : fasts) {
                 Map<String, Integer> appResult = new HashMap<String, Integer>();
                 appResult.put("app_id", fast.getAppId());

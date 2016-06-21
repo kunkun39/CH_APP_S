@@ -38,7 +38,7 @@
     <div class="alert alert-info alert-block">
         <h4 class="alert-heading">提示信息</h4><br/>
         <li>我们根据现有应用初始化部分分类信息【娱乐->影视、音乐、健康、亲子】【游戏->休闲、棋牌、动作、其他】【生活->工具、教育、咨询、新闻】</li>
-        <li>现在系统只接受3个一级分类，二级分类个数无限制</li>
+        <li>现在系统只接受3个一级分类，二级分类个数无限制，二级类别不能改变为一级类别</li>
         <li>我们给了一个例子，点击图片查看</li>
         <br/>
         <a class="thumbnail lightbox_trigger" href="${pageContext.request.contextPath}/images/category/categoryexample.png">

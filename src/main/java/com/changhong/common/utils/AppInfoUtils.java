@@ -100,8 +100,8 @@ public class AppInfoUtils {
         return String.format("%.2f", howManyMByte);
     }
 
-//    public static void main(String[] args) {
-//        Map<String, String> map = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk", false);
-//        System.out.println(map);
-//    }
+    public static void main(String[] args) {
+        Map<String, String> map = AppInfoUtils.obtainApkInfo("D:\\softwareManage\\Andriod\\tomcat_static\\webapps\\appmarket\\upload\\test.apk", false);
+        System.out.println(map);
+    }
 }

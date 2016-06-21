@@ -107,6 +107,10 @@
                                 <tbody>
                                 <tr>
                                     <td>
+                                    点击查看文件位置:
+                                    <a class="lightbox_trigger" href="${pageContext.request.contextPath}/images/examlpe.jpg">
+                                        <img width="100px" height="50px" alt="" src="${pageContext.request.contextPath}/images/examlpe.jpg"/>
+                                    </a>
                                     应用类别：<select id="categoryId" name="categoryId" style="height: 30px;" >
                                         <option value="-1">全 部
                                         </option>
@@ -121,9 +125,7 @@
                                      应用名称：<input type="text" id="appName" name="appName" class="text" style="height: 25px;"/>
                                         &nbsp;
                                         <i id="app_search_button" class="icon icon-search" style="cursor: pointer" onclick="searhRecommendApps();"></i>
-                                        <a class="lightbox_trigger" href="${pageContext.request.contextPath}/images/examlpe.jpg">
-                                            <img width="100px" height="50px" alt="" src="${pageContext.request.contextPath}/images/examlpe.jpg"/>
-                                        </a>
+
                                     </td>
                                 </tr>
                                 <tr>

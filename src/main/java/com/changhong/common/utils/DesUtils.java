@@ -110,16 +110,16 @@ public class DesUtils {
     }
 
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 1000; i++) {
-            String before = "http://localhost:8080/appmarket";
-            String after = getEncString(before);
-            System.out.println(after);
-            String again = getDesString(after);
+//        long start = System.currentTimeMillis();
+//        for (int i = 0; i < 1000; i++) {
+//            String before = "http://localhost:8080/appmarket";
+//            String after = getEncString(before);
+//            System.out.println(after);
+            String again = getDesString("f956a28770e9e51890ec78597bf44f75d6858341aa8cfd72");
             System.out.println(again);
-        }
-        long end = System.currentTimeMillis();
-        long during = end - start;
-        System.out.println("spend time " + during);
+//        }
+//        long end = System.currentTimeMillis();
+//        long during = end - start;
+//        System.out.println("spend time " + during);
     }
 }
